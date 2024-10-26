@@ -36,7 +36,10 @@ namespace Infrastructure.Repositories
 
 		public async Task DeleteProductAsync(Guid id)
 		{
-			throw new NotImplementedException();
-		}
+			await context.Products.FindAsync(id);
+			context.Products.Remove(await context.Products.FindAsync(id));
+            await context.SaveChangesAsync();
+
+        }
 	}
 }

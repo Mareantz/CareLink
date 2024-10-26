@@ -20,6 +20,11 @@ namespace ProductsManagement.Controllers
 		{
 			return await mediator.Send(command);
 		}
-
-	}
+		[HttpDelete("{id:guid}")]
+        public async Task<ActionResult> DeleteProduct(Guid id)
+        {
+            await mediator.Send(new DeleteProductCommand { Id = id });
+            return NoContent();
+        }
+    }
 }
