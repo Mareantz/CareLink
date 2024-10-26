@@ -31,8 +31,9 @@ namespace Infrastructure.Repositories
 
 		public async Task UpdateProductAsync(Product product)
 		{
-			throw new NotImplementedException();
-		}
+            context.Entry(product).State = EntityState.Modified;
+            await context.SaveChangesAsync();
+        }
 
 		public async Task DeleteProductAsync(Guid id)
 		{

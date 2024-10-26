@@ -21,5 +21,15 @@ namespace ProductsManagement.Controllers
 			return await mediator.Send(command);
 		}
 
-	}
+        [HttpPut("id")]
+        public async Task<IActionResult> Update(Guid id, UpdateProductCommand command)
+        {
+            if (id != command.Id)
+            {
+                return BadRequest();
+            }
+            await mediator.Send(command);
+            return StatusCode(StatusCodes.Status204NoContent);
+        }
+    }
 }

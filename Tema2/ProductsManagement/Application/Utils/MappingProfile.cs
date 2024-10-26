@@ -12,6 +12,7 @@ namespace Application.Utils
 		{
 			CreateMap<Product, ProductDTO>();
 			CreateMap<CreateProductCommand, Product>().ReverseMap();
-		}
+            CreateMap<UpdateProductCommand, Product>().ReverseMap();
+        }
 	}
 }
