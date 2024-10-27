@@ -1,4 +1,5 @@
-﻿using Application.UseCases.Commands;
+﻿using Application.Commands;
+using Application.UseCases.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,7 +25,7 @@ namespace ProductsManagement.Controllers
         [HttpPut("id")]
         public async Task<IActionResult> Update(Guid id, UpdateProductCommand command)
         {
-            if (id != command.Id)
+            if (id != command.ID)
             {
                 return BadRequest();
             }

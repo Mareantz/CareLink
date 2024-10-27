@@ -31,7 +31,7 @@ namespace Infrastructure.Repositories
 
 		public async Task UpdateProductAsync(Product product)
 		{
-            context.Entry(product).State = EntityState.Modified;
+            context.Products.Update(product);
             await context.SaveChangesAsync();
         }
 

@@ -19,8 +19,8 @@ namespace Application.CommandHandlers
 
         public Task Handle(UpdateProductCommand request, CancellationToken cancellationToken)
         {
-            var product = mapper.Map<Book>(request);
-            return repository.UpdateAsync(product);
+            var product = mapper.Map<Product>(request);
+            return repository.UpdateProductAsync(product);
         }
     }
 }
