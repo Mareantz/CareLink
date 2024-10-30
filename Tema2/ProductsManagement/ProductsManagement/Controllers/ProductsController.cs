@@ -33,7 +33,8 @@ namespace ProductsManagement.Controllers
         [HttpPost]
 		public async Task<ActionResult<Guid>> CreateProduct(CreateProductCommand command)
 		{
-			return await mediator.Send(command);
+			await mediator.Send(command);
+            return StatusCode(StatusCodes.Status201Created);
 		}
 
         [HttpPut("id")]
@@ -45,6 +46,7 @@ namespace ProductsManagement.Controllers
             }
             await mediator.Send(command);
             return StatusCode(StatusCodes.Status204NoContent);
+        }
 		[HttpDelete("{id:guid}")]
         public async Task<ActionResult> DeleteProduct(Guid id)
         {
