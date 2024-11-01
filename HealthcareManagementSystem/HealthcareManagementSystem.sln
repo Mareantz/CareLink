@@ -1,0 +1,65 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35312.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HealthcareManagementSystem", "HealthcareManagementSystem\HealthcareManagementSystem.csproj", "{91022BD3-50F2-4996-81F7-71CB01B97455}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{48206C86-34D6-4AAC-9D4F-3B6344F5FC5F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{C479E8B7-CDC1-486E-ADE6-C6DED76FD05D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebAPI", "WebAPI", "{36FB94AC-9AAD-45AA-89F1-454E288E582A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{0FC56AD9-37B2-445E-8C4E-F0FACF8ED5E7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{A0E446C9-F86E-4025-8507-F60220CCB791}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{3B31E093-1F7A-43DC-9606-1AB43F3A6C6F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{65615C10-EF2A-459E-8DF9-EF321460A6A7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{909067EA-0170-4703-BC5C-775AE7D062EA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{FB2D4468-3E59-464F-9FAF-9AB3377FB1B5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{91022BD3-50F2-4996-81F7-71CB01B97455}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91022BD3-50F2-4996-81F7-71CB01B97455}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91022BD3-50F2-4996-81F7-71CB01B97455}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91022BD3-50F2-4996-81F7-71CB01B97455}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B31E093-1F7A-43DC-9606-1AB43F3A6C6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B31E093-1F7A-43DC-9606-1AB43F3A6C6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B31E093-1F7A-43DC-9606-1AB43F3A6C6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B31E093-1F7A-43DC-9606-1AB43F3A6C6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65615C10-EF2A-459E-8DF9-EF321460A6A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65615C10-EF2A-459E-8DF9-EF321460A6A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65615C10-EF2A-459E-8DF9-EF321460A6A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65615C10-EF2A-459E-8DF9-EF321460A6A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB2D4468-3E59-464F-9FAF-9AB3377FB1B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB2D4468-3E59-464F-9FAF-9AB3377FB1B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB2D4468-3E59-464F-9FAF-9AB3377FB1B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB2D4468-3E59-464F-9FAF-9AB3377FB1B5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{91022BD3-50F2-4996-81F7-71CB01B97455} = {36FB94AC-9AAD-45AA-89F1-454E288E582A}
+		{36FB94AC-9AAD-45AA-89F1-454E288E582A} = {48206C86-34D6-4AAC-9D4F-3B6344F5FC5F}
+		{0FC56AD9-37B2-445E-8C4E-F0FACF8ED5E7} = {48206C86-34D6-4AAC-9D4F-3B6344F5FC5F}
+		{A0E446C9-F86E-4025-8507-F60220CCB791} = {48206C86-34D6-4AAC-9D4F-3B6344F5FC5F}
+		{3B31E093-1F7A-43DC-9606-1AB43F3A6C6F} = {A0E446C9-F86E-4025-8507-F60220CCB791}
+		{65615C10-EF2A-459E-8DF9-EF321460A6A7} = {0FC56AD9-37B2-445E-8C4E-F0FACF8ED5E7}
+		{909067EA-0170-4703-BC5C-775AE7D062EA} = {48206C86-34D6-4AAC-9D4F-3B6344F5FC5F}
+		{FB2D4468-3E59-464F-9FAF-9AB3377FB1B5} = {909067EA-0170-4703-BC5C-775AE7D062EA}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C43F6330-8DB6-4824-999B-9AEE3BF09430}
+	EndGlobalSection
+EndGlobal
