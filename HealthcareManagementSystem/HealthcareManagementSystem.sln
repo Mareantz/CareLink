@@ -17,11 +17,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{A0E446
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{3B31E093-1F7A-43DC-9606-1AB43F3A6C6F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{65615C10-EF2A-459E-8DF9-EF321460A6A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\Application.csproj", "{65615C10-EF2A-459E-8DF9-EF321460A6A7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{909067EA-0170-4703-BC5C-775AE7D062EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{FB2D4468-3E59-464F-9FAF-9AB3377FB1B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{FB2D4468-3E59-464F-9FAF-9AB3377FB1B5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PatientManagementUnitTest", "PatientManagementUnitTest", "{5DC35190-0360-4C2B-825E-3CE46FF2FE54}"
+	ProjectSection(SolutionItems) = preProject
+		CreatePatientCommandHandlerTest.cs = CreatePatientCommandHandlerTest.cs
+		GetPatientssQueryHandlerTest.cs = GetPatientssQueryHandlerTest.cs
+		UpdatePatientCommandHandlerTest.cs = UpdatePatientCommandHandlerTest.cs
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -58,6 +65,7 @@ Global
 		{65615C10-EF2A-459E-8DF9-EF321460A6A7} = {0FC56AD9-37B2-445E-8C4E-F0FACF8ED5E7}
 		{909067EA-0170-4703-BC5C-775AE7D062EA} = {48206C86-34D6-4AAC-9D4F-3B6344F5FC5F}
 		{FB2D4468-3E59-464F-9FAF-9AB3377FB1B5} = {909067EA-0170-4703-BC5C-775AE7D062EA}
+		{5DC35190-0360-4C2B-825E-3CE46FF2FE54} = {48206C86-34D6-4AAC-9D4F-3B6344F5FC5F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C43F6330-8DB6-4824-999B-9AEE3BF09430}
