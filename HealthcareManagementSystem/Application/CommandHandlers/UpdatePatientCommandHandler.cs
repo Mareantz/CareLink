@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Application.CommandHandlers
 {
-    internal class UpdatePatientCommandHandler : IRequestHandler<UpdatePatientCommand>
+    public class UpdatePatientCommandHandler : IRequestHandler<UpdatePatientCommand>
     {
         private readonly IPatientRepository repository;
         private readonly IMapper mapper;

@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Application.QueryHandlers
 {
-    internal class GetPatientsQueryHandler : IRequestHandler<GetPatientsQuery, List<PatientDTO>>
+    public class GetPatientsQueryHandler : IRequestHandler<GetPatientsQuery, List<PatientDTO>>
     {
         private readonly IPatientRepository repository;
         private readonly IMapper mapper;
