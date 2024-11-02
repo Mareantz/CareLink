@@ -2,7 +2,7 @@
 {
 	public class MedicalHistory
 	{
-		public int HistoryId { get; set; }
+		public int Id { get; set; }
 		public DateTime DateRecorded { get; set; }
 		public string Diagnosis { get; set; }
 		public string Medications { get; set; }

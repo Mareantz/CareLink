@@ -2,7 +2,7 @@
 {
 	public class HealthRiskPrediction
 	{
-		public int PredictionId { get; set; }
+		public int Id { get; set; }
 		public DateTime DateCalculated { get; set; }
 		public string RiskLevel { get; set; }
 		public string RiskFactors { get; set; }
