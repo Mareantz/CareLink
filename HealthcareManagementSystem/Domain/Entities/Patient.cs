@@ -13,6 +13,7 @@
 
 		public Doctor Doctor { get; set; }
 		public int DoctorId { get; set; }
+		public ICollection<Allergy> Allergies { get; set; } = new List<Allergy>();
 		public ICollection<MedicalHistory> MedicalHistories { get; set; } = new List<MedicalHistory>();
 		public ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
 		public ICollection<HealthRiskPrediction> HealthRiskPredictions { get; set; } = new List<HealthRiskPrediction>();

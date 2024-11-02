@@ -121,6 +121,19 @@ namespace PredictiveHealthcare.Infrastructure.Persistence
 					  .HasForeignKey(h => h.Id)
 					  .OnDelete(DeleteBehavior.Cascade);
 			});
+
+			modelBuilder.Entity<Allergy>(entity =>
+			{
+				entity.ToTable("allergies");
+				entity.HasKey(e => e.Id);
+				entity.Property(e => e.Name).IsRequired().HasMaxLength(100);
+
+				entity.HasOne(a => a.Patient)
+					  .WithMany(p => p.Allergies)
+					  .HasForeignKey(a => a.PatientId)
+					  .OnDelete(DeleteBehavior.Cascade);
+			});
+
 		}
 	}
 }
