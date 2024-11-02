@@ -20,7 +20,7 @@ namespace Application.CommandHandlers
         public async Task<int> Handle(CreatePatientCommand request, CancellationToken cancellationToken)
         {
             var patient = mapper.Map<Patient>(request);
-            return await repository.AddPatient(patient);
+			return await repository.AddPatient(patient);
         }
    
     }

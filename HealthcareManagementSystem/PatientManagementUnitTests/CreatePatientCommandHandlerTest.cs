@@ -28,7 +28,7 @@ namespace PatientManagementUnitTests
             {
                 FirstName = "John",
                 LastName = "Doe",
-                DateOfBirth = new DateOnly(1990, 1, 1),
+                DateOfBirth = new DateTime(1990, 1, 1),
                 Gender = "Male",
                 Email = "john.doe@gmail.com",
                 PhoneNumber = "1234567890",

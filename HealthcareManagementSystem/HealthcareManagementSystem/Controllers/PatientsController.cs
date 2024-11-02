@@ -25,10 +25,10 @@ namespace HealthcareManagementSystem.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Guid>> CreatePatient(CreatePatientCommand command)
+        public async Task<ActionResult<int>> CreatePatient(CreatePatientCommand command)
         {
             var id = await mediator.Send(command);
-            return CreatedAtAction("GetById", new { Id = id }, id);
+            return StatusCode(201, id);
         }
 
         [HttpPut("id")]

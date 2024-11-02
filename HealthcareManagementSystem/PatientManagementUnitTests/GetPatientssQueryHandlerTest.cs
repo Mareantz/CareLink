@@ -71,8 +71,8 @@ namespace PatientManagementUnitTests
         {
             return new List<Patient>
             {
-                new Patient { Id = 1, FirstName = "Patient", LastName = "one", DateOfBirth = new DateOnly(2000, 1, 1), Gender = "Male", Email = "pat1@gmail.com", PhoneNumber = "1234567", Address = "Address 1" },
-                new Patient { Id = 2, FirstName = "Patient", LastName = "two", DateOfBirth = new DateOnly(2000, 1, 2), Gender = "Male", Email = "pat2@gmail.com", PhoneNumber = "1234568", Address = "Address 2" },
+                new Patient { Id = 1, FirstName = "Patient", LastName = "one", DateOfBirth = new DateTime(2000, 1, 1), Gender = "Male", Email = "pat1@gmail.com", PhoneNumber = "1234567", Address = "Address 1" },
+                new Patient { Id = 2, FirstName = "Patient", LastName = "two", DateOfBirth = new DateTime(2000, 1, 2), Gender = "Male", Email = "pat2@gmail.com", PhoneNumber = "1234568", Address = "Address 2" },
             };
         }
     }
