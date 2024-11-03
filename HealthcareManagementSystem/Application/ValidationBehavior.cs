@@ -22,7 +22,7 @@ namespace Application
 				.ToList();
 			if(failures.Any())
 			{
-				throw new ValidationException(failures); // needs result pattern
+				throw new ValidationException(failures);	
 			}
 			return await next();
 		}
