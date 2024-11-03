@@ -1,8 +1,9 @@
-﻿using MediatR;
+﻿using Domain.Common;
+using MediatR;
 
 namespace Application.Commands
 {
-    public class CreatePatientCommand : IRequest<int>
+    public class CreatePatientCommand : IRequest<Result<int>>
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }

@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using Domain.Common;
+using Domain.Entities;
 using Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using PredictiveHealthcare.Infrastructure.Persistence;
@@ -14,11 +15,18 @@ namespace Infrastructure.Repositories
             this.context = context;
         }
 
-		public async Task<int> AddPatient(Patient patient)
+		public async Task<Result<int>> AddPatient(Patient patient)
 		{
-			await context.Patients.AddAsync(patient);
-            await context.SaveChangesAsync();
-            return patient.Id;
+			try
+			{
+				await context.Patients.AddAsync(patient);
+				await context.SaveChangesAsync();
+				return Result<int>.Success(patient.Id);
+			}
+			catch (Exception ex)
+			{
+				return Result<int>.Failure(ex.InnerException!.ToString());
+			}
         }
 
 		public async Task<IEnumerable<Patient>> GetPatients()

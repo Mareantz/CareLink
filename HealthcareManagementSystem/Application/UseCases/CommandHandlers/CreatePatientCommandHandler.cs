@@ -2,12 +2,13 @@
 using AutoMapper;
 using Domain.Entities;
 using Domain.Repositories;
+using Domain.Common;
 using FluentValidation;
 using MediatR;
 
 namespace Application.CommandHandlers
 {
-    public class CreatePatientCommandHandler : IRequestHandler<CreatePatientCommand, int>
+    public class CreatePatientCommandHandler : IRequestHandler<CreatePatientCommand, Result<int>>
     {
         private readonly IPatientRepository repository;
         private readonly IMapper mapper;
@@ -18,7 +19,7 @@ namespace Application.CommandHandlers
             this.mapper = mapper;
         }
 
-        public async Task<int> Handle(CreatePatientCommand request, CancellationToken cancellationToken)
+        public async Task<Result<int>> Handle(CreatePatientCommand request, CancellationToken cancellationToken)
         {
             //CreatePatientCommandValidator validationRules= new CreatePatientCommandValidator();
             //var validator=validationRules.Validate(request);
@@ -35,8 +36,13 @@ namespace Application.CommandHandlers
             //}    
 
             var patient = mapper.Map<Patient>(request);
-			return await repository.AddPatient(patient);
-        }
+			var result = await repository.AddPatient(patient);
+            if(result.IsSuccess)
+            {
+                return Result<int>.Success(result.Data);
+			}
+            return Result<int>.Failure(result.ErrorMessage);
+		}
    
     }
 }

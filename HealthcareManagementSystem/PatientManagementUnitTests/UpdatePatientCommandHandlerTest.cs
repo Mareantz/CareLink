@@ -9,15 +9,15 @@ namespace PatientManagementUnitTests
 {
     public class UpdatePatientCommandHandlerTest
     {
-        private readonly Mock<IPatientRepository> repositoryMock;
-        private readonly Mock<IMapper> mapperMock;
+        private readonly Mock<IPatientRepository> repository;
+        private readonly Mock<IMapper> mapper;
         private readonly UpdatePatientCommandHandler handler;
 
         public UpdatePatientCommandHandlerTest()
         {
-            repositoryMock = new Mock<IPatientRepository>();
-            mapperMock = new Mock<IMapper>();
-            handler = new UpdatePatientCommandHandler(repositoryMock.Object, mapperMock.Object);
+            repository = new Mock<IPatientRepository>();
+            mapper = new Mock<IMapper>();
+            handler = new UpdatePatientCommandHandler(repository.Object, mapper.Object);
         }
 
         [Fact]
@@ -49,16 +49,16 @@ namespace PatientManagementUnitTests
             };
 
             
-            mapperMock.Setup(m => m.Map<Patient>(command)).Returns(patient);
+            mapper.Setup(m => m.Map<Patient>(command)).Returns(patient);
 
-              repositoryMock.Setup(r => r.UpdatePatient(It.IsAny<Patient>()))
+            repository.Setup(r => r.UpdatePatient(It.IsAny<Patient>()))
                            .Returns(Task.CompletedTask);
 
             // Act
             await handler.Handle(command, CancellationToken.None);
 
             // Assert
-            repositoryMock.Verify(r => r.UpdatePatient(It.Is<Patient>(p =>
+            repository.Verify(r => r.UpdatePatient(It.Is<Patient>(p =>
                 p.Id == command.Id &&
                 p.FirstName == command.FirstName &&
                 p.LastName == command.LastName &&

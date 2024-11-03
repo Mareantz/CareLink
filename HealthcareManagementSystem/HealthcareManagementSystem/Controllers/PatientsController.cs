@@ -4,6 +4,7 @@ using Application;
 using Application.Commands;
 using Application.Queries;
 using Application.DTOs;
+using Domain.Common;
 
 namespace HealthcareManagementSystem.Controllers
 {
@@ -25,13 +26,17 @@ namespace HealthcareManagementSystem.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<int>> CreatePatient(CreatePatientCommand command)
-        {
-            var id = await mediator.Send(command);
-            return StatusCode(201, id);
-        }
+		public async Task<ActionResult<Result<int>>> CreatePatient(CreatePatientCommand command)
+		{
+			var result = await mediator.Send(command);
+			if (result.IsSuccess)
+			{
+				return StatusCode(201, result.Data);
+			}
+			return BadRequest(result.ErrorMessage);
+		}
 
-        [HttpPut("id")]
+		[HttpPut("id")]
         public async Task<IActionResult> Update(int id, UpdatePatientCommand command)
         {
             if (id != command.Id)

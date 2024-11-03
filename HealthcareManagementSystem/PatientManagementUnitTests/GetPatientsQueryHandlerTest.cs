@@ -8,12 +8,12 @@ using NSubstitute;
 
 namespace PatientManagementUnitTests
 {
-    public class GetPatientssQueryHandlerTest
+    public class GetPatientsQueryHandlerTest
     {
         private readonly IPatientRepository repository;
         private readonly IMapper mapper;
 
-        public GetPatientssQueryHandlerTest()
+        public GetPatientsQueryHandlerTest()
         {
             repository = Substitute.For<IPatientRepository>();
             mapper = Substitute.For<IMapper>();
