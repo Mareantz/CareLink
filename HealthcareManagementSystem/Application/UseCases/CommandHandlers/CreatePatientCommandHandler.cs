@@ -32,7 +32,7 @@ namespace Application.CommandHandlers
             return Result<Guid>.Failure(result.ErrorMessage);
 		}
 
-		private DateOnly ParseDateOfBirth(string dateOfBirth)
+		private static DateOnly ParseDateOfBirth(string dateOfBirth)
 		{
 			return DateOnly.ParseExact(dateOfBirth, "dd-MM-yyyy");
 		}
