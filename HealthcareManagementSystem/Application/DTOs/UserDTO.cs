@@ -1,10 +1,10 @@
 ﻿namespace Application.DTOs
 {
-	public class UserDTO
+	public class UserDto
 	{
 		public Guid Id { get; set; }
-		public string Username { get; set; }
-		public string PasswordHash { get; set; }
+		public required string Username { get; set; }
+		public required string PasswordHash { get; set; }
 
 	}
 }

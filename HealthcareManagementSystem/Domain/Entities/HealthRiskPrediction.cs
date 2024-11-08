@@ -2,13 +2,13 @@
 {
 	public class HealthRiskPrediction
 	{
-		public int Id { get; set; }
-		public DateTime DateCalculated { get; set; }
-		public string RiskLevel { get; set; }
-		public string RiskFactors { get; set; }
-		public string PredictedRisks { get; set; }
+		public Guid Id { get; set; }
+		public DateTime LastUpdate { get; set; }
+		public float RiskScore { get; set; }
+		public List<string> RiskFactors { get; } = [];
+		public List<string> PredictedRisks { get; } = [];
 
-		public Patient Patient { get; set; }
-		public int PatientId { get; set; }
+		public required Patient Patient { get; set; }
+		public Guid PatientId { get; set; }
 	}
 }

@@ -15,19 +15,21 @@ namespace Infrastructure.Repositories
             this.context = context;
         }
 
-		public async Task<Result<int>> AddPatient(Patient patient)
+		public async Task<Result<Guid>> AddPatient(Patient patient)
 		{
 			try
 			{
 				await context.Patients.AddAsync(patient);
 				await context.SaveChangesAsync();
-				return Result<int>.Success(patient.Id);
+				return Result<Guid>.Success(patient.UserId);
 			}
 			catch (Exception ex)
 			{
-				return Result<int>.Failure(ex.InnerException!.ToString());
+				var errorMessage = ex.InnerException != null ? ex.InnerException.ToString() : ex.ToString();
+				return Result<Guid>.Failure(errorMessage);
 			}
-        }
+
+		}
 
 		public async Task<IEnumerable<Patient>> GetPatients()
 		{

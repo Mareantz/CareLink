@@ -20,13 +20,13 @@ namespace HealthcareManagementSystem.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<PatientDTO>>> GetPatients()
+        public async Task<ActionResult<List<PatientDto>>> GetPatients()
         {
             return await mediator.Send(new GetPatientsQuery());
         }
 
         [HttpPost]
-		public async Task<ActionResult<Result<int>>> CreatePatient(CreatePatientCommand command)
+		public async Task<ActionResult<Result<Guid>>> CreatePatient(CreatePatientCommand command)
 		{
 			var result = await mediator.Send(command);
 			if (result.IsSuccess)

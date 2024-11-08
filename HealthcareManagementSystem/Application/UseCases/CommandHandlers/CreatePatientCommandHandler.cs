@@ -3,12 +3,11 @@ using AutoMapper;
 using Domain.Entities;
 using Domain.Repositories;
 using Domain.Common;
-using FluentValidation;
 using MediatR;
 
 namespace Application.CommandHandlers
 {
-    public class CreatePatientCommandHandler : IRequestHandler<CreatePatientCommand, Result<int>>
+	public class CreatePatientCommandHandler : IRequestHandler<CreatePatientCommand, Result<Guid>>
     {
         private readonly IPatientRepository repository;
         private readonly IMapper mapper;
@@ -19,30 +18,24 @@ namespace Application.CommandHandlers
             this.mapper = mapper;
         }
 
-        public async Task<Result<int>> Handle(CreatePatientCommand request, CancellationToken cancellationToken)
+        public async Task<Result<Guid>> Handle(CreatePatientCommand request, CancellationToken cancellationToken)
         {
-            //CreatePatientCommandValidator validationRules= new CreatePatientCommandValidator();
-            //var validator=validationRules.Validate(request);
-
-            //if(!validator.IsValid)
-            //{
-            //    var errorsResult =new List<string>();
-            //    foreach (var error in validator.Errors)
-            //    {
-            //        errorsResult.Add(error.ErrorMessage);
-            //    }
-
-            //    throw new ValidationException(errorsResult.ToString());
-            //}    
-
-            var patient = mapper.Map<Patient>(request);
+            DateOnly dateOfBirth = ParseDateOfBirth(request.DateOfBirth);
+			var patient = mapper.Map<Patient>(request);
+			patient.DateOfBirth = dateOfBirth;
+            patient.UserId = new Guid("11111111-1111-1111-1111-111111111111");//very hardcoded for testing
 			var result = await repository.AddPatient(patient);
             if(result.IsSuccess)
             {
-                return Result<int>.Success(result.Data);
+                return Result<Guid>.Success(result.Data);
 			}
-            return Result<int>.Failure(result.ErrorMessage);
+            return Result<Guid>.Failure(result.ErrorMessage);
 		}
-   
-    }
+
+		private DateOnly ParseDateOfBirth(string dateOfBirth)
+		{
+			return DateOnly.ParseExact(dateOfBirth, "dd-MM-yyyy");
+		}
+
+	}
 }

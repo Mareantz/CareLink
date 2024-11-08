@@ -9,9 +9,11 @@ namespace Application.Utils
 	{
 		public MappingProfile()
 		{
-			CreateMap<Patient, PatientDTO>();
-            CreateMap<CreatePatientCommand, Patient>();
-            CreateMap<UpdatePatientCommand, Patient>();
+			CreateMap<Patient, PatientDto>();
+			CreateMap<CreatePatientCommand, Patient>()
+				.ForMember(dest => dest.DateOfBirth,
+						   opt => opt.MapFrom(src => DateOnly.ParseExact(src.DateOfBirth, "dd-MM-yyyy")));
+			CreateMap<UpdatePatientCommand, Patient>();
         }
 	}
 }
