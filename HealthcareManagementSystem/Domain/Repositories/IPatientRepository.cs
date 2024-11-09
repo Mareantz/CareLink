@@ -7,6 +7,7 @@ namespace Domain.Repositories
 	{
 		Task<Result<Guid>> AddPatient(Patient patient);
 		Task<IEnumerable<Patient>> GetPatients();
-		Task UpdatePatient(Patient patient);
-	}
+        Task UpdatePatient(Patient patient);
+		Task<Patient?> GetPatientById(Guid id);
+    }
 }

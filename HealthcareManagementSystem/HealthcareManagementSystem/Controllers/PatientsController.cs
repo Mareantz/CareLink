@@ -8,10 +8,10 @@ using Domain.Common;
 
 namespace HealthcareManagementSystem.Controllers
 {
-	[Route("api/v1/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class PatientsController : ControllerBase
-	{
+    {
         private readonly IMediator mediator;
 
         public PatientsController(IMediator mediator)
@@ -26,24 +26,25 @@ namespace HealthcareManagementSystem.Controllers
         }
 
         [HttpPost]
-		public async Task<ActionResult<Result<Guid>>> CreatePatient(CreatePatientCommand command)
-		{
-			var result = await mediator.Send(command);
-			if (result.IsSuccess)
-			{
-				return StatusCode(201, result.Data);
-			}
-			return BadRequest(result.ErrorMessage);
-		}
+        public async Task<ActionResult<Result<Guid>>> CreatePatient(CreatePatientCommand command)
+        {
+            var result = await mediator.Send(command);
+            if (result.IsSuccess)
+            {
+                return StatusCode(201, result.Data);
+            }
+            return BadRequest(result.ErrorMessage);
+        }
 
-		[HttpPut("id")]
-        public async Task<IActionResult> Update(int id, UpdatePatientCommand command)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(Guid id, UpdatePatientCommand command)
         {
             if (id != command.Id)
             {
-                return BadRequest();
+                return BadRequest("Patient ID mismatch.");
             }
-            await mediator.Send(command);
+
+         await mediator.Send(command);
             return StatusCode(StatusCodes.Status204NoContent);
         }
     }

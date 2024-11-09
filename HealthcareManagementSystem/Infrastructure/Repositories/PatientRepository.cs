@@ -35,11 +35,23 @@ namespace Infrastructure.Repositories
 		{
 			return await context.Patients.ToListAsync();
         }
-
-		public async Task UpdatePatient(Patient patient)
+        public async Task<Patient?> GetPatientById(Guid id)
+        {
+            return await context.Patients.FindAsync(id);
+        }
+        public  Task UpdatePatient(Patient patient)
 		{
-			context.Entry(patient).State = EntityState.Modified;
-            await context.SaveChangesAsync();
+			try
+			{
+				
+				context.Entry(patient).State = EntityState.Modified;
+				return context.SaveChangesAsync();
+			}
+			catch (Exception ex)
+			{
+				var errorMessage = ex.InnerException != null ? ex.InnerException.ToString() : ex.ToString();
+				return Task.FromException(new Exception(errorMessage));
+			}
         }
 	}
 }
