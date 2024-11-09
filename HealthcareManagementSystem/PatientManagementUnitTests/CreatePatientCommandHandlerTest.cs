@@ -37,7 +37,7 @@
 //				Address = "123 Main St"
 //			};
 //			var patient = new Patient
-//			{ 
+//			{
 //				Id = 123,
 //				FirstName = command.FirstName,
 //				LastName = command.LastName,

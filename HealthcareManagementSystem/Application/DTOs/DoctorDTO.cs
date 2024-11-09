@@ -1,13 +1,11 @@
-﻿using MediatR;
+﻿
 
-namespace Application.Commands
+namespace Application.DTOs
 {
-    public class UpdatePatientCommand : IRequest
+    public class DoctorDTO
     {
-        public int Id { get; set; }
         public required string FirstName { get; set; }
         public required string LastName { get; set; }
-        public DateTime DateOfBirth { get; set; }
         public required string Gender { get; set; }
         public required string Email { get; set; }
         public required string PhoneNumber { get; set; }

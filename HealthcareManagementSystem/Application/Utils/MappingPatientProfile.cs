@@ -5,9 +5,9 @@ using Application.Commands;
 
 namespace Application.Utils
 {
-	public class MappingProfile : Profile
+	public class MappingPatientProfile : Profile
 	{
-		public MappingProfile()
+		public MappingPatientProfile()
 		{
 			CreateMap<Patient, PatientDto>();
 			CreateMap<CreatePatientCommand, Patient>();
