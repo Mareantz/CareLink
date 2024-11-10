@@ -24,7 +24,8 @@ namespace Application.CommandHandlers
 			var patient = mapper.Map<Patient>(request);
 			patient.DateOfBirth = dateOfBirth;
             patient.UserId = new Guid("11111111-1111-1111-1111-111111111111");//very hardcoded for testing
-			var result = await repository.AddPatient(patient);
+			//patient.UserId = Guid.NewGuid();
+            var result = await repository.AddPatient(patient);
             if(result.IsSuccess)
             {
                 return Result<Guid>.Success(result.Data);
@@ -32,10 +33,15 @@ namespace Application.CommandHandlers
             return Result<Guid>.Failure(result.ErrorMessage);
 		}
 
-		private static DateOnly ParseDateOfBirth(string dateOfBirth)
-		{
-			return DateOnly.ParseExact(dateOfBirth, "dd-MM-yyyy");
-		}
+        private DateOnly ParseDateOfBirth(string? dateOfBirth)
+        {
+            if (string.IsNullOrEmpty(dateOfBirth))
+            {
+                throw new ArgumentException("Date of birth is required.");
+            }
+            return DateOnly.ParseExact(dateOfBirth, "dd-MM-yyyy");
+        }
 
-	}
+
+    }
 }

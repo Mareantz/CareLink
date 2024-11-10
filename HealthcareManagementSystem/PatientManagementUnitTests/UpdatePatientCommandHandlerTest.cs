@@ -1,70 +1,194 @@
-﻿//using NSubstitute;
-//using Application.Commands;
-//using Domain.Repositories;
-//using Application.CommandHandlers;
-//using AutoMapper;
-//using Domain.Entities;
+﻿using NSubstitute;
+using Application.Commands;
+using Application.CommandHandlers;
+using Domain.Repositories;
+using AutoMapper;
+using Xunit;
+using System;
 
-//namespace PatientManagementUnitTests
-//{
-//	public class UpdatePatientCommandHandlerTest
-//	{
-//		private readonly IPatientRepository repository;
-//		private readonly IMapper mapper;
-//		private readonly UpdatePatientCommandHandler handler;
+public class UpdatePatientCommandValidatorTests
+{
+    private readonly UpdatePatientCommandValidator _validator;
 
-//		public UpdatePatientCommandHandlerTest()
-//		{
-//			repository = Substitute.For<IPatientRepository>();
-//			mapper = Substitute.For<IMapper>();
-//			handler = new UpdatePatientCommandHandler(repository, mapper);
-//		}
+    public UpdatePatientCommandValidatorTests()
+    {
+        _validator = new UpdatePatientCommandValidator();
+    }
 
-//		[Fact]
-//		public async Task Handle_ShouldUpdatePatient()
-//		{
-//			// Arrange
-//			var command = new UpdatePatientCommand
-//			{
-//				Id = 1,
-//				FirstName = "Ion",
-//				LastName = "Doi",
-//				DateOfBirth = new DateTime(1991, 2, 2),
-//				Gender = "Mascul",
-//				Email = "john.doe@example.com",
-//				PhoneNumber = "0987654321",
-//				Address = "1234 Main St"
-//			};
+    [Fact]
+    public void Validate_Should_Return_False_When_FirstName_Is_Empty()
+    {
+        var command = new UpdatePatientCommand
+        {
+            Id = Guid.NewGuid(),
+            FirstName = string.Empty, // Testing empty FirstName
+            LastName = "Doe",
+            DateOfBirth = "1990-01-01",
+            Gender = "Male",
+            Address = "123 Main St"
+        };
 
-//			var patient = new Patient
-//			{
-//				Id = command.Id,
-//				FirstName = command.FirstName,
-//				LastName = command.LastName,
-//				DateOfBirth = command.DateOfBirth,
-//				Gender = command.Gender,
-//				Email = command.Email,
-//				PhoneNumber = command.PhoneNumber,
-//				Address = command.Address
-//			};
+        var result = ValidateCommand(command);
+        Assert.False(result, "Expected validation to fail when FirstName is empty.");
+    }
 
-//			mapper.Map<Patient>(command).Returns(patient);
-//			repository.UpdatePatient(Arg.Any<Patient>()).Returns(Task.CompletedTask);
+    [Fact]
+    public void Validate_Should_Return_True_When_FirstName_Is_Valid()
+    {
+        var command = new UpdatePatientCommand
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "John",
+            LastName = "Doe",
+            DateOfBirth = "21-02-1990",
+            Gender = "Male",
+            Address = "123 Main St"
+        };
 
-//			// Act
-//			await handler.Handle(command, CancellationToken.None);
+        var result = ValidateCommand(command);
+        Assert.True(result, "Expected validation to pass when FirstName is valid.");
+    }
 
-//			// Assert
-//			await repository.Received(1).UpdatePatient(Arg.Is<Patient>(p =>
-//				p.Id == command.Id &&
-//				p.FirstName == command.FirstName &&
-//				p.LastName == command.LastName &&
-//				p.DateOfBirth == command.DateOfBirth &&
-//				p.Gender == command.Gender &&
-//				p.Email == command.Email &&
-//				p.PhoneNumber == command.PhoneNumber &&
-//				p.Address == command.Address
-//			));
-//		}
-//	}
-//}
+    [Fact]
+    public void Validate_Should_Return_False_When_LastName_Is_Empty()
+    {
+        var command = new UpdatePatientCommand
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "John",
+            LastName = string.Empty, // Testing empty LastName
+            DateOfBirth = "1990-01-01",
+            Gender = "Male",
+            Address = "123 Main St"
+        };
+
+        var result = ValidateCommand(command);
+        Assert.False(result, "Expected validation to fail when LastName is empty.");
+    }
+
+    [Fact]
+    public void Validate_Should_Return_False_When_DateOfBirth_Is_Null()
+    {
+        var command = new UpdatePatientCommand
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "John",
+            LastName = "Doe",
+            DateOfBirth = null, // Testing null DateOfBirth
+            Gender = "Male",
+            Address = "123 Main St"
+        };
+
+        var result = ValidateCommand(command);
+        Assert.False(result, "Expected validation to fail when DateOfBirth is null.");
+    }
+
+    [Fact]
+    public void Validate_Should_Return_False_When_DateOfBirth_Is_Invalid_Format()
+    {
+        var command = new UpdatePatientCommand
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "John",
+            LastName = "Doe",
+            DateOfBirth = "invalid-date", // Testing invalid DateOfBirth format
+            Gender = "Male",
+            Address = "123 Main St"
+        };
+
+        var result = ValidateCommand(command);
+        Assert.False(result, "Expected validation to fail when DateOfBirth is in an invalid format.");
+    }
+
+    [Fact]
+    public void Validate_Should_Return_True_When_DateOfBirth_Is_Valid()
+    {
+        var command = new UpdatePatientCommand
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "John",
+            LastName = "Doe",
+            DateOfBirth = "21-02-1990", // Valid DateOfBirth format
+            Gender = "Male",
+            Address = "123 Main St"
+        };
+
+        var result = ValidateCommand(command);
+        Assert.True(result, "Expected validation to pass when DateOfBirth is valid.");
+    }
+
+    [Fact]
+    public void Validate_Should_Return_False_When_Gender_Is_Empty()
+    {
+        var command = new UpdatePatientCommand
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "John",
+            LastName = "Doe",
+            DateOfBirth = "21-02-1990",
+            Gender = string.Empty, // Testing empty Gender
+            Address = "123 Main St"
+        };
+
+        var result = ValidateCommand(command);
+        Assert.False(result, "Expected validation to fail when Gender is empty.");
+    }
+
+    [Fact]
+    public void Validate_Should_Return_True_When_Gender_Is_Provided()
+    {
+        var command = new UpdatePatientCommand
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "John",
+            LastName = "Doe",
+            DateOfBirth = "21-02-1990",
+            Gender = "Male", // Valid Gender
+            Address = "123 Main St"
+        };
+
+        var result = ValidateCommand(command);
+        Assert.True(result, "Expected validation to pass when Gender is provided.");
+    }
+
+    [Fact]
+    public void Validate_Should_Return_False_When_Address_Is_Empty()
+    {
+        var command = new UpdatePatientCommand
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "John",
+            LastName = "Doe",
+            DateOfBirth = "21-02-1990",
+            Gender = "Male",
+            Address = string.Empty // Testing empty Address
+        };
+
+        var result = ValidateCommand(command);
+        Assert.False(result, "Expected validation to fail when Address is empty.");
+    }
+
+    [Fact]
+    public void Validate_Should_Return_True_When_Address_Is_Provided()
+    {
+        var command = new UpdatePatientCommand
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "John",
+            LastName = "Doe",
+            DateOfBirth = "21-02-1990",
+            Gender = "Male",
+            Address = "123 Main St" // Valid Address
+        };
+
+        var result = ValidateCommand(command);
+        Assert.True(result, "Expected validation to pass when Address is provided.");
+    }
+
+    // Helper method to validate the command
+    private bool ValidateCommand(UpdatePatientCommand command)
+    {
+        var validationResult = _validator.Validate(command);
+        return validationResult.IsValid;
+    }
+}
