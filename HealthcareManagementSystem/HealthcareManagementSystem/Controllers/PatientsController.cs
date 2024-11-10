@@ -5,6 +5,7 @@ using Application.Commands;
 using Application.Queries;
 using Application.DTOs;
 using Domain.Common;
+using Application.UseCases.Queries;
 
 namespace HealthcareManagementSystem.Controllers
 {
@@ -18,7 +19,11 @@ namespace HealthcareManagementSystem.Controllers
         {
             this.mediator = mediator;
         }
-
+        [HttpGet("{id}")]
+        public async Task<ActionResult<PatientDto>> GetPatient(Guid id)
+        {
+            return await mediator.Send(new GetPatientByIdQuery { Id = id });
+        }
         [HttpGet]
         public async Task<ActionResult<List<PatientDto>>> GetPatients()
         {
