@@ -46,6 +46,7 @@ namespace PatientManagementUnitTests
                 Email = command.Email,
                 PhoneNumber = command.PhoneNumber,
                 Address = command.Address,
+                UserId = new Guid("11111111-1111-1111-1111-111111111111") 
             };
 
             mapper.Map<Doctor>(command).Returns(doctor);
@@ -59,6 +60,7 @@ namespace PatientManagementUnitTests
             response.IsSuccess.Should().BeTrue();
             response.Data.Should().Be(doctor.UserId);
         }
+
 
         [Fact]
         public async Task Given_InvalidCreateDoctorCommand_WhenHandleIsCalled_Then_DoctorShouldNotBeCreated()
