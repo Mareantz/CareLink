@@ -52,6 +52,7 @@ namespace PredictiveHealthcare.Infrastructure.Persistence
 						PasswordHash = "hashed_password1",
 						Email = "testuser1@example.com",
 						PhoneNumber = "0700000001",
+						Role = UserRole.Patient
 					},
 					new User
 					{
@@ -60,6 +61,7 @@ namespace PredictiveHealthcare.Infrastructure.Persistence
 						PasswordHash = "hashed_password2",
 						Email = "testuser2@example.com",
 						PhoneNumber = "0700000002",
+						Role = UserRole.Patient
 					},
 					new User
 					{
