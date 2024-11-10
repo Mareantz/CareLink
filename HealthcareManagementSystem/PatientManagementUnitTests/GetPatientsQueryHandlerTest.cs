@@ -11,33 +11,35 @@ using Domain.Repositories;
 using NSubstitute;
 using Xunit;
 
-public class GetPatientsQueryHandlerTests
+namespace PatientManagementUnitTests
 {
-    private readonly IPatientRepository _patientRepository;
-    private readonly IMapper _mapper;
-    private readonly GetPatientsQueryHandler _handler;
-
-    public GetPatientsQueryHandlerTests()
+    public class GetPatientsQueryHandlerTests
     {
-        _patientRepository = Substitute.For<IPatientRepository>();
+        private readonly IPatientRepository _patientRepository;
+        private readonly IMapper _mapper;
+        private readonly GetPatientsQueryHandler _handler;
 
-        // Create a mock AutoMapper configuration
-        var config = new MapperConfiguration(cfg =>
+        public GetPatientsQueryHandlerTests()
         {
-            cfg.CreateMap<Patient, PatientDto>()
-                .ForMember(dest => dest.DateOfBirth,
-                    opt => opt.MapFrom(src => src.DateOfBirth.ToString("dd-MM-yyyy")));
-        });
-        _mapper = config.CreateMapper();
+            _patientRepository = Substitute.For<IPatientRepository>();
 
-        _handler = new GetPatientsQueryHandler(_patientRepository, _mapper);
-    }
+            // Create a mock AutoMapper configuration
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<Patient, PatientDto>()
+                    .ForMember(dest => dest.DateOfBirth,
+                        opt => opt.MapFrom(src => src.DateOfBirth.ToString("dd-MM-yyyy")));
+            });
+            _mapper = config.CreateMapper();
 
-    [Fact]
-    public async Task Handle_Should_Return_All_Patients_From_Repository()
-    {
-        // Arrange
-        var patients = new List<Patient>
+            _handler = new GetPatientsQueryHandler(_patientRepository, _mapper);
+        }
+
+        [Fact]
+        public async Task Handle_Should_Return_All_Patients_From_Repository()
+        {
+            // Arrange
+            var patients = new List<Patient>
         {
             new Patient
             {
@@ -57,27 +59,28 @@ public class GetPatientsQueryHandlerTests
             }
         };
 
-        _patientRepository.GetPatients().Returns(patients);
+            _patientRepository.GetPatients().Returns(patients);
 
-        var query = new GetPatientsQuery();
+            var query = new GetPatientsQuery();
 
-        // Act
-        var result = await _handler.Handle(query, CancellationToken.None);
+            // Act
+            var result = await _handler.Handle(query, CancellationToken.None);
 
-        // Assert
-        Assert.NotNull(result);
-        Assert.Equal(2, result.Count);
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal(2, result.Count);
 
-        Assert.Equal("John", result[0].FirstName);
-        Assert.Equal("Doe", result[0].LastName);
-        Assert.Equal("21-02-1990", result[0].DateOfBirth);
-        Assert.Equal("Male", result[0].Gender);
-        Assert.Equal("123 Main St", result[0].Address);
+            Assert.Equal("John", result[0].FirstName);
+            Assert.Equal("Doe", result[0].LastName);
+            Assert.Equal("21-02-1990", result[0].DateOfBirth);
+            Assert.Equal("Male", result[0].Gender);
+            Assert.Equal("123 Main St", result[0].Address);
 
-        Assert.Equal("Jane", result[1].FirstName);
-        Assert.Equal("Smith", result[1].LastName);
-        Assert.Equal("15-05-1985", result[1].DateOfBirth);
-        Assert.Equal("Female", result[1].Gender);
-        Assert.Equal("456 Oak Ave", result[1].Address);
+            Assert.Equal("Jane", result[1].FirstName);
+            Assert.Equal("Smith", result[1].LastName);
+            Assert.Equal("15-05-1985", result[1].DateOfBirth);
+            Assert.Equal("Female", result[1].Gender);
+            Assert.Equal("456 Oak Ave", result[1].Address);
+        }
     }
 }

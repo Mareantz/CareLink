@@ -10,77 +10,80 @@ using Domain.Repositories;
 using NSubstitute;
 using Xunit;
 
-public class GetPatientByIdQueryHandlerTests
+namespace PatientManagementUnitTests
 {
-    private readonly IPatientRepository _patientRepository;
-    private readonly IMapper _mapper;
-    private readonly GetPatientByIdQueryHandler _handler;
-
-    public GetPatientByIdQueryHandlerTests()
+    public class GetPatientByIdQueryHandlerTests
     {
-        _patientRepository = Substitute.For<IPatientRepository>();
-        _mapper = Substitute.For<IMapper>();
-        _handler = new GetPatientByIdQueryHandler(_patientRepository, _mapper);
-    }
+        private readonly IPatientRepository _patientRepository;
+        private readonly IMapper _mapper;
+        private readonly GetPatientByIdQueryHandler _handler;
 
-    [Fact]
-    public async Task Handle_Should_Return_PatientDto_When_Patient_Exists()
-    {
-        // Arrange
-        var patientId = Guid.NewGuid();
-        var patient = new Patient
+        public GetPatientByIdQueryHandlerTests()
         {
-            FirstName = "John",
-            LastName = "Doe",
-            DateOfBirth = new DateOnly(1990, 02, 21),
-            Gender = "Male",
-            Address = "123 Main St",
-            UserId = Guid.NewGuid()
-        };
+            _patientRepository = Substitute.For<IPatientRepository>();
+            _mapper = Substitute.For<IMapper>();
+            _handler = new GetPatientByIdQueryHandler(_patientRepository, _mapper);
+        }
 
-        var patientDto = new PatientDto
+        [Fact]
+        public async Task Handle_Should_Return_PatientDto_When_Patient_Exists()
         {
-            FirstName = "John",
-            LastName = "Doe",
-            DateOfBirth = "21-02-1990",
-            Gender = "Male",
-            Address = "123 Main St"
-        };
+            // Arrange
+            var patientId = Guid.NewGuid();
+            var patient = new Patient
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                DateOfBirth = new DateOnly(1990, 02, 21),
+                Gender = "Male",
+                Address = "123 Main St",
+                UserId = Guid.NewGuid()
+            };
 
-        _patientRepository.GetPatientById(patientId).Returns(patient);
-        _mapper.Map<PatientDto>(patient).Returns(patientDto);
+            var patientDto = new PatientDto
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                DateOfBirth = "21-02-1990",
+                Gender = "Male",
+                Address = "123 Main St"
+            };
 
-        var query = new GetPatientByIdQuery { Id = patientId };
+            _patientRepository.GetPatientById(patientId).Returns(patient);
+            _mapper.Map<PatientDto>(patient).Returns(patientDto);
 
-        // Act
-        var result = await _handler.Handle(query, CancellationToken.None);
+            var query = new GetPatientByIdQuery { Id = patientId };
 
-        // Assert
-        Assert.NotNull(result);
-        Assert.Equal("John", result.FirstName);
-        Assert.Equal("Doe", result.LastName);
-        Assert.Equal("21-02-1990", result.DateOfBirth);  // Verificăm că are valoarea dorită, nu null
+            // Act
+            var result = await _handler.Handle(query, CancellationToken.None);
 
-        Assert.Equal("Male", result.Gender);
-        Assert.Equal("123 Main St", result.Address);
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal("John", result.FirstName);
+            Assert.Equal("Doe", result.LastName);
+            Assert.Equal("21-02-1990", result.DateOfBirth);  // Verificăm că are valoarea dorită, nu null
+
+            Assert.Equal("Male", result.Gender);
+            Assert.Equal("123 Main St", result.Address);
+        }
+
+
+        [Fact]
+        public async Task Handle_Should_Return_Null_When_Patient_Does_Not_Exist()
+        {
+            // Arrange
+            var patientId = Guid.NewGuid();
+
+            _patientRepository.GetPatientById(patientId).Returns((Patient?)null);
+
+            var query = new GetPatientByIdQuery { Id = patientId };
+
+            // Act
+            PatientDto? result = await _handler.Handle(query, CancellationToken.None);
+
+            // Assert
+            Assert.Null(result);
+        }
+
     }
-
-
-    [Fact]
-    public async Task Handle_Should_Return_Null_When_Patient_Does_Not_Exist()
-    {
-        // Arrange
-        var patientId = Guid.NewGuid();
-
-        _patientRepository.GetPatientById(patientId).Returns((Patient?)null);
-
-        var query = new GetPatientByIdQuery { Id = patientId };
-
-        // Act
-        PatientDto? result = await _handler.Handle(query, CancellationToken.None);
-
-        // Assert
-        Assert.Null(result);
-    }
-
 }

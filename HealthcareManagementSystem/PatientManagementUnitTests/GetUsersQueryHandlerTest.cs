@@ -54,7 +54,7 @@ namespace PatientManagementUnitTests
 
         }
 
-        private List<UserDto> GenerateUserDto(List<User> users)
+        private static List<UserDto> GenerateUserDto(List<User> users)
         {
             return users.Select(user => new UserDto
             {
@@ -67,7 +67,7 @@ namespace PatientManagementUnitTests
             }).ToList();
         }
 
-        private List<User> GenerateUsers()
+        private static List<User> GenerateUsers()
         {
             return new List<User>
             {

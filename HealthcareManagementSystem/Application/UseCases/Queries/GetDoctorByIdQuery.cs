@@ -1,7 +1,10 @@
 ﻿using MediatR;
 using Application.DTOs;
 
-public class GetDoctorByIdQuery : IRequest<DoctorDto>
+namespace Application.UseCases.Queries
 {
-	public Guid Id { get; set; }
+	public class GetDoctorByIdQuery : IRequest<DoctorDto>
+	{
+		public Guid Id { get; set; }
+	}
 }
