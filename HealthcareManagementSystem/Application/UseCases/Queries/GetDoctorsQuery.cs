@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Application.UseCases.Queries
 {
-    public class GetDoctorsQuery : IRequest<List<DoctorDTO>>
+    public class GetDoctorsQuery : IRequest<List<DoctorDto>>
     {
     }
 }

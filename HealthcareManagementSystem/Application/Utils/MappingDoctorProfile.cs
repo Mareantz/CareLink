@@ -10,7 +10,7 @@ namespace Application.Utils
     {
         public MappingDoctorProfile()
         {
-            CreateMap<Doctor, DoctorDTO>();
+            CreateMap<Doctor, DoctorDto>();
             CreateMap<CreateDoctorCommand, Doctor>();
             CreateMap<UpdateDoctorCommand, Doctor>();
         }

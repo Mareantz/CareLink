@@ -1,42 +1,46 @@
-﻿using Application.Commands;
-using Application.UseCases.Commands;
+﻿using Application.UseCases.Commands;
 using AutoMapper;
-using Domain.Entities;
+using Domain.Common;
 using Domain.Repositories;
-using FluentValidation;
 using MediatR;
 
 namespace Application.UseCases.CommandHandlers
 {
-    public class UpdateDoctorCommandHandler : IRequestHandler<UpdateDoctorCommand>
-    {
-        private readonly IDoctorRepository repository;
-        private readonly IMapper mapper;
+	public class UpdateDoctorCommandHandler : IRequestHandler<UpdateDoctorCommand, Result>
+	{
+		private readonly IDoctorRepository repository;
+		private readonly IMapper mapper;
+		private readonly UpdateDoctorCommandValidator validator;
 
-        public UpdateDoctorCommandHandler(IDoctorRepository repository, IMapper mapper)
-        {
-            this.repository = repository;
-            this.mapper = mapper;
-        }
+		public UpdateDoctorCommandHandler(IDoctorRepository repository, IMapper mapper, UpdateDoctorCommandValidator validator)
+		{
+			this.repository = repository;
+			this.mapper = mapper;
+			this.validator = validator;
+		}
 
-        public Task Handle(UpdateDoctorCommand request, CancellationToken cancellationToken)
-        {
-            //UpdateDoctorCommandValidator validationRules = new UpdateDoctorCommandValidator();
-            //var validator = validationRules.Validate(request);
+		public async Task<Result> Handle(UpdateDoctorCommand request, CancellationToken cancellationToken)
+		{
+			var validationResult = validator.Validate(request);
+			if (!validationResult.IsValid)
+			{
+				var errorsResult = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
+				return Result.Failure(string.Join(", ", errorsResult));
+			}
 
-            //if (!validator.IsValid)
-            //{
-            //    var errorsResult = new List<string>();
-            //    foreach (var error in validator.Errors)
-            //    {
-            //        errorsResult.Add(error.ErrorMessage);
-            //    }
+			var existingDoctor = await repository.GetDoctorById(request.Id);
+			if (existingDoctor == null)
+			{
+				return Result.Failure($"Doctor with Id {request.Id} not found.");
+			}
 
-            //    throw new ValidationException(errorsResult.ToString());
-            //}
-
-            var doctor = mapper.Map<Doctor>(request);
-            return repository.UpdateDoctor(doctor);
-        }
-    }
+			var doctor = mapper.Map(request, existingDoctor);
+			var updateResult = await repository.UpdateDoctor(doctor);
+			if (updateResult.IsSuccess)
+			{
+				return Result.Success();
+			}
+			return Result.Failure(updateResult.ErrorMessage);
+		}
+	}
 }

@@ -14,13 +14,15 @@ namespace Application.Commands
             RuleFor(b => b.Gender).NotEmpty();
             RuleFor(b => b.Address).NotEmpty();
         }
-        private bool BeAValidGuid(Guid guid)
+        private static bool BeAValidGuid(Guid guid)
         {
             return Guid.TryParse(guid.ToString(), out _);
         }
-        private bool BeAValidDate(string date)
+        private static bool BeAValidDate(string? date)
         {
-            return DateTime.TryParseExact(date, "dd-MM-yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out _);
+			if (string.IsNullOrEmpty(date))
+				return false;
+			return DateTime.TryParseExact(date, "dd-MM-yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out _);
         }
     }
 }

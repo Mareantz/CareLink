@@ -33,19 +33,15 @@ namespace PatientManagementUnitTests
             {
                 FirstName = "John",
                 LastName = "Doe",
-                Gender = "Male",
-                Email = "ex@gmail.com",
-                PhoneNumber = "1234567890",
-                Address = "123 Main Street"
+                Specialization = "ORL",
+                Bio = "3 years of experience"
             };
             var doctor = new Doctor
             {
                 FirstName = command.FirstName,
                 LastName = command.LastName,
-                Gender = command.Gender,
-                Email = command.Email,
-                PhoneNumber = command.PhoneNumber,
-                Address = command.Address,
+                Specialization = command.Specialization,
+                Bio = command.Bio,
                 UserId = new Guid("11111111-1111-1111-1111-111111111111") 
             };
 
@@ -70,21 +66,17 @@ namespace PatientManagementUnitTests
             {
                 FirstName = "John",
                 LastName = "Doe",
-                Gender = "Male",
-                Email = "ex@gmail.com",
-                PhoneNumber = "1234567890",
-                Address = "123 Main Street"
-            };
+                Specialization = "ORL",
+                Bio = "3 years of experience"
+			};
 
             var doctor = new Doctor
             {
                 FirstName = command.FirstName,
                 LastName = command.LastName,
-                Gender = command.Gender,
-                Email = command.Email,
-                PhoneNumber = command.PhoneNumber,
-                Address = command.Address,
-            };
+				Specialization = command.Specialization,
+				Bio = command.Bio,
+			};
 
             mapper.Map<Doctor>(command).Returns(doctor);
             repository.AddDoctor(doctor).Returns(Result<Guid>.Failure("Error"));

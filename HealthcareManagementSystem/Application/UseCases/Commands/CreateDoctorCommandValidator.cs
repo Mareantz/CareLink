@@ -8,10 +8,8 @@ namespace Application.UseCases.Commands
         {
             RuleFor(b => b.FirstName).NotEmpty().MaximumLength(100);
             RuleFor(b => b.LastName).NotEmpty().MaximumLength(100);
-            RuleFor(b => b.Gender).NotEmpty();
-            RuleFor(b => b.Email).NotEmpty();
-            RuleFor(b => b.PhoneNumber).NotEmpty();
-            RuleFor(b => b.Address).NotEmpty();
-        }
+			RuleFor(b => b.Specialization).NotEmpty().MaximumLength(50);
+			RuleFor(b => b.Bio).NotEmpty().MaximumLength(500);
+		}
     }
 }

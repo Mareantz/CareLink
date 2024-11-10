@@ -12,14 +12,25 @@ namespace Application.Utils
 		{
 			CreateMap<Patient, PatientDto>();
             CreateMap<CreatePatientCommand, Patient>()
-            .ForMember(dest => dest.DateOfBirth,
-                opt => opt.MapFrom(src => DateOnly.ParseExact(src.DateOfBirth, "dd-MM-yyyy")));
+			.ForMember(dest => dest.DateOfBirth,
+				opt => opt.MapFrom(src =>
+					src.DateOfBirth != null
+						? ParseDateOnly(src.DateOfBirth)
+						: default));
 
             CreateMap<UpdatePatientCommand, Patient>()
-                .ForMember(dest => dest.DateOfBirth,
-                    opt => opt.MapFrom(src => DateOnly.ParseExact(src.DateOfBirth, "dd-MM-yyyy")));
+			.ForMember(dest => dest.DateOfBirth,
+				opt => opt.MapFrom(src =>
+					src.DateOfBirth != null
+						? ParseDateOnly(src.DateOfBirth)
+						: default));
 
 
         }
-    }
+		public static DateOnly ParseDateOnly(string date)
+		{
+			return DateOnly.ParseExact(date, "dd-MM-yyyy", new System.Globalization.CultureInfo("ro-RO"));
+		}
+
+	}
 }

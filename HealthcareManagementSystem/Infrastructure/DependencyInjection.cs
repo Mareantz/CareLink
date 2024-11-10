@@ -17,6 +17,8 @@ namespace Infrastructure
 					b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
 
 			services.AddScoped<IPatientRepository, PatientRepository>();
+			services.AddScoped<IDoctorRepository, DoctorRepository>();
+			services.AddScoped<IUserRepository, UserRepository>();
 
 			return services;
 		}

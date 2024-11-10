@@ -5,8 +5,9 @@ namespace Domain.Repositories
 {
     public interface IDoctorRepository
     {
-        Task<Result<Guid>> AddDoctor(Doctor patient);
+        Task<Result<Guid>> AddDoctor(Doctor doctor);
         Task<IEnumerable<Doctor>> GetDoctors();
-        Task UpdateDoctor(Doctor patient);
-    }
+        Task<Result> UpdateDoctor(Doctor doctor);
+		Task<Doctor?> GetDoctorById(Guid id);
+	}
 }

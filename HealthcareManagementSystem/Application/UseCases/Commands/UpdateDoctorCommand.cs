@@ -1,15 +1,14 @@
-﻿using MediatR;
+﻿using Domain.Common;
+using MediatR;
 
 namespace Application.UseCases.Commands
 {
-    public class UpdateDoctorCommand : IRequest
+    public class UpdateDoctorCommand : IRequest<Result>
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public required string FirstName { get; set; }
         public required string LastName { get; set; }
-        public required string Gender { get; set; }
-        public required string Email { get; set; }
-        public required string PhoneNumber { get; set; }
-        public required string Address { get; set; }
+        public required string Specialization { get; set; }
+        public required string Bio { get; set; }
     }
 }

@@ -22,7 +22,7 @@ namespace Application.UseCases.CommandHandlers
         public async Task<Result<Guid>> Handle(CreateDoctorCommand request, CancellationToken cancellationToken)
         {
             var doctor = mapper.Map<Doctor>(request);
-            doctor.UserId = new Guid("11111111-1111-1111-1111-111111111111");//very hardcoded for testing
+            doctor.UserId = new Guid("87f563bf-5906-41ba-aebe-0698e9f6204e");//very hardcoded for testing
             var result = await repository.AddDoctor(doctor);
             if (result.IsSuccess)
             {

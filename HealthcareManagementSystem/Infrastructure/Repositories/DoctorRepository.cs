@@ -36,10 +36,24 @@ namespace Infrastructure.Repositories
             return await context.Doctors.ToListAsync();
         }
 
-        public async Task UpdateDoctor(Doctor doctor)
+        public async Task<Result> UpdateDoctor(Doctor doctor)
         {
-            context.Entry(doctor).State = EntityState.Modified;
-            await context.SaveChangesAsync();
-        }
+            try
+            {
+                context.Entry(doctor).State = EntityState.Modified;
+				await context.SaveChangesAsync();
+                return Result.Success();
+			}
+            catch (Exception ex)
+			{
+				var errorMessage = ex.InnerException != null ? ex.InnerException.ToString() : ex.ToString();
+				return Result.Failure(errorMessage);
+			}
+		}
+
+        public async Task<Doctor?> GetDoctorById(Guid id)
+        {
+            return await context.Doctors.FindAsync(id);
+		}
     }
 }

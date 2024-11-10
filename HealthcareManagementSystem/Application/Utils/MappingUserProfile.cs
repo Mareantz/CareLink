@@ -12,7 +12,7 @@ namespace Application.Utils
         {
             CreateMap<User, UserDto>();
             CreateMap<CreateUserCommand, User>();
-            CreateMap<UpdatePatientCommand, Patient>();
+            CreateMap<UpdateUserCommand, User>();
         }
     }
 }

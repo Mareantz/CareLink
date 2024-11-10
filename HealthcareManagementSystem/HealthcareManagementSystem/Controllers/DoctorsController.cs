@@ -22,12 +22,18 @@ namespace HealthcareManagementSystem.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<DoctorDTO>>> GetDoctors()
+        public async Task<ActionResult<List<DoctorDto>>> GetDoctors()
         {
             return await mediator.Send(new GetDoctorsQuery());
         }
 
-        [HttpPost]
+        [HttpGet("{id}")]
+		public async Task<ActionResult<DoctorDto>> GetDoctor(Guid id)
+		{
+			return await mediator.Send(new GetDoctorByIdQuery { Id = id });
+		}
+
+		[HttpPost]
         public async Task<ActionResult<Result<Guid>>> CreateDoctor(CreateDoctorCommand command)
         {
             var result = await mediator.Send(command);
@@ -39,7 +45,7 @@ namespace HealthcareManagementSystem.Controllers
         }
 
         [HttpPut("id")]
-        public async Task<IActionResult> Update(int id, UpdateDoctorCommand command)
+        public async Task<IActionResult> Update(Guid id, UpdateDoctorCommand command)
         {
             if (id != command.Id)
             {

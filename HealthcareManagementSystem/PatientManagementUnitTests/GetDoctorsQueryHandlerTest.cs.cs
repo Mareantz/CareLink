@@ -28,7 +28,7 @@ namespace PatientManagementUnitTests
             repository.GetDoctors().Returns(doctors);
 
             var doctorDtos = GenerateDoctorDto(doctors);
-            mapper.Map<List<DoctorDTO>>(doctors).Returns(doctorDtos);
+            mapper.Map<List<DoctorDto>>(doctors).Returns(doctorDtos);
 
             var query = new GetDoctorsQuery();
             var handler = new GetDoctorsQueryHandler(repository, mapper);
@@ -44,34 +44,29 @@ namespace PatientManagementUnitTests
             {
                 Assert.Equal(doctors[i].FirstName, result[i].FirstName);
                 Assert.Equal(doctors[i].LastName, result[i].LastName);
-                Assert.Equal(doctors[i].Address, result[i].Address);
-                Assert.Equal(doctors[i].Email, result[i].Email);
-                Assert.Equal(doctors[i].Gender, result[i].Gender);
-                Assert.Equal(doctors[i].PhoneNumber, result[i].PhoneNumber);
+                Assert.Equal(doctors[i].Specialization, result[i].Specialization);
 
-            }
+			}
 
         }
 
-        private List<DoctorDTO> GenerateDoctorDto(List<Doctor> doctors)
+        private static List<DoctorDto> GenerateDoctorDto(List<Doctor> doctors)
         {
-            return doctors.Select(doctor => new DoctorDTO
+            return doctors.Select(doctor => new DoctorDto
             {
                 FirstName = doctor.FirstName,
                 LastName = doctor.LastName,
-                Address = doctor.Address,
-                Email = doctor.Email,
-                Gender = doctor.Gender,
-                PhoneNumber = doctor.PhoneNumber
-            }).ToList();
+                Specialization = doctor.Specialization,
+				Bio = doctor.Bio
+			}).ToList();
         }
 
-        private List<Doctor> GenerateDoctors()
+        private static List<Doctor> GenerateDoctors()
         {
             return new List<Doctor>
             {
-                new Doctor { UserId = Guid.NewGuid(), FirstName = "Doctor", LastName = "one", Gender = "Male", Email = "doc1@gmail.com", PhoneNumber = "1234567", Address = "Address 1" },
-                new Doctor { UserId = Guid.NewGuid(), FirstName = "Doctor", LastName = "two", Gender = "Male", Email = "doc2@gmail.com", PhoneNumber = "1234568", Address = "Address 2" },
+                new Doctor { UserId = Guid.NewGuid(), FirstName = "Doctor", LastName = "one", Specialization = "ORL", Bio = "3 years of experience" },
+                new Doctor { UserId = Guid.NewGuid(), FirstName = "Doctor", LastName = "two", Specialization = "Cardiolog", Bio = "5 years of experience" },
             };
         }
 

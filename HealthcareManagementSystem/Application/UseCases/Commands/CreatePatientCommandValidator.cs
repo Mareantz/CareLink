@@ -13,9 +13,11 @@ namespace Application.Commands
             RuleFor(b => b.Gender).NotEmpty();
             RuleFor(b => b.Address).NotEmpty();
         }
-        private bool BeAValidDate(string date)
+        private static bool BeAValidDate(string? date)
         {
-            return DateTime.TryParseExact(date, "dd-MM-yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out _);
+			if (string.IsNullOrEmpty(date))
+				return false;
+			return DateTime.TryParseExact(date, "dd-MM-yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out _);
         }
     }
 }

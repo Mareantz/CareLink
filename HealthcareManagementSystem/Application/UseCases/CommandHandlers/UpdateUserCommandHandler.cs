@@ -20,20 +20,6 @@ namespace Application.CommandHandlers
 
         public Task Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {
-            //UpdatePatientCommandValidator validationRules = new UpdatePatientCommandValidator();
-            //var validator = validationRules.Validate(request);
-
-            //if (!validator.IsValid)
-            //{
-            //    var errorsResult = new List<string>();
-            //    foreach (var error in validator.Errors)
-            //    {
-            //        errorsResult.Add(error.ErrorMessage);
-            //    }
-
-            //    throw new ValidationException(errorsResult.ToString());
-            //}
-
             var user = mapper.Map<User>(request);
             return repository.UpdateUser(user);
         }
