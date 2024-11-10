@@ -26,10 +26,10 @@ public class UpdateUserCommandValidatorTests
             PasswordHash = "$2y$10$js8Xhx39VfRPo/0QHmGtaO54UwyG96jQJS1SMwqynTgzAtJkwKUUK",
             Email = "andrei@gmail.com",
             PhoneNumber = "07182828",
-            Role = 0"
+            Role = 0
         };
 
-        var result = ValidateCommand(command);
+		var result = ValidateCommand(command);
         Assert.False(result, "Expected validation to fail when Username is empty.");
     }
 
@@ -43,7 +43,7 @@ public class UpdateUserCommandValidatorTests
             PasswordHash = "$2y$10$js8Xhx39VfRPo/0QHmGtaO54UwyG96jQJS1SMwqynTgzAtJkwKUUK",
             Email = "andrei@gmail.com",
             PhoneNumber = "07182828",
-            Role = 0"
+            Role = 0
         };
 
         var result = ValidateCommand(command);
@@ -65,7 +65,7 @@ public class UpdateUserCommandValidatorTests
             PasswordHash = "",
             Email = "andrei@gmail.com",
             PhoneNumber = "07182828",
-            Role = 0"
+            Role = 0
         };
 
         var result = ValidateCommand(command);
@@ -82,17 +82,12 @@ public class UpdateUserCommandValidatorTests
             PasswordHash = "$2y$10$js8Xhx39VfRPo/0QHmGtaO54UwyG96jQJS1SMwqynTgzAtJkwKUUK",
             Email = "andrei@gmail.com",
             PhoneNumber = "07182828",
-            Role = 0"
+            Role = 0
         };
 
         var result = ValidateCommand(command);
         Assert.True(result, "Expected validation to pass when Password is valid.");
     }
-
-
-
-
-
 
 
     [Fact]
@@ -105,7 +100,7 @@ public class UpdateUserCommandValidatorTests
             PasswordHash = "$2y$10$js8Xhx39VfRPo/0QHmGtaO54UwyG96jQJS1SMwqynTgzAtJkwKUUK",
             Email = "",
             PhoneNumber = "07182828",
-            Role = 0"
+            Role = 0
         };
 
         var result = ValidateCommand(command);
@@ -122,7 +117,7 @@ public class UpdateUserCommandValidatorTests
             PasswordHash = "$2y$10$js8Xhx39VfRPo/0QHmGtaO54UwyG96jQJS1SMwqynTgzAtJkwKUUK",
             Email = "andrei@gmail.com",
             PhoneNumber = "07182828",
-            Role = 0"
+            Role = 0
         };
 
         var result = ValidateCommand(command);
@@ -145,7 +140,7 @@ public class UpdateUserCommandValidatorTests
             PasswordHash = "$2y$10$js8Xhx39VfRPo/0QHmGtaO54UwyG96jQJS1SMwqynTgzAtJkwKUUK",
             Email = "andrei@gmail.com",
             PhoneNumber = "",
-            Role = 0"
+            Role = 0
         };
 
         var result = ValidateCommand(command);
@@ -162,7 +157,7 @@ public class UpdateUserCommandValidatorTests
             PasswordHash = "$2y$10$js8Xhx39VfRPo/0QHmGtaO54UwyG96jQJS1SMwqynTgzAtJkwKUUK",
             Email = "andrei@gmail.com",
             PhoneNumber = "07182828",
-            Role = 0"
+            Role = 0
         };
 
         var result = ValidateCommand(command);
@@ -172,7 +167,7 @@ public class UpdateUserCommandValidatorTests
 
 
 
-    private bool ValidateCommand(UpdatePatientCommand command)
+    private bool ValidateCommand(UpdateUserCommand command)
     {
         var validationResult = _validator.Validate(command);
         return validationResult.IsValid;

@@ -1,4 +1,6 @@
 using Application.DTOs;
+using Application.Queries;
+using Application.QueryHandlers;
 using Application.UseCases.Queries;
 using Application.UseCases.QueryHandlers;
 using AutoMapper;
@@ -28,10 +30,10 @@ namespace PatientManagementUnitTests
             repository.GetUsers().Returns(users);
 
             var userDtos = GenerateUserDto(users);
-            mapper.Map<List<UserDTO>>(users).Returns(userDtos);
+            mapper.Map<List<UserDto>>(users).Returns(userDtos);
 
-            var query = new GetUserQuery();
-            var handler = new GetUserQueryHandler(repository, mapper);
+            var query = new GetUsersQuery();
+            var handler = new GetUsersQueryHandler(repository, mapper);
 
             // Act
             var result = await handler.Handle(query, CancellationToken.None);
@@ -47,14 +49,14 @@ namespace PatientManagementUnitTests
                 Assert.Equal(users[i].PasswordHash, result[i].PasswordHash);
                 Assert.Equal(users[i].Email, result[i].Email);
                 Assert.Equal(users[i].PhoneNumber, result[i].PhoneNumber);
-                Assert.Equal(users[i].Role, result[i].Role)
+                Assert.Equal(users[i].Role, result[i].Role);
             }
 
         }
 
-        private List<UserDTO> GenerateUserDto(List<User> users)
+        private List<UserDto> GenerateUserDto(List<User> users)
         {
-            return users.Select(user => new UserDTO
+            return users.Select(user => new UserDto
             {
                 Id=user.Id,
                 Username=user.Username,
@@ -75,15 +77,16 @@ namespace PatientManagementUnitTests
                     PasswordHash = "$2y$10$js8Xhx39VfRPo/0QHmGtaO54UwyG96jQJS1SMwqhnTgzAtJkwKUUK",
                     Email = "andrei@gmail.com",
                     PhoneNumber = "07182828",
-                    Role = 0",
-
+                    Role = 0
+                },
                 new User {
                     Id = Guid.NewGuid(),
                     Username = "ion",
                     PasswordHash = "$2y$10$js8Xhx39VfRPo/0QHmGtaO54UwyG96jQJS1SMwqhnTgzAtJkwKUUK",
                     Email = "andrei@gmail.com",
                     PhoneNumber = "07182828",
-                    Role = 0",
+                    Role = 0
+                }
             };
         }
 

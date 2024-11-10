@@ -31,25 +31,24 @@ namespace PatientManagementUnitTests
             // Arrange
             var command = new CreateUserCommand
             {
-                Id = Guid.NewGuid(),
                 Username = "andrei",
                 PasswordHash = "$2y$10$js8Xhx39VfRPo/0QHmGtaO54UwyG96jQJS1SMwqhnTgzAtJkwKUUK",
                 Email = "andrei@gmail.com",
                 PhoneNumber = "07182828",
                 Role = 0
-            }
+            };
             var user = new User
             {
-                Id=command.Id,
+                Id= new Guid("d1b34e0c-df0b-47ae-9778-8dcbd61d7e5b"),
                 Username=command.Username,
                 PasswordHash=command.PasswordHash,
                 Email=command.Email,
                 PhoneNumber=command.PhoneNumber,
-                Role=command.role
+                Role=command.Role
             };
 
             mapper.Map<User>(command).Returns(user);
-            repository.AddUser(doctor).Returns(Result<Guid>.Success(user.Id));
+            repository.AddUser(user).Returns(Result<Guid>.Success(user.Id));
 
             // Act
             var response = await handler.Handle(command, CancellationToken.None);
@@ -67,22 +66,21 @@ namespace PatientManagementUnitTests
             // Arrange
             var command = new CreateUserCommand
             {
-                Id = Guid.NewGuid(),
                 Username = "",
                 PasswordHash = "$2y$10$js8Xhx39VfRPo/0QHmGtaO54UwyG96jQJS1SMwqhnTgzAtJkwKUUK",
                 Email = "andrei@gmail.com",
                 PhoneNumber = "07182828",
-                Role = 0"
+                Role = 0
             };
 
             var user = new User
             {
-                Id = command.Id,
+                Id = new Guid("d1b34e0c-df0b-47ae-9778-8dcbd61d7e5b"),
                 Username = command.Username,
                 PasswordHash = command.PasswordHash,
                 Email = command.Email,
                 PhoneNumber = command.PhoneNumber,
-                Role = command.role
+                Role = command.Role
             };
 
             mapper.Map<User>(command).Returns(user);
