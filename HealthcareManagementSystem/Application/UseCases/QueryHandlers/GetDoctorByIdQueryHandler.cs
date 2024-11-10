@@ -1,4 +1,5 @@
 ﻿using Application.DTOs;
+using Application.UseCases.Queries;
 using AutoMapper;
 using Domain.Repositories;
 using MediatR;
