@@ -52,7 +52,6 @@ namespace PredictiveHealthcare.Infrastructure.Persistence
 						PasswordHash = "hashed_password1",
 						Email = "testuser1@example.com",
 						PhoneNumber = "0700000001",
-						Role = UserRole.Patient
 					},
 					new User
 					{
@@ -61,7 +60,6 @@ namespace PredictiveHealthcare.Infrastructure.Persistence
 						PasswordHash = "hashed_password2",
 						Email = "testuser2@example.com",
 						PhoneNumber = "0700000002",
-						Role = UserRole.Patient
 					},
 					new User
 					{
@@ -106,7 +104,6 @@ namespace PredictiveHealthcare.Infrastructure.Persistence
 				entity.HasKey(e => e.UserId);
 				entity.Property(e => e.FirstName).IsRequired().HasMaxLength(100);
 				entity.Property(e => e.LastName).IsRequired().HasMaxLength(100);
-				entity.Property(e => e.Specialization).IsRequired().HasMaxLength(100);
 				entity.Property(e => e.Email).IsRequired().HasMaxLength(100);
 				entity.Property(e => e.PhoneNumber).IsRequired().HasMaxLength(11);
 				entity.HasMany(d => d.Patients)
@@ -151,7 +148,6 @@ namespace PredictiveHealthcare.Infrastructure.Persistence
 					  .ValueGeneratedOnAdd();
 				entity.Property(e => e.DateRecorded).IsRequired();
 				entity.Property(e => e.Diagnosis).HasMaxLength(200);
-				entity.Property(e => e.Medication).HasMaxLength(500);
 				entity.Property(e => e.Notes).HasMaxLength(1000);
 				entity.HasOne(m => m.Patient)
 					  .WithMany(p => p.MedicalHistories)

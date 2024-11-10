@@ -5,33 +5,30 @@ using Application.Commands;
 using Application.Queries;
 using Application.DTOs;
 using Domain.Common;
+using Application.UseCases.Commands;
 using Application.UseCases.Queries;
 
 namespace HealthcareManagementSystem.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class PatientsController : ControllerBase
+    public class DoctorsController : ControllerBase
     {
         private readonly IMediator mediator;
 
-        public PatientsController(IMediator mediator)
+        public DoctorsController(IMediator mediator)
         {
             this.mediator = mediator;
         }
-        [HttpGet("{id}")]
-        public async Task<ActionResult<PatientDto>> GetPatient(Guid id)
-        {
-            return await mediator.Send(new GetPatientByIdQuery { Id = id });
-        }
+
         [HttpGet]
-        public async Task<ActionResult<List<PatientDto>>> GetPatients()
+        public async Task<ActionResult<List<DoctorDTO>>> GetDoctors()
         {
-            return await mediator.Send(new GetPatientsQuery());
+            return await mediator.Send(new GetDoctorsQuery());
         }
 
         [HttpPost]
-        public async Task<ActionResult<Result<Guid>>> CreatePatient(CreatePatientCommand command)
+        public async Task<ActionResult<Result<Guid>>> CreateDoctor(CreateDoctorCommand command)
         {
             var result = await mediator.Send(command);
             if (result.IsSuccess)
@@ -41,16 +38,16 @@ namespace HealthcareManagementSystem.Controllers
             return BadRequest(result.ErrorMessage);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update(Guid id, UpdatePatientCommand command)
+        [HttpPut("id")]
+        public async Task<IActionResult> Update(int id, UpdateDoctorCommand command)
         {
             if (id != command.Id)
             {
-                return BadRequest("Patient ID mismatch.");
+                return BadRequest();
             }
-
-         await mediator.Send(command);
+            await mediator.Send(command);
             return StatusCode(StatusCodes.Status204NoContent);
         }
+
     }
 }

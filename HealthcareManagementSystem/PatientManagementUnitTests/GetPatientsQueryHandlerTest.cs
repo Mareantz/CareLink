@@ -1,79 +1,83 @@
-﻿//using Application.DTOs;
-//using Application.Queries;
-//using Application.QueryHandlers;
-//using AutoMapper;
-//using Domain.Entities;
-//using Domain.Repositories;
-//using NSubstitute;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using Application.DTOs;
+using Application.Queries;
+using Application.QueryHandlers;
+using AutoMapper;
+using Domain.Entities;
+using Domain.Repositories;
+using NSubstitute;
+using Xunit;
 
-//namespace PatientManagementUnitTests
-//{
-//    public class GetPatientsQueryHandlerTest
-//    {
-//        private readonly IPatientRepository repository;
-//        private readonly IMapper mapper;
+public class GetPatientsQueryHandlerTests
+{
+    private readonly IPatientRepository _patientRepository;
+    private readonly IMapper _mapper;
+    private readonly GetPatientsQueryHandler _handler;
 
-//        public GetPatientsQueryHandlerTest()
-//        {
-//            repository = Substitute.For<IPatientRepository>();
-//            mapper = Substitute.For<IMapper>();
-//        }
+    public GetPatientsQueryHandlerTests()
+    {
+        _patientRepository = Substitute.For<IPatientRepository>();
 
-//        [Fact]
-//        public async Task Handle_ShouldReturnListOfPatients()
-//        {
-//            // Arrange
-//            List<Patient> patients = GeneratePatients();
-//            repository.GetPatients().Returns(patients);
+        // Create a mock AutoMapper configuration
+        var config = new MapperConfiguration(cfg =>
+        {
+            cfg.CreateMap<Patient, PatientDto>()
+                .ForMember(dest => dest.DateOfBirth,
+                    opt => opt.MapFrom(src => src.DateOfBirth.ToString("dd-MM-yyyy")));
+        });
+        _mapper = config.CreateMapper();
 
-//            var PatientDtos = GeneratePatientDto(patients);
-//            mapper.Map<List<PatientDto>>(patients).Returns(PatientDtos);
+        _handler = new GetPatientsQueryHandler(_patientRepository, _mapper);
+    }
 
-//            var query = new GetPatientsQuery();
-//            var handler = new GetPatientsQueryHandler(repository, mapper);
+    [Fact]
+    public async Task Handle_Should_Return_All_Patients_From_Repository()
+    {
+        // Arrange
+        var patients = new List<Patient>
+        {
+            new Patient
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                DateOfBirth = new DateOnly(1990, 2, 21),
+                Gender = "Male",
+                Address = "123 Main St"
+            },
+            new Patient
+            {
+                FirstName = "Jane",
+                LastName = "Smith",
+                DateOfBirth = new DateOnly(1985, 5, 15),
+                Gender = "Female",
+                Address = "456 Oak Ave"
+            }
+        };
 
-//            // Act
-//            var result = await handler.Handle(query, CancellationToken.None);
+        _patientRepository.GetPatients().Returns(patients);
 
-//            // Assert
-//            Assert.NotNull(result);
-//            Assert.Equal(patients.Count, result.Count);
+        var query = new GetPatientsQuery();
 
-//            for (int i = 0; i < patients.Count; i++)
-//            {
-//                Assert.Equal(patients[i].Id, result[i].Id);
-//                Assert.Equal(patients[i].FirstName, result[i].FirstName);
-//                Assert.Equal(patients[i].LastName, result[i].LastName);
-//                Assert.Equal(patients[i].DateOfBirth, result[i].DateOfBirth);
-//                Assert.Equal(patients[i].Address, result[i].Address);
-//                Assert.Equal(patients[i].Email, result[i].Email);
-//                Assert.Equal(patients[i].Gender, result[i].Gender);
-//                Assert.Equal(patients[i].PhoneNumber, result[i].PhoneNumber);
-//            }
-//        }
+        // Act
+        var result = await _handler.Handle(query, CancellationToken.None);
 
-//        private List<PatientDto> GeneratePatientDto(List<Patient> patients)
-//        {
-//            return patients.Select(patient => new PatientDto
-//            {
-//                Id = patient.Id,
-//                FirstName = patient.FirstName,
-//                LastName = patient.LastName,
-//                DateOfBirth = patient.DateOfBirth,
-//                Address = patient.Address,
-//                Email = patient.Email,
-//                Gender = patient.Gender,
-//                PhoneNumber = patient.PhoneNumber
-//            }).ToList();
-//        }
+        // Assert
+        Assert.NotNull(result);
+        Assert.Equal(2, result.Count);
 
-//        private List<Patient> GeneratePatients()
-//        {
-//            return new List<Patient>
-//            {
-//                new Patient { Id = 1, FirstName = "Patient", LastName = "one", DateOfBirth = new DateTime(2000, 1, 1), Gender = "Male", Email = "pat1@gmail.com", PhoneNumber = "1234567", Address = "Address 1" },
-//                new Patient { Id = 2, FirstName = "Patient", LastName = "two", DateOfBirth = new DateTime(2000, 1, 2), Gender = "Male", Email = "pat2@gmail.com", PhoneNumber = "1234568", Address = "Address 2" },
-//            };
-//        }
-//    }
-//}
+        Assert.Equal("John", result[0].FirstName);
+        Assert.Equal("Doe", result[0].LastName);
+        Assert.Equal("21-02-1990", result[0].DateOfBirth);
+        Assert.Equal("Male", result[0].Gender);
+        Assert.Equal("123 Main St", result[0].Address);
+
+        Assert.Equal("Jane", result[1].FirstName);
+        Assert.Equal("Smith", result[1].LastName);
+        Assert.Equal("15-05-1985", result[1].DateOfBirth);
+        Assert.Equal("Female", result[1].Gender);
+        Assert.Equal("456 Oak Ave", result[1].Address);
+    }
+}

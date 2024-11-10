@@ -1,41 +1,43 @@
 ﻿using Application.Commands;
 using AutoMapper;
-using Domain.Entities;
+using Domain.Common;
 using Domain.Repositories;
-using FluentValidation;
 using MediatR;
 
-namespace Application.CommandHandlers
+public class UpdatePatientCommandHandler : IRequestHandler<UpdatePatientCommand, Result>
 {
-    public class UpdatePatientCommandHandler : IRequestHandler<UpdatePatientCommand>
+    private readonly IPatientRepository repository;
+    private readonly IMapper mapper;
+    private readonly UpdatePatientCommandValidator validator;
+
+    public UpdatePatientCommandHandler(IPatientRepository repository, IMapper mapper, UpdatePatientCommandValidator validator)
     {
-        private readonly IPatientRepository repository;
-        private readonly IMapper mapper;
+        this.repository = repository;
+        this.mapper = mapper;
+        this.validator = validator;
+    }
 
-        public UpdatePatientCommandHandler(IPatientRepository repository, IMapper mapper)
+    public async Task<Result> Handle(UpdatePatientCommand request, CancellationToken cancellationToken)
+    {
+        var validationResult = validator.Validate(request);
+        if (!validationResult.IsValid)
         {
-            this.repository = repository;
-            this.mapper = mapper;
+            var errorsResult = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
+            return Result.Failure(string.Join(", ", errorsResult));
         }
 
-        public Task Handle(UpdatePatientCommand request, CancellationToken cancellationToken)
+        var existingPatient = await repository.GetPatientById(request.Id);
+        if (existingPatient == null)
         {
-            //UpdatePatientCommandValidator validationRules = new UpdatePatientCommandValidator();
-            //var validator = validationRules.Validate(request);
-
-            //if (!validator.IsValid)
-            //{
-            //    var errorsResult = new List<string>();
-            //    foreach (var error in validator.Errors)
-            //    {
-            //        errorsResult.Add(error.ErrorMessage);
-            //    }
-
-            //    throw new ValidationException(errorsResult.ToString());
-            //}
-
-            var patient = mapper.Map<Patient>(request);
-            return repository.UpdatePatient(patient);
+            return Result.Failure($"Patient with Id {request.Id} not found.");
         }
+
+        var patient = mapper.Map(request, existingPatient);
+        var updateResult = await repository.UpdatePatient(patient);
+        if (updateResult.IsSuccess)
+        {
+            return Result.Success();
+        }
+        return Result.Failure(updateResult.ErrorMessage);
     }
 }
