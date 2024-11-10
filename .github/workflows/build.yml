@@ -38,7 +38,8 @@ jobs:
           [Environment]::SetEnvironmentVariable("PATH", $env:PATH, [System.EnvironmentVariableTarget]::Process)
 
       - name: Run Tests and Generate Coverage Report
-        run: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=./TestResults/
+        working-directory: HealthcareManagementSystem 
+        run: dotnet test HealthcareManagementSystem.sln /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=./TestResults/
 
       - name: Run SonarQube Analysis
         shell: powershell
