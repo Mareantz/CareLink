@@ -1,8 +1,10 @@
-﻿using Domain.Enums;
+using Domain.Common;
+using Domain.Enums;
+using MediatR;
 
-namespace Application.DTOs
+namespace Application.UseCases.Commands
 {
-    public class UserDto
+    public class CreateUserCommand : IRequest<Result<Guid>>
     {
         public Guid Id { get; set; }
         public required string Username { get; set; }
@@ -10,6 +12,5 @@ namespace Application.DTOs
         public required string Email { get; set; }
         public required string PhoneNumber { get; set; }
         public UserRole Role { get; set; } = 0;
-
     }
 }

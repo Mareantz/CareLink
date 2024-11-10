@@ -1,8 +1,9 @@
-﻿using Domain.Enums;
+using Domain.Enums;
+using MediatR;
 
-namespace Application.DTOs
+namespace Application.Commands
 {
-    public class UserDto
+    public class UpdateUserCommand : IRequest
     {
         public Guid Id { get; set; }
         public required string Username { get; set; }
@@ -10,6 +11,5 @@ namespace Application.DTOs
         public required string Email { get; set; }
         public required string PhoneNumber { get; set; }
         public UserRole Role { get; set; } = 0;
-
     }
 }
