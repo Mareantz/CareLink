@@ -32,7 +32,7 @@ public class GetPatientByIdQueryHandlerTests
         {
             FirstName = "John",
             LastName = "Doe",
-            DateOfBirth = new DateOnly(1990, 1, 1),
+            DateOfBirth = new DateOnly(1990, 02, 21),
             Gender = "Male",
             Address = "123 Main St",
             UserId = Guid.NewGuid()
@@ -42,7 +42,7 @@ public class GetPatientByIdQueryHandlerTests
         {
             FirstName = "John",
             LastName = "Doe",
-            DateOfBirth = "1990-01-01",
+            DateOfBirth = "21-02-1990",
             Gender = "Male",
             Address = "123 Main St"
         };
@@ -59,12 +59,12 @@ public class GetPatientByIdQueryHandlerTests
         Assert.NotNull(result);
         Assert.Equal("John", result.FirstName);
         Assert.Equal("Doe", result.LastName);
-        Assert.Equal("1990-01-01", result.DateOfBirth);
-        Assert.Null(result.DateOfBirth);
+        Assert.Equal("21-02-1990", result.DateOfBirth);  // Verificăm că are valoarea dorită, nu null
 
         Assert.Equal("Male", result.Gender);
         Assert.Equal("123 Main St", result.Address);
     }
+
 
     [Fact]
     public async Task Handle_Should_Return_Null_When_Patient_Does_Not_Exist()

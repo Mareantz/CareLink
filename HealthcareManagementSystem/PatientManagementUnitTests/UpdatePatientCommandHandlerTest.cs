@@ -40,7 +40,7 @@ public class UpdatePatientCommandValidatorTests
             Id = Guid.NewGuid(),
             FirstName = "John",
             LastName = "Doe",
-            DateOfBirth = "1990-01-01",
+            DateOfBirth = "21-02-1990",
             Gender = "Male",
             Address = "123 Main St"
         };
@@ -108,7 +108,7 @@ public class UpdatePatientCommandValidatorTests
             Id = Guid.NewGuid(),
             FirstName = "John",
             LastName = "Doe",
-            DateOfBirth = "1990-01-01", // Valid DateOfBirth format
+            DateOfBirth = "21-02-1990", // Valid DateOfBirth format
             Gender = "Male",
             Address = "123 Main St"
         };
@@ -125,7 +125,7 @@ public class UpdatePatientCommandValidatorTests
             Id = Guid.NewGuid(),
             FirstName = "John",
             LastName = "Doe",
-            DateOfBirth = "1990-01-01",
+            DateOfBirth = "21-02-1990",
             Gender = string.Empty, // Testing empty Gender
             Address = "123 Main St"
         };
@@ -142,7 +142,7 @@ public class UpdatePatientCommandValidatorTests
             Id = Guid.NewGuid(),
             FirstName = "John",
             LastName = "Doe",
-            DateOfBirth = "1990-01-01",
+            DateOfBirth = "21-02-1990",
             Gender = "Male", // Valid Gender
             Address = "123 Main St"
         };
@@ -159,7 +159,7 @@ public class UpdatePatientCommandValidatorTests
             Id = Guid.NewGuid(),
             FirstName = "John",
             LastName = "Doe",
-            DateOfBirth = "1990-01-01",
+            DateOfBirth = "21-02-1990",
             Gender = "Male",
             Address = string.Empty // Testing empty Address
         };
@@ -176,7 +176,7 @@ public class UpdatePatientCommandValidatorTests
             Id = Guid.NewGuid(),
             FirstName = "John",
             LastName = "Doe",
-            DateOfBirth = "1990-01-01",
+            DateOfBirth = "21-02-1990",
             Gender = "Male",
             Address = "123 Main St" // Valid Address
         };
