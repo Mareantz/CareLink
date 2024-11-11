@@ -36,20 +36,22 @@ jobs:
         run: |
           $env:PATH += ";$env:USERPROFILE\.dotnet\tools"
           [Environment]::SetEnvironmentVariable("PATH", $env:PATH, [System.EnvironmentVariableTarget]::Process)
+
+      - name: Run SonarQube Begin Analysis
+        shell: powershell
+        working-directory: HealthcareManagementSystem
+        run: |
+          dotnet-sonarscanner begin /k:"HealthcareManagement" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}" /d:sonar.cs.opencover.reportsPaths="TestResults/coverage.opencover.xml" /d:sonar.exclusions="**/Migrations/**"
       
-      
+      - name: Build Solution
+        working-directory: HealthcareManagementSystem
+        run: dotnet build HealthcareManagementSystem.sln
 
       - name: Run Tests and Generate Coverage Report
         working-directory: HealthcareManagementSystem 
         run: dotnet test HealthcareManagementSystem.sln /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=./TestResults/coverage.opencover.xml
 
-      - name: List Test Results Folder #debugging purposes
-        run: ls -R TestResults
-
-      - name: Run SonarQube Analysis
+      - name: Complete SonarQube Analysis
         shell: powershell
         working-directory: HealthcareManagementSystem
-        run: |
-          dotnet-sonarscanner begin /k:"HealthcareManagement" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}" /d:sonar.cs.opencover.reportsPaths="./TestResults/coverage.opencover.xml" /d:sonar.exclusions="**/Migrations/**"
-          dotnet build "D:\a\Proiect-.NET-2024\Proiect-.NET-2024\HealthcareManagementSystem\HealthcareManagementSystem.sln" 
-          dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+        run: dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
