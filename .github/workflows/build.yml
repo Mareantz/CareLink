@@ -48,6 +48,7 @@ jobs:
 
       - name: Run SonarQube Analysis
         shell: powershell
+        working-directory: HealthcareManagementSystem
         run: |
           dotnet-sonarscanner begin /k:"HealthcareManagement" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}" /d:sonar.cs.opencover.reportsPaths="./TestResults/coverage.opencover.xml" /d:sonar.exclusions="**/Migrations/**"
           dotnet build "D:\a\Proiect-.NET-2024\Proiect-.NET-2024\HealthcareManagementSystem\HealthcareManagementSystem.sln" 
