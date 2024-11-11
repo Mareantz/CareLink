@@ -31,27 +31,30 @@ jobs:
       - name: Install SonarQube Scanner Globally
         run: dotnet tool install --global dotnet-sonarscanner
 
+      - name: Install dotnet-coverage Tool
+        run: dotnet tool install --global dotnet-coverage
+
       - name: Add .NET tools to PATH
         shell: powershell
         run: |
           $env:PATH += ";$env:USERPROFILE\.dotnet\tools"
           [Environment]::SetEnvironmentVariable("PATH", $env:PATH, [System.EnvironmentVariableTarget]::Process)
-
+      
       - name: Run SonarQube Begin Analysis
         shell: powershell
         working-directory: HealthcareManagementSystem
         run: |
-          dotnet-sonarscanner begin /k:"HealthcareManagement" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}" /d:sonar.cs.opencover.reportsPaths="TestResults/coverage.opencover.xml" /d:sonar.exclusions="**/Migrations/**"
-      
-      - name: Run Tests and Generate Coverage Report
-        working-directory: HealthcareManagementSystem 
-        run: dotnet test HealthcareManagementSystem.sln /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=./TestResults/coverage.opencover.xml
+          dotnet sonarscanner begin /k:"HealthcareManagement" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}" /d:sonar.cs.vscoveragexml.reportsPaths="coverage.xml" /d:sonar.exclusions="**/Migrations/**"
       
       - name: Build Solution
         working-directory: HealthcareManagementSystem
-        run: dotnet build HealthcareManagementSystem.sln
+        run: dotnet build HealthcareManagementSystem.sln --no-incremental
+
+      - name: Run Tests and Collect Coverage
+        working-directory: HealthcareManagementSystem 
+        run: dotnet-coverage collect "dotnet test" -f xml -o "coverage.xml"
 
       - name: Complete SonarQube Analysis
         shell: powershell
         working-directory: HealthcareManagementSystem
-        run: dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+        run: dotnet sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
