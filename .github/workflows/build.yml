@@ -43,13 +43,13 @@ jobs:
         run: |
           dotnet-sonarscanner begin /k:"HealthcareManagement" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}" /d:sonar.cs.opencover.reportsPaths="TestResults/coverage.opencover.xml" /d:sonar.exclusions="**/Migrations/**"
       
-      - name: Build Solution
-        working-directory: HealthcareManagementSystem
-        run: dotnet build HealthcareManagementSystem.sln
-
       - name: Run Tests and Generate Coverage Report
         working-directory: HealthcareManagementSystem 
         run: dotnet test HealthcareManagementSystem.sln /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=./TestResults/coverage.opencover.xml
+      
+      - name: Build Solution
+        working-directory: HealthcareManagementSystem
+        run: dotnet build HealthcareManagementSystem.sln
 
       - name: Complete SonarQube Analysis
         shell: powershell
