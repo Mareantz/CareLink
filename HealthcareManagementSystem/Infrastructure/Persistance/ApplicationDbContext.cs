@@ -15,10 +15,13 @@ namespace PredictiveHealthcare.Infrastructure.Persistence
 		public DbSet<Appointment> Appointments { get; set; }
 		public DbSet<MedicalHistory> MedicalHistories { get; set; }
 		public DbSet<HealthRiskPrediction> HealthRiskPredictions { get; set; }
+		private const string UuidGenerationFunction = "uuid_generate_v4()";
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
+
 			modelBuilder.HasPostgresExtension("uuid-ossp");
+
 			var stringListComparer = new ValueComparer<List<string>>(
 				(c1, c2) =>
 					c1 != null && c2 != null ? c1.SequenceEqual(c2) : c1 == c2,
@@ -33,7 +36,7 @@ namespace PredictiveHealthcare.Infrastructure.Persistence
 				entity.HasKey(e => e.Id);
 				entity.Property(e => e.Id)
 					  .HasColumnType("uuid")
-					  .HasDefaultValueSql("uuid_generate_v4()")
+					  .HasDefaultValueSql(UuidGenerationFunction)
 					  .ValueGeneratedOnAdd();
 				entity.Property(e => e.Username).IsRequired().HasMaxLength(100);
 				entity.HasIndex(e => e.Username).IsUnique();
@@ -121,7 +124,7 @@ namespace PredictiveHealthcare.Infrastructure.Persistence
 				entity.HasKey(e => e.Id);
 				entity.Property(e => e.Id)
 					  .HasColumnType("uuid")
-					  .HasDefaultValueSql("uuid_generate_v4()")
+					  .HasDefaultValueSql(UuidGenerationFunction)
 					  .ValueGeneratedOnAdd();
 				entity.Property(e => e.AppointmentDate).IsRequired();
 				entity.Property(e => e.Reason).HasMaxLength(200);
@@ -144,7 +147,7 @@ namespace PredictiveHealthcare.Infrastructure.Persistence
 				entity.HasKey(e => e.Id);
 				entity.Property(e => e.Id)
 					  .HasColumnType("uuid")
-					  .HasDefaultValueSql("uuid_generate_v4()")
+					  .HasDefaultValueSql(UuidGenerationFunction)
 					  .ValueGeneratedOnAdd();
 				entity.Property(e => e.DateRecorded).IsRequired();
 				entity.Property(e => e.Diagnosis).HasMaxLength(200);
@@ -161,7 +164,7 @@ namespace PredictiveHealthcare.Infrastructure.Persistence
 				entity.HasKey(e => e.Id);
 				entity.Property(e => e.Id)
 					  .HasColumnType("uuid")
-					  .HasDefaultValueSql("uuid_generate_v4()")
+					  .HasDefaultValueSql(UuidGenerationFunction)
 					  .ValueGeneratedOnAdd();
 				entity.Property(e => e.LastUpdate);
 				entity.Property(e => e.RiskFactors)
