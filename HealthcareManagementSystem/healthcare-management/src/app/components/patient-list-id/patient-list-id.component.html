@@ -1,8 +1,11 @@
 <div class="patient-list">
-    <h1>Patient List</h1>
-    <button (click)="navigateToCreate()">Create New Patient</button>
-    <button (click)="navigateToFind()">Find Patient by ID</button>
-    <table>
+    <h1>Find Patient by ID</h1>
+    <div class="form-group">
+        <label for="patientId">Patient ID</label>
+        <input id="patientId" [(ngModel)]="patientId" name="patientId" required />
+        <button (click)="fetchPatientById()">Find Patient</button>
+    </div>
+    <table *ngIf="patient">
         <thead>
             <tr>
                 <th>First Name</th>
@@ -14,16 +17,19 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let patient of patients">
+            <tr>
                 <td>{{patient.firstName}}</td>
                 <td>{{patient.lastName}}</td>
                 <td>{{patient.dateOfBirth}}</td>
                 <td>{{patient.gender}}</td>
                 <td>{{patient.address}}</td>
                 <td>
-                    <button (click)="fetchPatientAndNavigate(patient.firstName, patient.lastName, patient.dateOfBirth, patient.gender, patient.address)">Update</button>
+                    <button (click)="navigateToUpdate()">Update</button>
                 </td>
             </tr>
         </tbody>
     </table>
+    <div *ngIf="!patient">
+        <button (click)="navigateToUpdateWithId()">Update with ID</button>
+    </div>
 </div>

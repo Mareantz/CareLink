@@ -7,6 +7,7 @@ import {appRoutes} from "./app.routes";
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { AppComponent } from "./app.component";
 @NgModule({
     declarations:[],
     imports:[
@@ -16,5 +17,6 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
         BrowserModule,
         BrowserAnimationsModule],
     providers:[PatientService,provideHttpClient()]
+    bootstrap:[AppComponent]
 })
 export class AppModule{}

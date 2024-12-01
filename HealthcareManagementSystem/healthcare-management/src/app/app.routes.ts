@@ -1,11 +1,13 @@
-import {Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { PatientListComponent } from './components/patient-list/patient-list.component';
 import { PatientCreateComponent } from './components/patient-create/patient-create.component';
 import { PatientUpdateComponent } from './components/patient-update/patient-update.component';
+import { PatientListIdComponent } from './components/patient-list-id/patient-list-id.component';
 
 export const appRoutes: Routes = [
   { path: '', redirectTo: '/patients', pathMatch: 'full' },
   { path: 'patients', component: PatientListComponent },
   { path: 'patients/create', component: PatientCreateComponent },
-  { path: 'patients/update/:id', component: PatientUpdateComponent }
+  { path: 'patients/update/:id', component: PatientUpdateComponent },
+  { path: 'patients/find', component: PatientListIdComponent }
 ];
