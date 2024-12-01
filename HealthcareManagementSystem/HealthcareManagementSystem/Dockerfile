@@ -5,7 +5,6 @@ ARG LAUNCHING_FROM_VS
 # This sets the base image for final, but only if LAUNCHING_FROM_VS has been defined
 ARG FINAL_BASE_IMAGE=${LAUNCHING_FROM_VS:+aotdebug}
 
-
 # This stage is used to build the service project
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 # Install clang/zlib1g-dev dependencies for publishing to native
@@ -40,9 +39,9 @@ ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "./HealthcareManagementSystem/HealthcareManagementSystem.csproj" \
     -c $BUILD_CONFIGURATION \
     -o /app/publish \
-    --self-contained true \            # CHANGED: Include the .NET runtime
-    -r linux-x64 \                     # CHANGED: Target Linux x64 architecture
-    /p:PublishTrimmed=false            # CHANGED: Disable trimming to avoid removing necessary assemblies
+    --self-contained true \
+    -r linux-x64 \                     # CHANGED: Ensure proper line continuation
+    /p:PublishTrimmed=false            # CHANGED: Ensure no accidental assembly trimming
 
 # Final stage: Use a minimal base image without relying on the system runtime
 FROM debian:12-slim AS final           # CHANGED: Use Debian Slim as the base image
