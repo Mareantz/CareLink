@@ -27,6 +27,7 @@ foreach (var variable in Environment.GetEnvironmentVariables().Keys)
 {
 	Console.WriteLine($"{variable}: {Environment.GetEnvironmentVariable(variable.ToString())}");
 }
+builder.Configuration["ConnectionStrings:DefaultConnection"] = Environment.GetEnvironmentVariable("DefaultConnection");
 
 
 builder.Services.AddHealthChecks();
