@@ -1,6 +1,6 @@
 [build]
 builder = "dockerfile"
-dockerfilePath = "./HealthcareManagementSystem/Dockerfile"
+dockerfilePath = "./HealthcareManagementSystem/HealthcareManagementSystem/Dockerfile"
 
 [deploy]
 startCommand = "./HealthcareManagementSystem"
