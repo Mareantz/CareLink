@@ -1,0 +1,60 @@
+<div class="patient-update">
+  <h1>Update Patient</h1>
+  <form [formGroup]="updateForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+          <label for="firstName">First Name</label>
+          <input id="firstName" formControlName="firstName" />
+          <div class="error" *ngIf="updateForm.get('firstName')?.hasError('required')">
+              First name is required
+          </div>
+          <div class="error" *ngIf="updateForm.get('firstName')?.hasError('maxlength')">
+              First name cannot exceed 50 characters
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label for="lastName">Last Name</label>
+          <input id="lastName" formControlName="lastName" />
+          <div class="error" *ngIf="updateForm.get('lastName')?.hasError('required')">
+              Last name is required
+          </div>
+          <div class="error" *ngIf="updateForm.get('lastName')?.hasError('maxlength')">
+              Last name cannot exceed 50 characters
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label for="dateOfBirth">Date of Birth</label>
+          <input id="dateOfBirth" formControlName="dateOfBirth" />
+          <div class="error" *ngIf="updateForm.get('dateOfBirth')?.hasError('required')">
+              Date of birth is required
+          </div>
+          <div class="error" *ngIf="updateForm.get('dateOfBirth')?.hasError('invalidDate')">
+              Invalid date format
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label for="gender">Gender</label>
+          <select id="gender" formControlName="gender">
+              <option value="">Select Gender</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
+          </select>
+          <div class="error" *ngIf="updateForm.get('gender')?.hasError('required')">
+              Gender is required
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label for="address">Address</label>
+          <input id="address" formControlName="address" />
+          <div class="error" *ngIf="updateForm.get('address')?.hasError('required')">
+              Address is required
+          </div>
+      </div>
+
+      <button type="submit" [disabled]="updateForm.invalid">Update Patient</button>
+  </form>
+</div>
