@@ -20,16 +20,13 @@
             <tr>
                 <td>{{patient.firstName}}</td>
                 <td>{{patient.lastName}}</td>
-                <td>{{patient.dateOfBirth}}</td>
+                <td>{{patient.dateOfBirth | date}}</td>
                 <td>{{patient.gender}}</td>
                 <td>{{patient.address}}</td>
                 <td>
-                    <button (click)="navigateToUpdate()">Update</button>
+                    <button (click)="navigateToUpdateWithId()">Update</button>
                 </td>
             </tr>
         </tbody>
     </table>
-    <div *ngIf="!patient">
-        <button (click)="navigateToUpdateWithId()">Update with ID</button>
-    </div>
 </div>

@@ -32,10 +32,6 @@ export class PatientListIdComponent implements OnInit {
     });
   }
 
-  navigateToUpdate(): void {
-    this.router.navigate(['/patients/update']);
-  }
-
   navigateToUpdateWithId(): void {
     if (this.patientId) {
       this.router.navigate(['/patients/update', this.patientId]);

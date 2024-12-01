@@ -8,7 +8,6 @@ import { Patient } from '../models/patient.model';
   providedIn: 'root'
 })
 export class PatientService {
-
   private apiURL = "http://localhost:5263/api/v1/Patients";
 
   constructor(private http: HttpClient) { }
@@ -25,11 +24,11 @@ export class PatientService {
     );
   }
 
-  public updatePatient(id: string, patient: Patient): Observable<any> {
-    return this.http.put<void>(`${this.apiURL}/${id}`, patient).pipe(
-      catchError(this.handleError)
-    );
-  }
+ public updatePatient(id: string, patientData: any): Observable<any> {
+    return this.http.put<Patient>(`/api/patients/${id}`, patientData);
+}
+
+
 
   public getPatientById(id: string): Observable<Patient> {
     return this.http.get<Patient>(`${this.apiURL}/${id}`).pipe(
