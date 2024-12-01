@@ -6,12 +6,18 @@ var builder = WebApplication.CreateBuilder(args);
 var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
 builder.WebHost.UseUrls($"http://*:{port}");
 
+var AllowFrontend = "AllowFrontend";
+
 builder.Services.AddCors(options =>
 {
-	options.AddPolicy("AllowFrontend",
-		policy => policy.WithOrigins("https://healthcaremanagement-fe.vercel.app/")
-						.AllowAnyHeader()
-						.AllowAnyMethod());
+	options.AddPolicy(name: AllowFrontend,
+		builder =>
+		{
+			builder.WithOrigins("https://healthcaremanagement-fe.vercel.app/")
+				.AllowAnyHeader()
+				.AllowAnyMethod();
+		});
+
 });
 
 builder.Services.AddHealthChecks();
@@ -23,7 +29,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
-app.UseCors("AllowFrontend");
 
 app.UseHealthChecks("/health");
 
@@ -38,4 +43,8 @@ if (!app.Environment.IsDevelopment())
 	app.UseHttpsRedirection();
 }
 app.MapControllers();
+app.UseStaticFiles();
+app.UseRouting();
+app.UseCors("AllowFrontend");
+app.UseHttpsRedirection();
 await app.RunAsync();
