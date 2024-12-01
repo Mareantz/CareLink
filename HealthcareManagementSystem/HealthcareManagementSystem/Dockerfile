@@ -15,9 +15,9 @@ RUN apt-get update \
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["HealthcareManagementSystem/HealthcareManagementSystem.csproj", "HealthcareManagementSystem/"]
-COPY ["Application/Application.csproj", "Application/"]
-COPY ["Domain/Domain.csproj", "Domain/"]
-COPY ["Infrastructure/Infrastructure.csproj", "Infrastructure/"]
+COPY ["HealthcareManagementSystem/Application/Application.csproj", "Application/"]
+COPY ["HealthcareManagementSystem/Domain/Domain.csproj", "Domain/"]
+COPY ["HealthcareManagementSystem/Infrastructure/Infrastructure.csproj", "Infrastructure/"]
 RUN dotnet restore "./HealthcareManagementSystem/HealthcareManagementSystem.csproj"
 COPY . .
 WORKDIR "/src/HealthcareManagementSystem"
