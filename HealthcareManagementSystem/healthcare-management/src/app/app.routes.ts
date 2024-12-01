@@ -3,11 +3,13 @@ import { PatientListComponent } from './components/patient-list/patient-list.com
 import { PatientCreateComponent } from './components/patient-create/patient-create.component';
 import { PatientUpdateComponent } from './components/patient-update/patient-update.component';
 import { PatientListIdComponent } from './components/patient-list-id/patient-list-id.component';
+import { PatientDeleteComponent } from './components/patient-delete/patient-delete.component';
 
 export const appRoutes: Routes = [
   { path: '', redirectTo: '/patients', pathMatch: 'full' },
   { path: 'patients', component: PatientListComponent },
   { path: 'patients/create', component: PatientCreateComponent },
   { path: 'patients/update/:id', component: PatientUpdateComponent },
-  { path: 'patients/find', component: PatientListIdComponent }
+  { path: 'patients/find', component: PatientListIdComponent },
+  { path: 'patients/delete', component: PatientDeleteComponent }
 ];

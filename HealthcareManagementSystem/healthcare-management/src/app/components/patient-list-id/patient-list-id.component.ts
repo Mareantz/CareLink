@@ -37,4 +37,16 @@ export class PatientListIdComponent implements OnInit {
       this.router.navigate(['/patients/update', this.patientId]);
     }
   }
+  deletePatientById(): void {
+    if (!this.patientId) {
+      return;
+    }
+    this.patientService.deletePatientById(this.patientId).subscribe(() => {
+      console.log('Patient deleted successfully');
+      this.patient = null;
+      this.patientId = '';
+    }, error => {
+      console.error('Error deleting patient:', error);
+    });
+  }
 }

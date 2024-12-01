@@ -24,14 +24,20 @@ export class PatientService {
     );
   }
 
- public updatePatient(id: string, patientData: any): Observable<any> {
-    return this.http.put<Patient>(`/api/patients/${id}`, patientData);
-}
-
-
+  public updatePatient(id: string, patientData: any): Observable<any> {
+    return this.http.put<Patient>(`${this.apiURL}/${id}`, patientData).pipe(
+      catchError(this.handleError)
+    );
+  }
 
   public getPatientById(id: string): Observable<Patient> {
     return this.http.get<Patient>(`${this.apiURL}/${id}`).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  public deletePatientById(id: string): Observable<any> {
+    return this.http.delete(`${this.apiURL}/${id}`).pipe(
       catchError(this.handleError)
     );
   }
