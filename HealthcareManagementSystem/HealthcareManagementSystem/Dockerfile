@@ -21,7 +21,7 @@ COPY ["HealthcareManagementSystem/Infrastructure/Infrastructure.csproj", "Infras
 RUN dotnet restore "./HealthcareManagementSystem/HealthcareManagementSystem.csproj"
 COPY . .
 WORKDIR "/src/HealthcareManagementSystem"
-RUN dotnet build "./HealthcareManagementSystem.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "./HealthcareManagementSystem/HealthcareManagementSystem.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage
 FROM build AS publish
