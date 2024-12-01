@@ -14,7 +14,7 @@ RUN apt-get update \
     clang zlib1g-dev
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["HealthcareManagementSystem/HealthcareManagementSystem.csproj", "HealthcareManagementSystem/"]
+COPY ["HealthcareManagementSystem/HealthcareManagementSystem/HealthcareManagementSystem.csproj", "HealthcareManagementSystem/"]
 COPY ["HealthcareManagementSystem/Application/Application.csproj", "Application/"]
 COPY ["HealthcareManagementSystem/Domain/Domain.csproj", "Domain/"]
 COPY ["HealthcareManagementSystem/Infrastructure/Infrastructure.csproj", "Infrastructure/"]
