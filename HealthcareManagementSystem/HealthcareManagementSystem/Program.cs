@@ -13,7 +13,7 @@ builder.Services.AddCors(options =>
 	options.AddPolicy(name: AllowFrontend,
 		builder =>
 		{
-			builder.WithOrigins("https://healthcaremanagement-fe.vercel.app/")
+			builder.WithOrigins("https://healthcaremanagement-fe.vercel.app")
 				.AllowAnyHeader()
 				.AllowAnyMethod();
 		});
@@ -37,14 +37,9 @@ if (app.Environment.IsDevelopment())
 	app.UseSwagger();
 	app.UseSwaggerUI();
 }
-
-if (!app.Environment.IsDevelopment())
-{
-	app.UseHttpsRedirection();
-}
 app.MapControllers();
+app.UseHttpsRedirection();
+app.UseCors("AllowFrontend");
 app.UseStaticFiles();
 app.UseRouting();
-app.UseCors("AllowFrontend");
-app.UseHttpsRedirection();
 await app.RunAsync();
