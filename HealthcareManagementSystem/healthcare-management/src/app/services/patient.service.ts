@@ -3,12 +3,13 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Patient } from '../models/patient.model';
+import { environment } from '../environment.prod'
 
 @Injectable({
   providedIn: 'root'
 })
 export class PatientService {
-  private apiURL = "https://proiect-net-2024-production.up.railway.app";
+  private apiURL = environment.apiUrl;
 
   constructor(private http: HttpClient) { }
 
