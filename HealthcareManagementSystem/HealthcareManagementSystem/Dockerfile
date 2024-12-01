@@ -14,33 +14,50 @@ RUN apt-get update \
     clang zlib1g-dev
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
+
+# Copy project files (Updated paths to match folder structure)
 COPY ["HealthcareManagementSystem/HealthcareManagementSystem/HealthcareManagementSystem.csproj", "HealthcareManagementSystem/"]
 COPY ["HealthcareManagementSystem/Application/Application.csproj", "Application/"]
 COPY ["HealthcareManagementSystem/Domain/Domain.csproj", "Domain/"]
 COPY ["HealthcareManagementSystem/Infrastructure/Infrastructure.csproj", "Infrastructure/"]
+
+# Restore dependencies
 RUN dotnet restore "./HealthcareManagementSystem/HealthcareManagementSystem.csproj"
+
+# Copy the full source code
 COPY . .
+
 WORKDIR "/src/HealthcareManagementSystem"
+
+# Build the project
 RUN dotnet build "./HealthcareManagementSystem/HealthcareManagementSystem.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./HealthcareManagementSystem/HealthcareManagementSystem.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=true
 
-# This stage is used as the base for the final stage when launching from VS to support debugging in regular mode (Default when not using the Debug configuration)
-FROM base AS aotdebug
-USER root
-# Install GDB to support native debugging
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-    gdb
-USER app
+# Publish as a self-contained app for Linux x64 architecture
+RUN dotnet publish "./HealthcareManagementSystem/HealthcareManagementSystem.csproj" \
+    -c $BUILD_CONFIGURATION \
+    -o /app/publish \
+    --self-contained true \            # CHANGED: Include the .NET runtime
+    -r linux-x64 \                     # CHANGED: Target Linux x64 architecture
+    /p:PublishTrimmed=false            # CHANGED: Disable trimming to avoid removing necessary assemblies
 
-# This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
-FROM ${FINAL_BASE_IMAGE:-mcr.microsoft.com/dotnet/runtime-deps:9.0} AS final
+# Final stage: Use a minimal base image without relying on the system runtime
+FROM debian:12-slim AS final           # CHANGED: Use Debian Slim as the base image
 WORKDIR /app
+
+# Add runtime dependencies required for self-contained apps
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends libicu libssl3 zlib1g \
+    && rm -rf /var/lib/apt/lists/*     # CHANGED: Install minimal runtime dependencies
+
 EXPOSE 8080
 EXPOSE 8081
+
+# Copy published files from the publish stage
 COPY --from=publish /app/publish .
-ENTRYPOINT ["./HealthcareManagementSystem"]
+
+# Set the entrypoint to the self-contained executable
+ENTRYPOINT ["./HealthcareManagementSystem"] # CHANGED: No longer need "dotnet" since the app is self-contained
