@@ -13,7 +13,7 @@ builder.Services.AddCors(options =>
 	options.AddPolicy(name: AllowFrontend,
 		builder =>
 		{
-			builder.WithOrigins("https://healthcaremanagement-fe.vercel.app")
+			builder.WithOrigins("https://healthcaremanagement-fe.vercel.app/")
 				.AllowAnyHeader()
 				.AllowAnyMethod();
 		});
