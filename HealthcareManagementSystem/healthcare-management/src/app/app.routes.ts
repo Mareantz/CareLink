@@ -8,6 +8,9 @@ export const appRoutes: Routes = [
   { path: '', redirectTo: '/patients', pathMatch: 'full' },
   { path: 'patients', component: PatientListComponent },
   { path: 'patients/create', component: PatientCreateComponent },
-  { path: 'patients/update/:id', component: PatientUpdateComponent },
+  { 
+    path: 'patients/update/:id', 
+    component: PatientUpdateComponent,
+  },
   { path: 'patients/find', component: PatientListIdComponent }
 ];

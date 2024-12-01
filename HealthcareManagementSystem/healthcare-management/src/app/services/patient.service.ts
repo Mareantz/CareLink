@@ -8,7 +8,7 @@ import { Patient } from '../models/patient.model';
   providedIn: 'root'
 })
 export class PatientService {
-  private apiURL = "http://localhost:5263/api/v1/Patients";
+  private apiURL = "https://proiect-net-2024-production.up.railway.app";
 
   constructor(private http: HttpClient) { }
 

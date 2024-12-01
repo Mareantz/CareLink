@@ -5,6 +5,7 @@
 
 .sonarqube/
 /HealthcareManagementSystem/HealthcareManagementSystem/appsettings.json
+/HealthcareManagementSystem/HealthcareManagementSystem/appsettings.Development.json
 
 # User-specific files
 *.rsuser
