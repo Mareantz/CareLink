@@ -22,6 +22,13 @@ builder.Services.AddCors(options =>
 
 });
 
+Console.WriteLine("Environment Variables:");
+foreach (var variable in Environment.GetEnvironmentVariables().Keys)
+{
+	Console.WriteLine($"{variable}: {Environment.GetEnvironmentVariable(variable.ToString())}");
+}
+
+
 builder.Services.AddHealthChecks();
 
 builder.Services.AddApplication();
