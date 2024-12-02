@@ -42,21 +42,14 @@ export class PatientCreateComponent implements OnInit {
   onSubmit() {
     if (this.patientForm.valid) {
       const formData = { ...this.patientForm.value };
-  
-      console.log('Submitted form data:', formData);
-  
-      this.patientService.createPatient(formData).subscribe(
-        response => {
-          console.log('Patient created successfully:', response);
-        },
-        error => {
-          console.error('Error creating patient:', error);
-        }
-      );
-    } else {
-      console.error('Form is invalid');
+      // Format the date to 'dd-MM-yyyy' before sending
+      formData.dateOfBirth = format(new Date(formData.dateOfBirth), 'dd-MM-yyyy');
+      this.patientService.createPatient(formData).subscribe(response => {
+        console.log('Patient created successfully:', response);
+      }, error => {
+        console.error('Error creating patient:', error);
+      });
     }
   }
-  
   
 }
