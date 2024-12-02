@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { PatientService } from '../../services/patient.service';
 import { CommonModule } from '@angular/common';
 import { first } from 'rxjs';
+import { format, parse} from 'date-fns';
 
 @Component({
   selector: 'app-patient-create',
@@ -18,31 +19,32 @@ export class PatientCreateComponent implements OnInit {
     this.patientForm = this.fb.group({
       firstName: ['', [Validators.required, Validators.maxLength(50)]],
       lastName: ['', [Validators.required, Validators.maxLength(50)]],
-      dateOfBirth: ['', [Validators.required, this.dateValidator]],
+      dateOfBirth: ['', [Validators.required, this.dateValidator()]], // Apply the custom validator here
       gender: ['', Validators.required],
-      address: ['', Validators.required]
+      address: ['', Validators.required],
     });
   }
 
   ngOnInit(): void {}
 
-  dateValidator(control: FormControl): { [key: string]: boolean } | null {
-    const dateValue = control.value;
-    if (!dateValue) {
-      return null;
-    }
-    const date = new Date(dateValue);
-    if (isNaN(date.getTime())) {
-      return { 'invalidDate': true };
-    }
-    return null;
+  dateValidator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const isValid = control.value ? !isNaN(parse(control.value, 'dd-MM-yyyy', new Date()).getTime()) : false;
+      return isValid ? null : { invalidDate: true };
+    };
   }
 
-  onSubmit(): void {
+  onSubmit() {
     if (this.patientForm.valid) {
-      this.patientService.createPatient(this.patientForm.value).pipe(first()).subscribe(() => {
-        this.router.navigate(['/patients']);
+      const formData = { ...this.patientForm.value };
+      // Format the date to 'dd-MM-yyyy' before sending
+      formData.dateOfBirth = format(new Date(formData.dateOfBirth), 'dd-MM-yyyy');
+      this.patientService.createPatient(formData).subscribe(response => {
+        console.log('Patient created successfully:', response);
+      }, error => {
+        console.error('Error creating patient:', error);
       });
     }
   }
+  
 }

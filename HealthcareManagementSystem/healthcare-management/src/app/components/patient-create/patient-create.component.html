@@ -25,14 +25,15 @@
   
       <div class="form-group">
         <label for="dateOfBirth">Date of Birth</label>
-        <input id="dateOfBirth" formControlName="dateOfBirth" />
+        <input id="dateOfBirth" formControlName="dateOfBirth" placeholder="dd-MM-yyyy" />
         <div class="error" *ngIf="patientForm.get('dateOfBirth')?.hasError('required')">
           Date of birth is required
         </div>
         <div class="error" *ngIf="patientForm.get('dateOfBirth')?.hasError('invalidDate')">
-          Invalid date format
+          Invalid date format. Use dd-MM-yyyy.
         </div>
       </div>
+      
   
       <div class="form-group">
         <label for="gender">Gender</label>
