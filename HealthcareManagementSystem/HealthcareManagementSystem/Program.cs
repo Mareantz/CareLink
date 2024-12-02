@@ -3,17 +3,36 @@ using Application.Utils;
 using Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
-var MyAllowSepeficOrigins= "MyAllowSepeficOrigins";
+builder.Configuration.AddEnvironmentVariables();
+Console.WriteLine($"Connection String #1: {builder.Configuration.GetConnectionString("DefaultConnection")}");
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+builder.WebHost.UseUrls($"http://*:{port}");
+
+var AllowFrontend = "AllowFrontend";
+
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(name: MyAllowSepeficOrigins,
-        builder =>
-        {
-            builder.WithOrigins("http://localhost:4200")
-                .AllowAnyHeader()
-                .AllowAnyMethod();
-        });
+	options.AddPolicy(name: AllowFrontend,
+		builder =>
+		{
+			builder.WithOrigins("https://healthcaremanagement-fe.vercel.app")
+				.AllowAnyHeader()
+				.AllowAnyMethod();
+		});
+
 });
+
+Console.WriteLine("Environment Variables:");
+foreach (var variable in Environment.GetEnvironmentVariables().Keys)
+{
+	Console.WriteLine($"{variable}: {Environment.GetEnvironmentVariable(variable.ToString())}");
+}
+builder.Configuration["ConnectionStrings:DefaultConnection"] = Environment.GetEnvironmentVariable("DefaultConnection");
+Console.WriteLine($"Connection String #2: {builder.Configuration.GetConnectionString("DefaultConnection")}");
+
+
+builder.Services.AddHealthChecks();
+
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddControllers();
@@ -22,14 +41,17 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+app.UseHealthChecks("/health");
+
 if (app.Environment.IsDevelopment())
 {
 	app.UseSwagger();
 	app.UseSwaggerUI();
 }
-app.UseStaticFiles();
-app.UseRouting();
-app.UseCors("MyAllowSepeficOrigins");
+
 app.UseHttpsRedirection();
+app.UseCors(AllowFrontend);
+app.UseRouting();
+app.UseStaticFiles();
 app.MapControllers();
 await app.RunAsync();

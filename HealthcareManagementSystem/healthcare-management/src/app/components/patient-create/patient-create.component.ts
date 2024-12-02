@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { PatientService } from '../../services/patient.service';
 import { CommonModule } from '@angular/common';
 import { first } from 'rxjs';
+import { format, parse} from 'date-fns';
 
 @Component({
   selector: 'app-patient-create',
@@ -38,11 +39,17 @@ export class PatientCreateComponent implements OnInit {
     return null;
   }
 
-  onSubmit(): void {
+  onSubmit() {
     if (this.patientForm.valid) {
-      this.patientService.createPatient(this.patientForm.value).pipe(first()).subscribe(() => {
-        this.router.navigate(['/patients']);
+      const formData = { ...this.patientForm.value };
+      // Format the date to 'dd-MM-yyyy' before sending
+      formData.dateOfBirth = format(new Date(formData.dateOfBirth), 'dd-MM-yyyy');
+      this.patientService.createPatient(formData).subscribe(response => {
+        console.log('Patient created successfully:', response);
+      }, error => {
+        console.error('Error creating patient:', error);
       });
     }
   }
+  
 }

@@ -1,0 +1,8 @@
+[build]
+builder = "dockerfile"
+dockerfilePath = "./HealthcareManagementSystem/HealthcareManagementSystem/Dockerfile"
+
+[deploy]
+startCommand = "./HealthcareManagementSystem"
+restartPolicyType = "always"
+healthcheckPath = "/health"
