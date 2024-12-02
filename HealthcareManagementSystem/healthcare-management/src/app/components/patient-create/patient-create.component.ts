@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { PatientService } from '../../services/patient.service';
 import { CommonModule } from '@angular/common';
@@ -19,32 +19,44 @@ export class PatientCreateComponent implements OnInit {
     this.patientForm = this.fb.group({
       firstName: ['', [Validators.required, Validators.maxLength(50)]],
       lastName: ['', [Validators.required, Validators.maxLength(50)]],
-      dateOfBirth: ['', [Validators.required, this.dateValidator()]], // Apply the custom validator here
+      dateOfBirth: ['', [Validators.required, this.dateValidator]],
       gender: ['', Validators.required],
-      address: ['', Validators.required],
+      address: ['', Validators.required]
     });
   }
 
   ngOnInit(): void {}
 
-  dateValidator(): ValidatorFn {
-    return (control: AbstractControl): { [key: string]: any } | null => {
-      const isValid = control.value ? !isNaN(parse(control.value, 'dd-MM-yyyy', new Date()).getTime()) : false;
-      return isValid ? null : { invalidDate: true };
-    };
+  dateValidator(control: FormControl): { [key: string]: boolean } | null {
+    const dateValue = control.value;
+    if (!dateValue) {
+      return null;
+    }
+    const date = new Date(dateValue);
+    if (isNaN(date.getTime())) {
+      return { 'invalidDate': true };
+    }
+    return null;
   }
 
   onSubmit() {
     if (this.patientForm.valid) {
       const formData = { ...this.patientForm.value };
-      // Format the date to 'dd-MM-yyyy' before sending
-      formData.dateOfBirth = format(new Date(formData.dateOfBirth), 'dd-MM-yyyy');
-      this.patientService.createPatient(formData).subscribe(response => {
-        console.log('Patient created successfully:', response);
-      }, error => {
-        console.error('Error creating patient:', error);
-      });
+  
+      console.log('Submitted form data:', formData);
+  
+      this.patientService.createPatient(formData).subscribe(
+        response => {
+          console.log('Patient created successfully:', response);
+        },
+        error => {
+          console.error('Error creating patient:', error);
+        }
+      );
+    } else {
+      console.error('Form is invalid');
     }
   }
+  
   
 }
