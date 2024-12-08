@@ -12,7 +12,7 @@ var AllowFrontend = "AllowFrontend";
 builder.Services.AddCors(options =>
 {
 	options.AddPolicy(name: AllowFrontend,
-		policy =>
+		builder =>
 		{
 			builder.WithOrigins("https://healthcaremanagement-fe.vercel.app","http://localhost:4200")
 				.AllowAnyHeader()
@@ -54,4 +54,4 @@ app.UseStaticFiles();
 app.UseAuthorization();
 app.UseAuthentication();
 app.MapControllers();
-app.RunAsync();
+app.Run();
