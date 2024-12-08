@@ -4,7 +4,7 @@ using Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddEnvironmentVariables();
-var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+//var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
 //builder.WebHost.UseUrls($"http://*:{port}");
 
 var AllowFrontend = "AllowFrontend";
@@ -14,21 +14,25 @@ builder.Services.AddCors(options =>
 	options.AddPolicy(name: AllowFrontend,
 		builder =>
 		{
-			builder.WithOrigins("https://healthcaremanagement-fe.vercel.app")
+			builder.WithOrigins("https://healthcaremanagement-fe.vercel.app","http://localhost:4200")
 				.AllowAnyHeader()
 				.AllowAnyMethod();
 		});
 
 });
 
-builder.Configuration["ConnectionStrings:DefaultConnection"] = Environment.GetEnvironmentVariable("DefaultConnection");
+//builder.Configuration["ConnectionStrings:DefaultConnection"] = Environment.GetEnvironmentVariable("DefaultConnection");
 
 
 builder.Services.AddHealthChecks();
 
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+	.AddJsonOptions(options =>
+	{
+		options.JsonSerializerOptions.Converters.Add(new DateOnlyJsonConverter());
+	});
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

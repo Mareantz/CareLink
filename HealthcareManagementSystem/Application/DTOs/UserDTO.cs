@@ -9,7 +9,7 @@ namespace Application.DTOs
         public required string PasswordHash { get; set; }
         public required string Email { get; set; }
         public required string PhoneNumber { get; set; }
-        public UserRole Role { get; set; } = 0;
+        public UserRole Role { get; set; }
 
     }
 }

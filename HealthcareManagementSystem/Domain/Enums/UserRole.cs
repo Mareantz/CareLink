@@ -3,7 +3,7 @@
     public enum UserRole
     {
         None = 0,
-        Doctor = 1, // DOAR ADMINUL POATE SA SETEZE
+        Doctor = 1,
         Patient = 2,
         Admin = 3
     }
