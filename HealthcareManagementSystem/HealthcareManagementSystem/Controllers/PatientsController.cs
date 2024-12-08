@@ -7,11 +7,13 @@ using Application.DTOs;
 using Domain.Common;
 using Application.UseCases.Queries;
 using Application.Utils;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HealthcareManagementSystem.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
+    [Authorize]
     public class PatientsController : ControllerBase
     {
         private readonly IMediator mediator;

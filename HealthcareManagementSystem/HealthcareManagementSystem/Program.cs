@@ -2,6 +2,9 @@ using Application;
 using Application.Utils;
 using Infrastructure;
 using Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddEnvironmentVariables();
 //var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
@@ -21,6 +24,8 @@ builder.Services.AddCors(options =>
 
 });
 
+builder.Services.AddAuthorization();
+
 //builder.Configuration["ConnectionStrings:DefaultConnection"] = Environment.GetEnvironmentVariable("DefaultConnection");
 
 
@@ -35,7 +40,35 @@ builder.Services.AddControllers()
 	});
 builder.Services.AddIdentity(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+	c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+	{
+		Description = "JWT Authorization header using the Bearer scheme. Example: 'Bearer <token>'",
+		Name = "Authorization",
+		In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+		Type = Microsoft.OpenApi.Models.SecuritySchemeType.ApiKey,
+		Scheme = "Bearer"
+	});
+
+	c.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
+	{
+		{
+			new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+			{
+				Reference = new Microsoft.OpenApi.Models.OpenApiReference
+				{
+					Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+					Id = "Bearer"
+				}
+			},
+			new string[] {}
+		}
+	});
+});
+
+
+
 
 var app = builder.Build();
 
@@ -51,7 +84,8 @@ if (app.Environment.IsDevelopment())
 app.UseCors(AllowFrontend);
 app.UseRouting();
 app.UseStaticFiles();
-app.UseAuthorization();
 app.UseAuthentication();
+app.UseAuthorization();
+
 app.MapControllers();
 app.Run();
