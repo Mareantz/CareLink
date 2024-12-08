@@ -12,6 +12,6 @@ export const appRoutes: Routes = [
   { path: 'patients/create', component: PatientCreateComponent },
   { path: 'patients/update/:id', component: PatientUpdateComponent },
   { path: 'patients/find', component: PatientListIdComponent },
-  { path: 'user-register', component: UserRegisterComponent }
+  { path: 'register', component: UserRegisterComponent }
 
 ];

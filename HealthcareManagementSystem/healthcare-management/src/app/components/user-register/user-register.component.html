@@ -29,9 +29,9 @@
       </div>
 
       <div class="form-group">
-        <label for="phone">Phone Number</label>
-        <input id="phone" formControlName="phone" />
-        <div class="error" *ngIf="userForm.get('phone')?.hasError('required')">
+        <label for="phoneNumber">Phone Number</label>
+        <input id="phoneNumber" formControlName="phoneNumber" />
+        <div class="error" *ngIf="userForm.get('phoneNumber')?.hasError('required')">
           Phone number is required
         </div>
       </div>
@@ -39,15 +39,17 @@
       <div class="form-group">
         <label for="role">User Role</label>
         <select id="role" formControlName="role">
-          <option value="">Select Role</option>
-          <option value="patient">Patient</option>
-          <option value="doctor">Doctor</option>
+          <option [value]="UserRole.None" disabled>Select Role</option>
+          <option [value]="UserRole.Patient">Patient</option>
+          <option [value]="UserRole.Doctor">Doctor</option>
         </select>
         <div class="error" *ngIf="userForm.get('role')?.hasError('required')">
           User role is required
         </div>
       </div>
+      
+      
 
-      <button type="submit" [disabled]="userForm.invalid">Register User</button>
+      <button type="submit">Register User</button>
     </form>
 </div>
