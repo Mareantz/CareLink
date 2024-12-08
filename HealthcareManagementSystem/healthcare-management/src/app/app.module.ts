@@ -16,7 +16,7 @@ import { AppComponent } from "./app.component";
         ReactiveFormsModule,
         BrowserModule,
         BrowserAnimationsModule],
-    providers:[PatientService,provideHttpClient()]
+    providers:[PatientService,provideHttpClient()],
     bootstrap:[AppComponent]
 })
 export class AppModule{}
