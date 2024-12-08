@@ -32,6 +32,9 @@ export class PatientListComponent implements OnInit {
 
   public navigateToRegister(): void {
     this.router.navigate(['/user-register']);
+
+  public navigateToLogin(): void {
+    this.router.navigate(['/user-login']);
   }
 
   public fetchPatientAndNavigate(firstName: string, lastName: string, dateOfBirth: Date, gender: string, address: string): void {
