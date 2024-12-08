@@ -54,4 +54,4 @@ app.UseCors(AllowFrontend);
 app.UseRouting();
 app.UseStaticFiles();
 app.MapControllers();
-await app.RunAsync();
+app.RunAsync();
