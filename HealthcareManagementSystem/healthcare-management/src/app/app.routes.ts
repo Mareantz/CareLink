@@ -15,6 +15,5 @@ export const appRoutes: Routes = [
   { path: 'patients/find', component: PatientListIdComponent },
   { path: 'register', component: UserRegisterComponent },
   { path: 'login', component: UserLoginComponent }
-
 ];
   

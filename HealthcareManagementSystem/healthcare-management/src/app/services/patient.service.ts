@@ -4,6 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Patient } from '../models/patient.model';
 import { environment } from '../environment.prod'
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,34 +12,34 @@ import { environment } from '../environment.prod'
 export class PatientService {
   private apiURL = environment.apiUrl + '/api/v1/Patients';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private authService : AuthService) { }
 
   public getPatients(): Observable<Patient[]> {
-    return this.http.get<Patient[]>(this.apiURL).pipe(
+    return this.http.get<Patient[]>(this.apiURL, { headers: this.authService.getAuthHeaders() }).pipe(
       catchError(this.handleError)
     );
   }
 
   public createPatient(patient: Patient): Observable<any> {
-    return this.http.post<Patient>(this.apiURL, patient).pipe(
+    return this.http.post<Patient>(this.apiURL, patient, { headers: this.authService.getAuthHeaders() }).pipe(
       catchError(this.handleError)
     );
   }
 
   public updatePatient(id: string, patientData: any): Observable<any> {
-    return this.http.put<Patient>(`${this.apiURL}/${id}`, patientData).pipe(
+    return this.http.put<Patient>(`${this.apiURL}/${id}`, patientData, { headers: this.authService.getAuthHeaders() }).pipe(
       catchError(this.handleError)
     );
   }
 
   public getPatientById(id: string): Observable<Patient> {
-    return this.http.get<Patient>(`${this.apiURL}/${id}`).pipe(
+    return this.http.get<Patient>(`${this.apiURL}/${id}`, { headers: this.authService.getAuthHeaders() }).pipe(
       catchError(this.handleError)
     );
   }
 
   public deletePatientById(id: string): Observable<any> {
-    return this.http.delete(`${this.apiURL}/${id}`).pipe(
+    return this.http.delete(`${this.apiURL}/${id}`, { headers: this.authService.getAuthHeaders() }).pipe(
       catchError(this.handleError)
     );
   }

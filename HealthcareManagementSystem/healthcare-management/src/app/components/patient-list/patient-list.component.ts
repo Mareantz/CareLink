@@ -31,10 +31,10 @@ export class PatientListComponent implements OnInit {
   }
 
   public navigateToRegister(): void {
-    this.router.navigate(['/user-register']);
-
+    this.router.navigate(['/register']);
+  }
   public navigateToLogin(): void {
-    this.router.navigate(['/user-login']);
+    this.router.navigate(['/login']);
   }
 
   public fetchPatientAndNavigate(firstName: string, lastName: string, dateOfBirth: Date, gender: string, address: string): void {

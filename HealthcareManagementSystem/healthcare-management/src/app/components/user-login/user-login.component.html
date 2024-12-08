@@ -1,0 +1,23 @@
+<div class="user-login">
+  <h1>Login</h1>
+  <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input id="username" formControlName="username" />
+      <div class="error" *ngIf="userForm.get('username')?.hasError('required')">
+        Username is required
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input id="password" type="password" formControlName="password" />
+      <div class="error" *ngIf="userForm.get('password')?.hasError('required')">
+        Password is required
+      </div>
+    </div>
+
+    <button type="submit">Login</button>
+  </form>
+</div>
