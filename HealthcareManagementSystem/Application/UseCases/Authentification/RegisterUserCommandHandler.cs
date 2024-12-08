@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Domain.Enums;
 using Domain.Repositories;
 using MediatR;
 
@@ -17,6 +18,7 @@ using MediatR;
             PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password),
             Email = request.Email,
             PhoneNumber = request.PhoneNumber,
+            Role = request.Role == UserRole.Admin ? UserRole.Admin : request.Role == UserRole.Doctor ? UserRole.Doctor : UserRole.Patient
         };
         await _userRepository.Register(user, cancellationToken);
         return user.Id;
