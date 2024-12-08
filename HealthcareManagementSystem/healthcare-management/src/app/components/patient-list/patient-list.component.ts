@@ -30,6 +30,10 @@ export class PatientListComponent implements OnInit {
     this.router.navigate(['/patients/find']);
   }
 
+  public navigateToLogin(): void {
+    this.router.navigate(['/user-login']);
+  }
+
   public fetchPatientAndNavigate(firstName: string, lastName: string, dateOfBirth: Date, gender: string, address: string): void {
     this.patientService.getPatients().subscribe((patients: Patient[]) => {
       const patient = patients.find(p => 
