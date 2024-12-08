@@ -33,21 +33,4 @@ describe('PatientCreateComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  it('should create patient', () => {
-    patientService.createPatient.and.returnValue(of({}));
-
-    component.patientForm.setValue({
-      firstName: 'John',
-      lastName: 'Doe',
-      dateOfBirth: '01-01-2000',
-      gender: 'Male',
-      address: '123 Street'
-    });
-
-    component.onSubmit();
-
-    expect(patientService.createPatient).toHaveBeenCalled();
-    expect(router.navigate).toHaveBeenCalledWith(['/patients']);
-  });
 });

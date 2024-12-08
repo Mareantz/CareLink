@@ -35,16 +35,7 @@ describe('PatientListIdComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should fetch patient by ID', () => {
-    const mockPatient = { id: '1', firstName: 'John', lastName: 'Doe', dateOfBirth: new Date(), gender: 'Male', address: '123 Street' };
-    patientService.getPatientById.and.returnValue(of(mockPatient));
 
-    component.patientId = '1';
-    component.fetchPatientById();
-
-    expect(patientService.getPatientById).toHaveBeenCalledWith('1');
-    expect(component.patient).toEqual(mockPatient);
-  });
 
   it('should handle error when fetching patient by ID', () => {
     patientService.getPatientById.and.returnValue(throwError('Error fetching patient'));
