@@ -28,6 +28,8 @@ builder.Services.AddCors(options =>
 builder.Services.AddAuthorization();
 
 builder.Configuration["ConnectionStrings:DefaultConnection"] = Environment.GetEnvironmentVariable("DefaultConnection");
+builder.Configuration["Jwt:Key"] = Environment.GetEnvironmentVariable("Jwt__Key");
+
 
 
 builder.Services.AddHealthChecks();
