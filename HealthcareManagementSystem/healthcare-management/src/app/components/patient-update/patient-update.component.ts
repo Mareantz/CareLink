@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { PatientService } from '../../services/patient.service';
 import { CommonModule } from '@angular/common';
 import { first } from 'rxjs';
+import { format, parse} from 'date-fns';
 
 @Component({
     selector: 'app-patient-update',
@@ -64,7 +65,8 @@ export class PatientUpdateComponent implements OnInit {
         if (this.updateForm.valid) {
             const patientData = {
                 id: this.patientId,
-                ...this.updateForm.value
+                ...this.updateForm.value,
+                dateOfBirth: format(new Date(this.updateForm.value.dateOfBirth), 'dd-MM-yyyy')
             };
             this.patientService.updatePatient(this.patientId, patientData).subscribe({
                 next: () => {
@@ -79,9 +81,4 @@ export class PatientUpdateComponent implements OnInit {
             console.log('Form is invalid');
         }
     }
-    
-    
-    
-  
-  
 }
