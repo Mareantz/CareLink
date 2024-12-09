@@ -79,9 +79,8 @@ if (app.Environment.IsDevelopment())
 	app.UseSwagger();
 	app.UseSwaggerUI();
 }
-
-app.UseHttpsRedirection();
 app.UseCors(AllowFrontend);
+app.UseHttpsRedirection();
 app.UseRouting();
 app.UseStaticFiles();
 app.UseAuthentication();
