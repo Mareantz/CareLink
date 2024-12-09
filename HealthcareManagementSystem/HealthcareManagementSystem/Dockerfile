@@ -17,14 +17,14 @@ WORKDIR "/src/HealthcareManagementSystem"
 RUN dotnet build "./HealthcareManagementSystem/HealthcareManagementSystem.csproj" -c Release -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage
-FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
+
 RUN dotnet publish "./HealthcareManagementSystem/HealthcareManagementSystem.csproj" \
     -c Release \
     -o /app/publish \
     --self-contained true
 
 # This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
+FROM mcr.microsoft.com/dotnet/runtime-deps:9.0 AS final
 WORKDIR /app
 COPY --from=build /app/publish .
 EXPOSE 8080
