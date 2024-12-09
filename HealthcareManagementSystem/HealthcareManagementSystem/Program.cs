@@ -19,7 +19,8 @@ builder.Services.AddCors(options =>
 		{
 			builder.WithOrigins("https://healthcaremanagement-fe.vercel.app","http://localhost:4200")
 				.AllowAnyHeader()
-				.AllowAnyMethod();
+				.AllowAnyMethod()
+				.AllowCredentials();
 		});
 
 });
