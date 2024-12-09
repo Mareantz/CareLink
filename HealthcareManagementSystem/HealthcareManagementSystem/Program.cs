@@ -30,9 +30,6 @@ builder.Services.AddAuthorization();
 builder.Configuration["ConnectionStrings:DefaultConnection"] = Environment.GetEnvironmentVariable("DefaultConnection");
 builder.Configuration["ConnectionStrings:UserConnection"] = Environment.GetEnvironmentVariable("UserConnection");
 builder.Configuration["Jwt:Key"] = Environment.GetEnvironmentVariable("Jwt__Key");
-
-
-
 builder.Services.AddHealthChecks();
 
 builder.Services.AddApplication();
