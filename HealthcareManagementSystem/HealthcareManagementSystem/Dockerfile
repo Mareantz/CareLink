@@ -10,7 +10,7 @@ COPY ["HealthcareManagementSystem/HealthcareManagementSystem.csproj", "Healthcar
 COPY ["Application/Application.csproj", "Application/"]
 COPY ["Domain/Domain.csproj", "Domain/"]
 COPY ["Identity/Identity.csproj", "Identity/"]
-COPY ["Infrastructure/Infrastructure.csproj", "Infrastructure/"]
+COPY ["HealthcareManagementSystem/Infrastructure/Infrastructure.csproj", "Infrastructure/"]
 RUN dotnet restore "./HealthcareManagementSystem/HealthcareManagementSystem.csproj"
 COPY . .
 WORKDIR "/src/HealthcareManagementSystem"
