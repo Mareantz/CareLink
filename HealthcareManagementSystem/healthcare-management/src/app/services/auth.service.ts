@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { environment } from '../environment.prod';
+import { currentEnvironment } from '../environment.prod';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly apiUrl = environment.apiUrl + '/api/Auth';
+  private readonly apiUrl = currentEnvironment.apiUrl + '/api/Auth';
   constructor(private http: HttpClient) { }
   register(userData: any): Observable<any>{
     return this.http.post(this.apiUrl + '/register', userData);
