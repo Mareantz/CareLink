@@ -26,7 +26,7 @@ RUN dotnet publish "./HealthcareManagementSystem/HealthcareManagementSystem.cspr
 
 # This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
 WORKDIR /app
-COPY --from=publish /app/publish .
+COPY --from=build /app/publish .
 EXPOSE 8080
 EXPOSE 8081
 ENTRYPOINT ["./HealthcareManagementSystem"] # CHANGED: Run the app directly since it's self-contained
