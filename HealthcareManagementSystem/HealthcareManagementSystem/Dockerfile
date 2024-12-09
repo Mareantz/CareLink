@@ -5,11 +5,11 @@
 # This stage is used to build the service project
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG BUILD_CONFIGURATION=Release
-WORKDIR /src/HealthcareManagementSystem
-COPY ["HealthcareManagementSystem/HealthcareManagementSystem.csproj", "HealthcareManagementSystem/"]
-COPY ["Application/Application.csproj", "Application/"]
-COPY ["Domain/Domain.csproj", "Domain/"]
-COPY ["Identity/Identity.csproj", "Identity/"]
+WORKDIR /src
+COPY ["HealthcareManagementSystem/HealthcareManagementSystem/HealthcareManagementSystem.csproj", "HealthcareManagementSystem/"]
+COPY ["HealthcareManagementSystem/Application/Application.csproj", "Application/"]
+COPY ["HealthcareManagementSystem/Domain/Domain.csproj", "Domain/"]
+COPY ["HealthcareManagementSystem/Identity/Identity.csproj", "Identity/"]
 COPY ["HealthcareManagementSystem/Infrastructure/Infrastructure.csproj", "Infrastructure/"]
 RUN dotnet restore "./HealthcareManagementSystem/HealthcareManagementSystem.csproj"
 COPY . .
