@@ -7,8 +7,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddEnvironmentVariables();
-//var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
-//builder.WebHost.UseUrls($"http://*:{port}");
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+builder.WebHost.UseUrls($"http://*:{port}");
 
 var AllowFrontend = "AllowFrontend";
 
@@ -26,10 +26,10 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddAuthorization();
 
-//builder.Configuration["ConnectionStrings:DefaultConnection"] = Environment.GetEnvironmentVariable("DefaultConnection");
+builder.Configuration["ConnectionStrings:DefaultConnection"] = Environment.GetEnvironmentVariable("DefaultConnection");
 
 
-//builder.Services.AddHealthChecks();
+builder.Services.AddHealthChecks();
 
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
@@ -72,7 +72,7 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
-//app.UseHealthChecks("/health");
+app.UseHealthChecks("/health");
 
 if (app.Environment.IsDevelopment())
 {
@@ -80,7 +80,7 @@ if (app.Environment.IsDevelopment())
 	app.UseSwaggerUI();
 }
 
-//app.UseHttpsRedirection();
+app.UseHttpsRedirection();
 app.UseCors(AllowFrontend);
 app.UseRouting();
 app.UseStaticFiles();
