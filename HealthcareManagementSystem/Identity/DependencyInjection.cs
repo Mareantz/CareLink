@@ -13,8 +13,8 @@ namespace Identity
         public static IServiceCollection AddIdentity(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<UsersDbContext>(options =>
-                options.UseSqlite(
-                    configuration.GetConnectionString("UserConnection")));
+                options.UseNpgsql(
+                    configuration.GetConnectionString("DefaultConnection")));
             var key = Encoding.ASCII.GetBytes("Parola de mai multe caractereabc");
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddAuthentication(options =>
