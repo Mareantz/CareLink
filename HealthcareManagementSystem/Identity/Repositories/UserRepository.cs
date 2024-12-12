@@ -8,15 +8,16 @@ using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Configuration;
 using System;
+using PredictiveHealthcare.Infrastructure.Persistence;
 
 namespace Identity.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        private readonly UsersDbContext usersDbContext;
+        private readonly ApplicationDbContext usersDbContext;
         private readonly IConfiguration configuration;
 
-        public UserRepository(UsersDbContext usersDbContext, IConfiguration configuration)
+        public UserRepository(ApplicationDbContext usersDbContext, IConfiguration configuration)
         {
             this.usersDbContext = usersDbContext;
             this.configuration = configuration;

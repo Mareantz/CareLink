@@ -48,5 +48,6 @@ namespace HealthcareManagementSystem.Controllers
             await mediator.Send(command);
             return StatusCode(StatusCodes.Status204NoContent);
         }
+
     }
 }

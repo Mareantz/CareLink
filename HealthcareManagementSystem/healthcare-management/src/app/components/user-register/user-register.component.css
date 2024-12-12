@@ -1,52 +1,195 @@
-.user-register {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 1rem;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+/* General styles */
+body {
+    background: linear-gradient(135deg, #6a11cb, #2575fc, #43e97b) !important;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
     display: flex;
-    flex-direction: column;
-    gap: 1rem;
+    justify-content: center;
+    align-items: center;
 }
 
-h1 {
+/* General container styles */
+.user-register {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 25px;
+    background-color: #fefefe; /* Light background for registration form */
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    animation: fadeIn 1.2s ease-out;
+}
+
+/* Title */
+.user-register h1 {
     text-align: center;
-    margin-bottom: 1rem;
+    color: #2d3436;
+    margin-bottom: 25px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    color: #6a11cb; /* Purple gradient title */
+    animation: slideIn 1s ease-out;
+}
+
+/* Form styles */
+form {
+    display: flex;
+    flex-direction: column;
 }
 
 .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+    margin-bottom: 20px;
+    position: relative;
 }
 
 label {
+    font-size: 16px;
+    color: #333; /* Neutral color for labels */
+    margin-bottom: 8px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-weight: bold;
 }
 
 input, select {
     width: 100%;
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    padding: 12px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+    margin-bottom: 5px;
+    transition: all 0.3s ease;
+}
+
+input:focus, select:focus {
+    border-color: #43e97b; /* Green focus color */
+    background-color: #e8f5e9; /* Light green background on focus */
+    box-shadow: 0 0 8px rgba(67, 233, 123, 0.5);
+    outline: none;
+}
+
+input::placeholder, select::placeholder {
+    color: #888;
 }
 
 .error {
-    color: red;
-    font-size: 0.8rem;
+    color: #d63031; /* Red error messages */
+    font-size: 14px;
+    margin-top: 5px;
 }
 
+/* Button styles */
 button {
-    padding: 0.5rem 1rem;
-    background-color: #007bff;
-    color: #fff;
+    padding: 12px 20px;
+    background-color: #2575fc; /* Blue button */
+    color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 8px;
+    font-size: 16px;
     cursor: pointer;
-    align-self: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 85, 255, 0.3);
 }
 
-button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
+button:hover {
+    background-color: #1b63d8; /* Darker blue on hover */
+    transform: scale(1.05);
+}
+
+button:active {
+    transform: scale(1.02);
+}
+
+button:focus {
+    outline: none;
+    box-shadow: 0 0 12px rgba(37, 117, 252, 0.5); /* Blue glow on focus */
+}
+
+/* Add spacing between form elements */
+button {
+    margin-top: 20px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Responsive Design for smaller screens */
+@media (max-width: 768px) {
+    .user-register {
+        padding: 20px;
+        width: 90%; /* Reduce width for smaller screens */
+    }
+
+    .user-register h1 {
+        font-size: 24px; /* Smaller title */
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    label {
+        font-size: 14px; /* Smaller font size for labels */
+    }
+
+    input, select {
+        font-size: 14px; /* Smaller input font size */
+        padding: 10px; /* Less padding */
+    }
+
+    button {
+        padding: 10px 15px; /* Smaller button */
+        font-size: 14px; /* Smaller font size */
+    }
+}
+
+@media (max-width: 480px) {
+    .user-register {
+        padding: 15px;
+        width: 95%; /* Further reduce width for very small screens */
+    }
+
+    .user-register h1 {
+        font-size: 20px; /* Smaller title for mobile */
+    }
+
+    .form-group {
+        margin-bottom: 10px; /* Reduce margin between form groups */
+    }
+
+    label {
+        font-size: 12px; /* Even smaller label font size */
+    }
+
+    input, select {
+        font-size: 12px; /* Further reduce input font size */
+        padding: 8px; /* Less padding for small screens */
+    }
+
+    button {
+        padding: 8px 12px; /* Smaller button on mobile */
+        font-size: 12px; /* Reduce font size */
+    }
 }
