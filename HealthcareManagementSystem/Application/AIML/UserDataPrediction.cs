@@ -1,7 +1,10 @@
+using Microsoft.ML.Data;
+
 namespace Application.AIML
 {
     public class UserDataPrediction
     {
-        public float risk { get; set; }
+		[ColumnName("Score")]
+		public float risk { get; set; }
     }
 }
