@@ -1,0 +1,89 @@
+<div class="patient-risk-prediction">
+    <h1>Patient Risk Prediction</h1>
+  
+    <form [formGroup]="riskForm" (ngSubmit)="onSubmit()">
+      <!-- Age -->
+      <div class="form-group">
+        <label for="age">Age</label>
+        <input id="age" type="number" formControlName="age" />
+        <div class="error" *ngIf="riskForm.get('age')?.invalid && riskForm.get('age')?.touched">
+          Age is required and must be >= 0.
+        </div>
+      </div>
+  
+      <!-- Gender -->
+      <div class="form-group">
+        <label for="gender">Gender</label>
+        <select id="gender" formControlName="gender">
+          <option value="">Select Gender</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <!-- Add other options if necessary -->
+        </select>
+        <div class="error" *ngIf="riskForm.get('gender')?.invalid && riskForm.get('gender')?.touched">
+          Gender is required.
+        </div>
+      </div>
+  
+      <!-- Weight -->
+      <div class="form-group">
+        <label for="weight">Weight (kg)</label>
+        <input id="weight" type="number" step="any" formControlName="weight" />
+        <div class="error" *ngIf="riskForm.get('weight')?.invalid && riskForm.get('weight')?.touched">
+          Weight is required and must be >= 0.
+        </div>
+      </div>
+  
+      <!-- Blood Pressure -->
+      <div class="form-group">
+        <label for="bloodPressure">Blood Pressure (60-180)</label>
+        <input id="bloodPressure" type="number" formControlName="bloodPressure" />
+        <div class="error" *ngIf="riskForm.get('bloodPressure')?.invalid && riskForm.get('bloodPressure')?.touched">
+          Blood Pressure is required and must be between 60 and 180.
+        </div>
+      </div>
+  
+      <!-- Cholesterol Level -->
+      <div class="form-group">
+        <label for="cholesterolLevel">Cholesterol Level (40-200)</label>
+        <input id="cholesterolLevel" type="number" formControlName="cholesterolLevel" />
+        <div class="error" *ngIf="riskForm.get('cholesterolLevel')?.invalid && riskForm.get('cholesterolLevel')?.touched">
+          Cholesterol Level is required and must be between 40 and 200.
+        </div>
+      </div>
+  
+      <!-- Physical Activity Level -->
+      <div class="form-group">
+        <label for="physicalActivityLevel">Physical Activity Level (0, 1, or 2)</label>
+        <input id="physicalActivityLevel" type="number" formControlName="physicalActivityLevel" />
+        <div class="error" *ngIf="riskForm.get('physicalActivityLevel')?.invalid && riskForm.get('physicalActivityLevel')?.touched">
+          Physical Activity Level is required and must be 0, 1, or 2.
+        </div>
+      </div>
+  
+      <!-- Smoking Status -->
+      <div class="form-group">
+        <label for="smokingStatus">Smoking Status (0 or 1)</label>
+        <input id="smokingStatus" type="number" formControlName="smokingStatus" />
+        <div class="error" *ngIf="riskForm.get('smokingStatus')?.invalid && riskForm.get('smokingStatus')?.touched">
+          Smoking Status is required and must be 0 or 1.
+        </div>
+      </div>
+  
+      <!-- Stress Level -->
+      <div class="form-group">
+        <label for="stressLevel">Stress Level (0, 1, or 2)</label>
+        <input id="stressLevel" type="number" formControlName="stressLevel" />
+        <div class="error" *ngIf="riskForm.get('stressLevel')?.invalid && riskForm.get('stressLevel')?.touched">
+          Stress Level is required and must be 0, 1, or 2.
+        </div>
+      </div>
+  
+      <button type="submit">Predict Risk</button>
+    </form>
+
+    <div *ngIf="predictionResult">
+        <h3>The risk level for this patient is: {{ predictionResult | json }}</h3>
+      </div>
+  </div>
+  

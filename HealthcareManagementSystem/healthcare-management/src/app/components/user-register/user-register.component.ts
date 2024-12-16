@@ -21,18 +21,44 @@ export class UserRegisterComponent implements OnInit {
     this.userForm = this.fb.group({
       username: ['', [Validators.required]],
       password: ['', [Validators.required]],
+      confirmPassword: ['', [Validators.required]],
+      firstName: ['', [Validators.required]],
+      lastName: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       phoneNumber: ['', [Validators.required]],
-      role: ['', [Validators.required]]
+      role: ['', [Validators.required]],
+
+      // Patient-specific fields (will only be required if role = Patient)
+      dateOfBirth: [''],
+      gender: [''],
+      address: [''],
+
+      // Doctor-specific fields (will only be required if role = Doctor)
+      specialization: ['']
     });
   }
 
   onSubmit(): void {
     if (this.userForm.valid) {
       const payload = {
-        ...this.userForm.value,
+        username: this.userForm.value.username,
+        password: this.userForm.value.password,
+        confirmPassword: this.userForm.value.confirmPassword,
+        email: this.userForm.value.email,
+        phoneNumber: this.userForm.value.phoneNumber,
         role: Number(this.userForm.value.role),
+        firstName: this.userForm.value.firstName,
+        lastName: this.userForm.value.lastName,
+        
+        // Patient-specific
+        dateOfBirth: this.userForm.value.role == UserRole.Patient ? this.userForm.value.dateOfBirth : null,
+        gender: this.userForm.value.role == UserRole.Patient ? this.userForm.value.gender : null,
+        address: this.userForm.value.role == UserRole.Patient ? this.userForm.value.address : null,
+
+        // Doctor-specific
+        specialization: this.userForm.value.role == UserRole.Doctor ? this.userForm.value.specialization : null
       };
+
       console.log('Payload being sent:', payload);
 
       this.authService.register(payload).subscribe({

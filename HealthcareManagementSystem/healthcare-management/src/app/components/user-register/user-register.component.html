@@ -1,55 +1,117 @@
 <div class="user-register">
-    <h1>Register User</h1>
-    <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
-      <div class="form-group">
-        <label for="username">Username</label>
-        <input id="username" formControlName="username" />
-        <div class="error" *ngIf="userForm.get('username')?.hasError('required')">
-          Username is required
-        </div>
+  <h1>Register User</h1>
+  <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+    <!-- Username -->
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input id="username" formControlName="username" />
+      <div class="error" *ngIf="userForm.get('username')?.hasError('required')">
+        Username is required
       </div>
+    </div>
 
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input id="password" type="password" formControlName="password" />
-        <div class="error" *ngIf="userForm.get('password')?.hasError('required')">
-          Password is required
-        </div>
+    <!-- Password -->
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input id="password" type="password" formControlName="password" />
+      <div class="error" *ngIf="userForm.get('password')?.hasError('required')">
+        Password is required
       </div>
+    </div>
 
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input id="email" type="email" formControlName="email" />
-        <div class="error" *ngIf="userForm.get('email')?.hasError('required')">
-          Email is required
-        </div>
-        <div class="error" *ngIf="userForm.get('email')?.hasError('email')">
-          Invalid email format
-        </div>
+    <!-- Confirm Password -->
+    <div class="form-group">
+      <label for="confirmPassword">Confirm Password</label>
+      <input id="confirmPassword" type="password" formControlName="confirmPassword" />
+      <div class="error" *ngIf="userForm.get('confirmPassword')?.hasError('required')">
+        Confirm Password is required
       </div>
+      <!-- Optional: add a validator to ensure confirmPassword matches password -->
+    </div>
 
-      <div class="form-group">
-        <label for="phoneNumber">Phone Number</label>
-        <input id="phoneNumber" formControlName="phoneNumber" />
-        <div class="error" *ngIf="userForm.get('phoneNumber')?.hasError('required')">
-          Phone number is required
-        </div>
+    <!-- First Name -->
+    <div class="form-group">
+      <label for="firstName">First Name</label>
+      <input id="firstName" formControlName="firstName" />
+      <div class="error" *ngIf="userForm.get('firstName')?.hasError('required')">
+        First name is required
       </div>
+    </div>
 
-      <div class="form-group">
-        <label for="role">User Role</label>
-        <select id="role" formControlName="role">
-          <option [value]="UserRole.None" disabled>Select Role</option>
-          <option [value]="UserRole.Patient">Patient</option>
-          <option [value]="UserRole.Doctor">Doctor</option>
-        </select>
-        <div class="error" *ngIf="userForm.get('role')?.hasError('required')">
-          User role is required
-        </div>
+    <!-- Last Name -->
+    <div class="form-group">
+      <label for="lastName">Last Name</label>
+      <input id="lastName" formControlName="lastName" />
+      <div class="error" *ngIf="userForm.get('lastName')?.hasError('required')">
+        Last name is required
       </div>
+    </div>
+
+    <!-- Email -->
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input id="email" type="email" formControlName="email" />
+      <div class="error" *ngIf="userForm.get('email')?.hasError('required')">
+        Email is required
+      </div>
+      <div class="error" *ngIf="userForm.get('email')?.hasError('email')">
+        Invalid email format
+      </div>
+    </div>
+
+    <!-- Phone Number -->
+    <div class="form-group">
+      <label for="phoneNumber">Phone Number</label>
+      <input id="phoneNumber" formControlName="phoneNumber" />
+      <div class="error" *ngIf="userForm.get('phoneNumber')?.hasError('required')">
+        Phone number is required
+      </div>
+    </div>
+
+    <!-- User Role -->
+    <div class="form-group">
+      <label for="role">User Role</label>
+      <select id="role" formControlName="role">
+        <option [value]="UserRole.None" disabled>Select Role</option>
+        <option [value]="UserRole.Patient">Patient</option>
+        <option [value]="UserRole.Doctor">Doctor</option>
+      </select>
+      <div class="error" *ngIf="userForm.get('role')?.hasError('required')">
+        User role is required
+      </div>
+    </div>
+
+    <!-- Patient-Specific Fields -->
+    <div *ngIf="userForm.get('role')?.value == UserRole.Patient">
+      <h3>Patient Information</h3>
       
-      
+      <div class="form-group">
+        <label for="dateOfBirth">Date of Birth</label>
+        <input id="dateOfBirth" type="date" formControlName="dateOfBirth" />
+        <!-- If these are required for patient, add Validators.required conditionally in TS -->
+      </div>
 
-      <button type="submit">Register User</button>
-    </form>
+      <div class="form-group">
+        <label for="gender">Gender</label>
+        <input id="gender" formControlName="gender" />
+      </div>
+
+      <div class="form-group">
+        <label for="address">Address</label>
+        <input id="address" formControlName="address" />
+      </div>
+    </div>
+
+    <!-- Doctor-Specific Fields -->
+    <div *ngIf="userForm.get('role')?.value == UserRole.Doctor">
+      <h3>Doctor Information</h3>
+      
+      <div class="form-group">
+        <label for="specialization">Specialization</label>
+        <input id="specialization" formControlName="specialization" />
+      </div>
+    </div>
+
+    <button type="submit">Register User</button>
+  </form>
 </div>

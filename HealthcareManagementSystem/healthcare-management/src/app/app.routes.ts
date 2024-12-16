@@ -5,6 +5,7 @@ import { PatientUpdateComponent } from './components/patient-update/patient-upda
 import { PatientListIdComponent } from './components/patient-list-id/patient-list-id.component';
 import { UserRegisterComponent } from './components/user-register/user-register.component';
 import { UserLoginComponent } from './components/user-login/user-login.component';
+import { PatientRiskPredictionComponent } from './components/patient-risk-prediction/patient-risk-prediction.component';
 
 
 export const appRoutes: Routes = [
@@ -14,6 +15,7 @@ export const appRoutes: Routes = [
   { path: 'patients/update/:id', component: PatientUpdateComponent },
   { path: 'patients/find', component: PatientListIdComponent },
   { path: 'register', component: UserRegisterComponent },
-  { path: 'login', component: UserLoginComponent }
+  { path: 'login', component: UserLoginComponent },
+  { path: 'patient-risk-prediction', component: PatientRiskPredictionComponent }
 ];
   
