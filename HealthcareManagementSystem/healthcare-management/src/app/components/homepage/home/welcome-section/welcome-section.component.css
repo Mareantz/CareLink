@@ -1,0 +1,25 @@
+.welcome-text {
+    text-align: center;
+    padding: 50px 20px;
+  }
+  
+  .welcome-text h1 {
+    font-size: 2.5rem;
+    color: #a33757;
+  }
+  
+  .welcome-text p {
+    font-size: 1.2rem;
+    color: #555;
+  }
+  
+  .welcome-image {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .welcome-image img {
+    width: 80%;
+    max-width: 600px;
+  }
+  
