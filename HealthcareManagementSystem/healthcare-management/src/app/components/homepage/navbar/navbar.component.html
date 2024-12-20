@@ -1,0 +1,24 @@
+    <div class="logo">
+      <img src="logo.svg" alt="logo">
+    </div>
+    <div class="hamburger-menu" (click)="toggleMenu()">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <nav [class.active]="menuOpen">
+      <ul class="nav-links">
+        <li><a href="#welcome">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#services">Services</a></li>
+      </ul>
+    </nav>
+    <div class="auth-buttons">
+      <a href="../register" class="register">
+        Înregistrează-te
+      </a>
+      <a href="../modals/login_modal/login.html" class="register">
+        Conectează-te
+      </a>
+    </div>
+  
