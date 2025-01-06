@@ -1,16 +1,30 @@
+<!-- services.component.html -->
 <div class="services" id="services">
   <h2>Our Services</h2>
 </div>
 
-<section 
-  *ngFor="let service of services; let i = index" 
-  [ngClass]="{ 'left_to_right_service': i % 2 === 0, 'right_to_left_service': i % 2 !== 0 }"
->
-  <div class="text">
-    <h2>{{ service.title }}</h2>
-    <p>{{ service.description }}</p>
-  </div>
-  <div class="image">
-    <img [src]="service.image" [attr.alt]="service.alt || 'Service image'" alt="Service image" />
-  </div>
-</section>
+<ng-container *ngFor="let service of services; let i = index">
+  <section [ngClass]="i % 2 === 0 ? 'left_to_right_service' : 'right_to_left_service'">
+    <div *ngIf="i % 2 === 0; else reverseLayout" class="left_service_text">
+      <h2>{{ service.title }}</h2>
+      <p>{{ service.description }}</p>
+    </div>
+    <div *ngIf="i % 2 === 0; else reverseImage" class="right_service_image">
+      <img [src]="service.image" [alt]="service.alt">
+    </div>
+  </section>
+
+  <!-- Template for reversing layout -->
+  <ng-template #reverseLayout>
+    <div class="right_service_text">
+      <h2>{{ service.title }}</h2>
+      <p>{{ service.description }}</p>
+    </div>
+  </ng-template>
+
+  <ng-template #reverseImage>
+    <div class="left_service_image">
+      <img [src]="service.image" [alt]="service.alt">
+    </div>
+  </ng-template>
+</ng-container>
