@@ -1,0 +1,23 @@
+<div class="doctor-list">
+    <div *ngFor="let doctor of doctors">
+      <!-- Doctor Card -->
+      <app-doctor-card
+        [firstName]="doctor.firstName"
+        [lastName]="doctor.lastName"
+        [specialization]="doctor.specialization"
+        [bio]="doctor.bio"
+        [photoUrl]="doctor.photoUrl">
+      </app-doctor-card>
+  
+      <!-- Upload Photo
+      <div class="upload-section">
+        <label for="photo-{{doctor.id}}">Upload Photo:</label>
+        <input 
+          type="file" 
+          id="photo-{{doctor.id}}" 
+          (change)="onPhotoUpload($event, doctor.id)"
+          accept="image/*">
+      </div> -->
+    </div>
+  </div>
+  

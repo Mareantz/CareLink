@@ -1,0 +1,16 @@
+<div class="modal-overlay" *ngIf="isVisible">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>{{ title }}</h2>
+        <button class="close-button" (click)="close()">×</button>
+      </div>
+      <div class="modal-body">
+        <ng-content></ng-content>
+      </div>
+      <!-- Optional Footer -->
+      <div class="modal-footer">
+        <button (click)="close()">Close</button>
+      </div>
+    </div>
+  </div>
+  

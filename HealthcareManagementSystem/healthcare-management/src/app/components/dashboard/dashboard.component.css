@@ -1,0 +1,27 @@
+/* src/app/components/dashboard/dashboard.component.css */
+.sidenav-container {
+    height: 100vh;
+  }
+  
+  .sidenav {
+    width: 250px;
+  }
+  
+  .mat-toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+  
+  .spacer {
+    flex: 1 1 auto;
+  }
+  
+  .content {
+    padding: 20px;
+  }
+  
+  .active-link {
+    background: rgba(0, 0, 0, 0.1);
+  }
+  

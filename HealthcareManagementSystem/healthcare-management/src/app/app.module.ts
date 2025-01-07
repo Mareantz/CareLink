@@ -7,6 +7,17 @@ import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
+import { MatToolbarModule } from "@angular/material/toolbar";
+import { MatSidenavModule } from "@angular/material/sidenav";
+import { MatButtonModule } from "@angular/material/button";
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { MatCardModule } from '@angular/material/card';
+
+import { DoctorService } from "./services/doctor/doctor.service";
+import { DoctorModule } from "./components/doctor/doctor.module";
+import { DashboardComponent } from "./components/dashboard/dashboard.component";
+
 @NgModule({
     declarations:[
     ],
@@ -14,8 +25,10 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
         CommonModule,
         RouterModule.forRoot(appRoutes),
         BrowserModule,
-        BrowserAnimationsModule],
-    providers:[PatientService,provideHttpClient()],
+        DoctorModule,
+        
+    ],
+    providers:[PatientService,provideHttpClient(),DoctorService],
     bootstrap:[]
 })
 export class AppModule{}

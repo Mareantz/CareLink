@@ -28,37 +28,38 @@ namespace Identity.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<User>> GetUsers()
-        {
-            throw new NotImplementedException();
-        }
+		public async Task<IEnumerable<User>> GetUsers()
+		{
+			return await usersDbContext.Users.ToListAsync();
+		}
 
-        public async Task<string> Login(User user)
-        {
-            var existingUser = await usersDbContext.Users.FirstOrDefaultAsync(u => u.Username == user.Username);
-            if (existingUser == null)
-            {
-                throw new UnauthorizedAccessException("Invalid credentials");
-            }
+		public async Task<string> Login(User user)
+		{
+			var existingUser = await usersDbContext.Users.FirstOrDefaultAsync(u => u.Username == user.Username);
+			if (existingUser == null)
+			{
+				throw new UnauthorizedAccessException("Invalid credentials");
+			}
 			if (!BCrypt.Net.BCrypt.Verify(user.PasswordHash, existingUser.PasswordHash))
 			{
 				throw new UnauthorizedAccessException("Invalid credentials");
 			}
 			var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(configuration["Jwt:Key"]!);
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new[]
-                {
-                    new Claim(ClaimTypes.Name, user.Id.ToString())
-                }),
-                Expires = DateTime.UtcNow.AddHours(3),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
-        }
-        public async Task<Guid> Register(User user, CancellationToken cancellationToken)
+			var key = Encoding.ASCII.GetBytes(configuration["Jwt:Key"]!);
+			var tokenDescriptor = new SecurityTokenDescriptor
+			{
+				Subject = new ClaimsIdentity(new[]
+				{
+			new Claim(ClaimTypes.Name, existingUser.Id.ToString()),
+			new Claim(ClaimTypes.Role, existingUser.Role.ToString())
+		}),
+				Expires = DateTime.UtcNow.AddHours(3),
+				SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+			};
+			var token = tokenHandler.CreateToken(tokenDescriptor);
+			return tokenHandler.WriteToken(token);
+		}
+		public async Task<Guid> Register(User user, CancellationToken cancellationToken)
         {
             usersDbContext.Users.Add(user);
             await usersDbContext.SaveChangesAsync(cancellationToken);
