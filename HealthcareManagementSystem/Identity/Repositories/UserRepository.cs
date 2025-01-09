@@ -50,7 +50,7 @@ namespace Identity.Repositories
 			{
 				Subject = new ClaimsIdentity(new[]
 				{
-			new Claim(ClaimTypes.Name, existingUser.Id.ToString()),
+			new Claim("user_id", existingUser.Id.ToString()),
 			new Claim(ClaimTypes.Role, existingUser.Role.ToString())
 		}),
 				Expires = DateTime.UtcNow.AddHours(3),
