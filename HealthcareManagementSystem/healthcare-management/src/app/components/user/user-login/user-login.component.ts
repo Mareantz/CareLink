@@ -34,7 +34,7 @@ export class UserLoginComponent implements OnInit {
           localStorage.setItem('token', response.token);
 
           // Redirect the user after login
-          this.router.navigate(['/patients']); // Adjust the route as needed
+          this.router.navigate(['/dashboard']); // Adjust the route as needed
         },
         error: (error) => {
           console.error('Login failed:', error);

@@ -49,4 +49,8 @@ export class PatientListIdComponent implements OnInit {
       console.error('Error deleting patient:', error);
     });
   }
+
+  backToPatientList(): void {
+    this.router.navigate(['/patients']);
+  }
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Patient } from '../../models/patient.model';
@@ -40,6 +40,38 @@ export class PatientService {
 
   public deletePatientById(id: string): Observable<any> {
     return this.http.delete(`${this.apiURL}/${id}`, { headers: this.authService.getAuthHeaders() }).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  public getFilteredPatients(
+    page: number,
+    pageSize: number,
+    firstName?: string,
+    lastName?: string,
+    gender?: string,
+  ): Observable<{ data: { data: Patient[]; totalCount: number } }> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('pageSize', pageSize.toString());
+
+    // Only set the parameter if the filter is a non-empty string after trimming
+    if (firstName && firstName.trim().length > 0) {
+      params = params.set('firstName', firstName.trim());
+    }
+
+    if (lastName && lastName.trim().length > 0) {
+      params = params.set('lastName', lastName.trim());
+    }
+
+    if (gender && gender.trim().length > 0) {
+      params = params.set('gender', gender.trim());
+    }
+
+    return this.http.get<{ data: { data: Patient[]; totalCount: number } }>(`${this.apiURL}/filtered`, {
+      headers: this.authService.getAuthHeaders(),
+      params: params
+    }).pipe(
       catchError(this.handleError)
     );
   }

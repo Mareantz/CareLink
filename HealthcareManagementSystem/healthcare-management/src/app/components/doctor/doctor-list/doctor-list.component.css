@@ -1,0 +1,63 @@
+/* src/app/doctors/doctor-list/doctor-list.component.css */
+
+/* General Styles */
+.doctor-list-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  /* Back Button Styles */
+  .back-button {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .back-button mat-icon {
+    margin-right: 8px;
+    font-size: 20px; /* Adjust icon size if needed */
+  }
+  
+  /* Title */
+  .doctor-list-container h2 {
+    text-align: center;
+    color: #272427;
+    margin-bottom: 20px;
+    font-weight: bold;
+  }
+  
+  /* Responsive Grid List */
+  mat-grid-list {
+    width: 100%;
+  }
+  
+  @media (max-width: 768px) {
+    .doctor-list-container {
+      padding: 15px;
+    }
+  
+    .doctor-list-container h2 {
+      font-size: 24px;
+    }
+  
+    .back-button {
+      font-size: 14px;
+      padding: 10px 15px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .doctor-list-container {
+      padding: 10px;
+    }
+  
+    .doctor-list-container h2 {
+      font-size: 20px;
+    }
+  
+    .back-button {
+      font-size: 12px;
+      padding: 8px 12px;
+    }
+  }

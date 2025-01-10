@@ -1,23 +1,25 @@
-<div class="doctor-list">
-    <div *ngFor="let doctor of doctors">
-      <!-- Doctor Card -->
+<!-- src/app/doctors/doctor-list/doctor-list.component.html -->
+<div class="doctor-list-container">
+  <!-- Back to Dashboard Button with Angular Material Styling -->
+  <button mat-button color="primary" (click)="backToDashboard()" class="back-button">
+    <mat-icon>arrow_back</mat-icon>
+    Back to Dashboard
+  </button>
+
+  <h2>Our Doctors</h2>
+
+  <mat-grid-list [cols]="cols" gutterSize="16px" rowHeight="1:1" *ngIf="doctors.length > 0">
+    <mat-grid-tile *ngFor="let doctor of doctors">
       <app-doctor-card
         [firstName]="doctor.firstName"
         [lastName]="doctor.lastName"
         [specialization]="doctor.specialization"
         [bio]="doctor.bio"
-        [photoUrl]="doctor.photoUrl">
+        [photoUrl]="doctor.photoUrl"
+        [doctorId]="doctor.id">
       </app-doctor-card>
-  
-      <!-- Upload Photo
-      <div class="upload-section">
-        <label for="photo-{{doctor.id}}">Upload Photo:</label>
-        <input 
-          type="file" 
-          id="photo-{{doctor.id}}" 
-          (change)="onPhotoUpload($event, doctor.id)"
-          accept="image/*">
-      </div> -->
-    </div>
-  </div>
-  
+    </mat-grid-tile>
+  </mat-grid-list>
+
+  <p *ngIf="doctors.length === 0">No doctors available at the moment.</p>
+</div>

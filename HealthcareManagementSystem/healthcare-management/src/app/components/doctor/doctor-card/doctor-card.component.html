@@ -1,11 +1,22 @@
-<div class="doctor-card">
-    <div class="doctor-photo">
+<!-- src/app/doctors/doctor-card/doctor-card.component.html -->
+<mat-card class="doctor-card">
+  <mat-card-header>
+    <div mat-card-avatar class="doctor-avatar">
       <img [src]="photoUrl" alt="Photo of {{ firstName }} {{ lastName }}">
     </div>
-    <div class="doctor-info">
-      <p class="doctor-name">{{ firstName }} {{ lastName }}</p>
-      <p class="doctor-specialization">{{ specialization }}</p>
-      <p class="doctor-bio">{{ bio }}</p>
-    </div>
-  </div>
+    <mat-card-title>{{ firstName }} {{ lastName }}</mat-card-title>
+    <mat-card-subtitle>{{ specialization }}</mat-card-subtitle>
+  </mat-card-header>
   
+  <img mat-card-image [src]="photoUrl" alt="Photo of {{ firstName }} {{ lastName }}" *ngIf="photoUrl">
+  
+  <mat-card-content>
+    <p>{{ bio }}</p>
+  </mat-card-content>
+  
+  <mat-card-actions>
+    <button mat-raised-button color="primary" (click)="makeAppointment()">
+      Make Appointment
+    </button>
+  </mat-card-actions>
+</mat-card>

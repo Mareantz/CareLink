@@ -6,16 +6,11 @@ import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
-    DoctorListComponent,
-    DoctorCardComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
   ],
-  exports: [
-    DoctorListComponent,
-    DoctorCardComponent
-  ]
+  exports: []
 })
 export class DoctorModule { }

@@ -3,42 +3,65 @@ import { HttpClient } from '@angular/common/http';
 import { DoctorModule } from '../doctor.module';
 import { Doctor } from '../../../models/doctor.model';
 import { DoctorService } from '../../../services/doctor/doctor.service';
+import { DoctorCardComponent } from '../doctor-card/doctor-card.component';
+import { CommonModule } from '@angular/common';
+import { MatGridListModule, MatGridList } from '@angular/material/grid-list';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-doctor-list',
-  standalone: false,
+  standalone: true,
+  imports:[DoctorCardComponent, CommonModule, MatGridListModule, MatButtonModule, MatIconModule],
   templateUrl: './doctor-list.component.html',
   styleUrls: ['./doctor-list.component.css']
 })
 export class DoctorListComponent implements OnInit {
+  @ViewChild(MatGridList) grid!: MatGridList;
   doctors: Doctor[] = []; // Array to hold doctor data
+  cols: number = 3;
   readonly stock_photo = 'assets/stock_doctor.jpg'; // Default photo
 
-  constructor(private doctorService: DoctorService) {}
+  constructor(private breakpointObserver: BreakpointObserver ,private doctorService: DoctorService, private router: Router) {}
 
   ngOnInit(): void {
+    this.fetchDoctors();
+    this.setupGridCols();
+  }
+
+  fetchDoctors(): void {
     this.doctorService.getDoctors().subscribe((data: Doctor[]) => {
       this.doctors = data.map(doctor => ({
         ...doctor,
-        photoUrl: this.stock_photo
-      }))
+        photoUrl: doctor.photoUrl || this.stock_photo
+      }));
     });
   }
 
-
-  onPhotoUpload(event: any, doctorId: number): void {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        const base64Photo = reader.result as string;
-        // Find the doctor by ID and update the photoUrl
-        const doctor = this.doctors.find(doc => doc.id === doctorId);
-        if (doctor) {
-          doctor.photoUrl = base64Photo;
-        }
-      };
-      reader.readAsDataURL(file); // Convert image to base64 string
-    }
+  setupGridCols(): void {
+    this.breakpointObserver.observe([
+      Breakpoints.HandsetPortrait,
+      Breakpoints.HandsetLandscape,
+      Breakpoints.TabletPortrait,
+      Breakpoints.TabletLandscape,
+      Breakpoints.WebPortrait,
+      Breakpoints.WebLandscape
+    ]).subscribe(result => {
+      if (result.breakpoints[Breakpoints.HandsetPortrait] || result.breakpoints[Breakpoints.HandsetLandscape]) {
+        this.cols = 1;
+      } else if (result.breakpoints[Breakpoints.TabletPortrait] || result.breakpoints[Breakpoints.TabletLandscape]) {
+        this.cols = 2;
+      } else {
+        this.cols = 3;
+      }
+    });
   }
+
+  backToDashboard(): void {
+    this.router.navigate(['/dashboard']);
+  }
+
 }
