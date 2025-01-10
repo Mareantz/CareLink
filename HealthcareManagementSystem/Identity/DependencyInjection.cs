@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
 using System.Text;
 namespace Identity
 {
@@ -15,7 +16,8 @@ namespace Identity
             services.AddDbContext<UsersDbContext>(options =>
                 options.UseNpgsql(
                     configuration.GetConnectionString("DefaultConnection")));
-            var key = Encoding.ASCII.GetBytes("Parola de mai multe caractereabc");
+            var jwtSettings = configuration.GetSection("Jwt");
+            var key = Encoding.ASCII.GetBytes(jwtSettings["Key"]);
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddAuthentication(options =>
             {
@@ -29,11 +31,18 @@ namespace Identity
                         ValidateIssuer = false,
                         ValidateAudience = false,
                         ValidateLifetime = true,
-                        ValidateIssuerSigningKey = true,                    
-                        IssuerSigningKey = new SymmetricSecurityKey(key)
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(key),
+                        RoleClaimType = ClaimTypes.Role
                     };
                 });
-                services.AddScoped<IUserRepository, UserRepository>();
+
+			    services.AddAuthorization(options =>
+				{
+					options.AddPolicy("DoctorOnly", policy => policy.RequireRole("Doctor"));
+			    });
+
+			services.AddScoped<IUserRepository, UserRepository>();
                 return services;
         }
     }

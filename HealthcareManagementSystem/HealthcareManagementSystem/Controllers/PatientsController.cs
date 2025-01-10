@@ -26,7 +26,8 @@ namespace HealthcareManagementSystem.Controllers
             return await mediator.Send(new GetPatientByIdQuery { Id = id });
         }
         [HttpGet]
-        public async Task<ActionResult<List<PatientDto>>> GetPatients()
+		[Authorize(Policy = "DoctorOnly")]
+		public async Task<ActionResult<List<PatientDto>>> GetPatients()
         {
             return await mediator.Send(new GetPatientsQuery());
         }
@@ -55,6 +56,7 @@ namespace HealthcareManagementSystem.Controllers
         }
 
 		[HttpGet("filtered")]
+		[Authorize(Policy = "DoctorOnly")]
 		public async Task<ActionResult<Result<PagedResult<PatientDto>>>> GetFilteredPatients(
 	        [FromQuery] int page,
 	        [FromQuery] int pageSize,
@@ -82,7 +84,6 @@ namespace HealthcareManagementSystem.Controllers
 
 			return BadRequest(result.ErrorMessage);
 		}
-
 
 	}
 }

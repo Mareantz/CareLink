@@ -70,14 +70,14 @@ namespace Infrastructure.Repositories
 		{
 			var query = context.Patients.AsQueryable();
 
-			if (!string.IsNullOrWhiteSpace(firstName))
+			if (!string.IsNullOrEmpty(firstName))
 			{
-				query = query.Where(p => p.FirstName.Contains(firstName));
+				query = query.Where(p => p.FirstName.ToLower().Contains(firstName.ToLower()));
 			}
 
-			if (!string.IsNullOrWhiteSpace(lastName))
+			if (!string.IsNullOrEmpty(lastName))
 			{
-				query = query.Where(p => p.LastName.Contains(lastName));
+				query = query.Where(p => p.LastName.ToLower().Contains(lastName.ToLower()));
 			}
 
 			if (!string.IsNullOrWhiteSpace(gender))
