@@ -1,6 +1,8 @@
 ﻿using Domain.Common;
 using Domain.Entities;
+using Domain.Enums;
 using Domain.Repositories;
+using Microsoft.EntityFrameworkCore;
 using PredictiveHealthcare.Infrastructure.Persistence;
 
 namespace Infrastructure.Repositories
@@ -28,14 +30,42 @@ namespace Infrastructure.Repositories
 			}
 		}
 
-		public Task<Appointment?> GetAppointmentById(Guid id)
+		public async Task<Appointment?> GetAppointmentByIdAsync(Guid id)
 		{
-			throw new NotImplementedException();
+			return await context.Appointments.FindAsync(id);
 		}
 
-		public Task<IEnumerable<Appointment>> GetAppointments()
+		public async Task<IEnumerable<Appointment>> GetAppointmentsByDateAsync(DateTime date)
 		{
-			throw new NotImplementedException();
+			return await context.Appointments
+				.Where(a => a.AppointmentDate.Date == date.Date)
+				.ToListAsync();
+		}
+
+		public async Task<IEnumerable<Appointment>> GetAppointmentsByStatusAsync(AppointmentStatus status)
+		{
+			return await context.Appointments
+				.Where(a => a.Status == status)
+				.ToListAsync();
+		}
+
+		public async Task<IEnumerable<Appointment>> GetAppointmentsByDoctorIdAsync(Guid doctorId)
+		{
+			return await context.Appointments
+				.Where(a => a.DoctorId == doctorId)
+				.ToListAsync();
+		}
+
+		public async Task<IEnumerable<Appointment>> GetAppointmentsByPatientIdAsync(Guid patientId)
+		{
+			return await context.Appointments
+				.Where(a => a.PatientId == patientId)
+				.ToListAsync();
+		}
+
+		public async Task<IEnumerable<Appointment>> GetAppointments()
+		{
+			return await context.Appointments.ToListAsync();
 		}
 
 		public Task<Result> UpdateAppointment(Appointment appointment)

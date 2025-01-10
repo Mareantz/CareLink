@@ -18,7 +18,8 @@ namespace Infrastructure
 
 			services.AddScoped<IPatientRepository, PatientRepository>();
 			services.AddScoped<IDoctorRepository, DoctorRepository>();
-			
+			services.AddScoped<IAppointmentRepository, AppointmentRepository>();
+
 
 			return services;
 		}

@@ -9,6 +9,7 @@ namespace Application.Utils
 		public MappingAppointmentProfile()
 		{
 			CreateMap<Appointment, AppointmentCreateDto>();
+			CreateMap<Appointment, AppointmentResponseDto>();
 			CreateMap<CreateAppointmentCommand, Appointment>();
 			CreateMap<UpdateAppointmentCommand, Appointment>();
 		}

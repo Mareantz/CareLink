@@ -40,7 +40,8 @@ namespace Identity
 			    services.AddAuthorization(options =>
 				{
 					options.AddPolicy("DoctorOnly", policy => policy.RequireRole("Doctor"));
-			    });
+                    options.AddPolicy("PatientOnly", policy => policy.RequireRole("Patient"));
+				});
 
 			services.AddScoped<IUserRepository, UserRepository>();
                 return services;
