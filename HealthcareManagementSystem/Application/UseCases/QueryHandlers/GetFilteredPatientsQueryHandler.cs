@@ -1,6 +1,5 @@
 ﻿using Application.DTOs;
 using Application.UseCases.Queries;
-using Application.Utils;
 using AutoMapper;
 using Domain.Common;
 using Domain.Repositories;
@@ -11,22 +10,28 @@ namespace Application.UseCases.QueryHandlers
 {
 	public class GetFilteredPatientsQueryHandler : IRequestHandler<GetFilteredPatientsQuery, Result<PagedResult<PatientDto>>>
 	{
-		private readonly IPatientRepository repository;
+		private readonly IPatientRepository patientRepository;
 		private readonly IMapper mapper;
 
-		public GetFilteredPatientsQueryHandler(IPatientRepository repository, IMapper mapper)
+		public GetFilteredPatientsQueryHandler(IPatientRepository patientRepository, IMapper mapper)
 		{
-			this.repository = repository;
+			this.patientRepository = patientRepository;
 			this.mapper = mapper;
 		}
+
 		public async Task<Result<PagedResult<PatientDto>>> Handle(GetFilteredPatientsQuery request, CancellationToken cancellationToken)
 		{
-			var patients = await repository.GetPatients();
-			var query = patients.AsQueryable();
+			var patients = await patientRepository.GetFilteredPatientsAsync(
+				request.Page,
+				request.PageSize,
+				request.FirstName,
+				request.LastName,
+				request.Gender,
+				request.DateOfBirth);
 
-			var pagedPatients = query.ApplyPaging(request.Page, request.PageSize);
-			var patientDtos = mapper.Map<List<PatientDto>>(pagedPatients);
-			var pagedResult = new PagedResult<PatientDto>(patientDtos, query.Count());
+			var patientDtos = mapper.Map<List<PatientDto>>(patients.Data);
+
+			var pagedResult = new PagedResult<PatientDto>(patientDtos, patients.TotalCount);
 			return Result<PagedResult<PatientDto>>.Success(pagedResult);
 		}
 	}

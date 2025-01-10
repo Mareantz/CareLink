@@ -35,7 +35,12 @@ namespace Infrastructure.Repositories
             return await context.Patients.ToListAsync();
         }
 
-        public async Task<Patient?> GetPatientById(Guid id)
+		public IQueryable<Patient> GetFilteredPatients()
+		{
+			return context.Patients;
+		}
+
+		public async Task<Patient?> GetPatientById(Guid id)
         {
             return await context.Patients.FindAsync(id);
         }
@@ -54,5 +59,46 @@ namespace Infrastructure.Repositories
                 return Result.Failure(errorMessage);
             }
         }
-    }
+
+		public async Task<PagedResult<Patient>> GetFilteredPatientsAsync(
+			int page,
+			int pageSize,
+			string? firstName,
+			string? lastName,
+			string? gender,
+			DateOnly? dateOfBirth)
+		{
+			var query = context.Patients.AsQueryable();
+
+			if (!string.IsNullOrWhiteSpace(firstName))
+			{
+				query = query.Where(p => p.FirstName.Contains(firstName));
+			}
+
+			if (!string.IsNullOrWhiteSpace(lastName))
+			{
+				query = query.Where(p => p.LastName.Contains(lastName));
+			}
+
+			if (!string.IsNullOrWhiteSpace(gender))
+			{
+				query = query.Where(p => p.Gender == gender);
+			}
+
+			if (dateOfBirth.HasValue)
+			{
+				query = query.Where(p => p.DateOfBirth == dateOfBirth.Value);
+			}
+
+			var totalCount = await query.CountAsync();
+
+			var data = await query
+				.OrderBy(p => p.LastName)
+				.Skip((page - 1) * pageSize)
+				.Take(pageSize)
+				.ToListAsync();
+
+			return new PagedResult<Patient>(data, totalCount);
+		}
+	}
 }

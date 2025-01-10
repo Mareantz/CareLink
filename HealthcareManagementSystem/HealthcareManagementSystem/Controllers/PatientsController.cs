@@ -1,17 +1,15 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Application;
 using Application.Commands;
 using Application.Queries;
 using Application.DTOs;
 using Domain.Common;
 using Application.UseCases.Queries;
-using Application.Utils;
 using Microsoft.AspNetCore.Authorization;
 
 namespace HealthcareManagementSystem.Controllers
 {
-    [Route("api/v1/[controller]")]
+	[Route("api/v1/[controller]")]
     [ApiController]
     [Authorize]
     public class PatientsController : ControllerBase
@@ -55,16 +53,36 @@ namespace HealthcareManagementSystem.Controllers
          await mediator.Send(command);
             return StatusCode(StatusCodes.Status204NoContent);
         }
-        [HttpGet("paginated")]
-        public async Task<ActionResult<PagedResult<PatientDto>>> GetFilteredPatients([FromQuery] int page, [FromQuery] int pageSize)
-        {
-            var query = new GetFilteredPatientsQuery
-            {
-                Page = page,
-                PageSize = pageSize
-            };
-            var result = await mediator.Send(query);
-            return Ok(result);
-        }
-    }
+
+		[HttpGet("filtered")]
+		public async Task<ActionResult<Result<PagedResult<PatientDto>>>> GetFilteredPatients(
+	        [FromQuery] int page,
+	        [FromQuery] int pageSize,
+	        [FromQuery] string? firstName = null,
+	        [FromQuery] string? lastName = null,
+	        [FromQuery] string? gender = null,
+	        [FromQuery] DateOnly? dateOfBirth = null)
+		{
+			var query = new GetFilteredPatientsQuery
+			{
+				Page = page,
+				PageSize = pageSize,
+				FirstName = firstName,
+				LastName = lastName,
+				Gender = gender,
+				DateOfBirth = dateOfBirth
+			};
+
+			var result = await mediator.Send(query);
+
+			if (result.IsSuccess)
+			{
+				return Ok(result);
+			}
+
+			return BadRequest(result.ErrorMessage);
+		}
+
+
+	}
 }
