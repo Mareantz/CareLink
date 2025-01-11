@@ -35,7 +35,7 @@ namespace Application.UseCases.Commands
 				.WithMessage("The doctor already has an appointment at this time.");
 		}
 
-		private bool BeWithinWorkingHours(DateTime appointmentDate)
+		private static bool BeWithinWorkingHours(DateTime appointmentDate)
 		{
 			// Working hours are from 08:00 to 17:50
 			var startTime = new TimeSpan(6, 0, 0);

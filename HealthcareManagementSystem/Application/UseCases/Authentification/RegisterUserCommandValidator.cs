@@ -35,7 +35,7 @@ namespace Application.UseCases.Authentification
 				.When(b => b.Role == UserRole.Doctor);
 		}
 
-		private bool BeAValidDate(DateOnly? nullableDate)
+		private static bool BeAValidDate(DateOnly? nullableDate)
 		{
 			if (!nullableDate.HasValue)
 				return false;

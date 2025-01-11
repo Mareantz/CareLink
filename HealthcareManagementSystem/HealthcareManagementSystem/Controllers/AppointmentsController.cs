@@ -1,4 +1,5 @@
-﻿using Application.UseCases.Commands;
+﻿using Application.DTOs;
+using Application.UseCases.Commands;
 using Application.UseCases.Queries;
 using Domain.Common;
 using Domain.Enums;

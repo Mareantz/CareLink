@@ -1,4 +1,5 @@
-﻿using Application.UseCases.Queries;
+﻿using Application.DTOs;
+using Application.UseCases.Queries;
 using AutoMapper;
 using Domain.Common;
 using Domain.Repositories;

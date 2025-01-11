@@ -1,8 +1,10 @@
 ﻿using MediatR;
-
-    public class LoginUserCommand : IRequest<string>
-    {
-        public string Username { get; set; }
-        public string Password { get; set; }
+namespace Application.UseCases.Authentification
+{
+	public class LoginUserCommand : IRequest<string>
+	{
+		public required string Username { get; set; }
+		public required string Password { get; set; }
+	}
 }
 

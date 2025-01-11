@@ -1,4 +1,5 @@
-﻿using Domain.Common;
+﻿using Application.DTOs;
+using Domain.Common;
 using Domain.Enums;
 using MediatR;
 
