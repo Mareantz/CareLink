@@ -1,0 +1,64 @@
+<div class="scheduler-container">
+    <button mat-button color="primary" (click)="backToDoctorList()" class="back-button">
+        <mat-icon>arrow_back</mat-icon>
+        Back to Doctor List
+      </button>
+    <h2>Schedule an Appointment</h2>
+    
+    <mat-form-field appearance="fill">
+      <mat-label>Select a Date</mat-label>
+      <input
+        matInput
+        [matDatepicker]="picker"
+        (dateChange)="onDateChange($event.value)"
+        [matDatepickerFilter]="disableWeekends"
+        placeholder="Choose a date">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+  
+    <div *ngIf="!selectedDate" class="placeholder-text">
+      <p>Please select a date to see available time slots.</p>
+    </div>
+  
+    <div *ngIf="selectedDate" class="time-slot-container">
+      <div *ngIf="allSlotsTaken()" class="all-taken-notice">
+        <p>All slots are taken for this day.</p>
+      </div>
+  
+      <mat-grid-list [cols]="cols" [rowHeight]="rowHeight" gutterSize="8px" *ngIf="!allSlotsTaken()">
+        <mat-grid-tile *ngFor="let slot of timeSlots">
+          <button 
+            mat-raised-button
+            color="accent"
+            [disabled]="isSlotTaken(slot)"
+            [ngClass]="{'taken': isSlotTaken(slot)}"
+            (click)="bookSlot(slot)">
+            {{ slot }}
+            <span *ngIf="isSlotTaken(slot)"> - Taken</span>
+            <span *ngIf="!isSlotTaken(slot)"> - Available</span>
+          </button>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </div>
+  </div>
+  
+  <!-- Modal Component -->
+  <app-modal 
+    [title]="'Book Appointment for ' + selectedSlot" 
+    [isVisible]="isModalVisible"
+    (closeModal)="closeModal()">
+    
+    <form (ngSubmit)="confirmBooking()" #bookingForm="ngForm">
+      <mat-form-field appearance="fill" style="width: 100%;">
+        <mat-label>Reason for Appointment</mat-label>
+        <input matInput [(ngModel)]="reason" name="reason" required>
+      </mat-form-field>
+      
+      <div class="modal-footer">
+        <button mat-button type="button" (click)="closeModal()">Cancel</button>
+        <button mat-raised-button color="primary" type="submit" [disabled]="!bookingForm.form.valid">Confirm</button>
+      </div>
+    </form>
+    
+  </app-modal>

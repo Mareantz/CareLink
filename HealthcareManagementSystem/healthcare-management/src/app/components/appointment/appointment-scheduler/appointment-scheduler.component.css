@@ -1,0 +1,40 @@
+/* src/app/appointments/appointment-scheduler/appointment-scheduler.component.css */
+.scheduler-container {
+    padding: 20px;
+  }
+  
+  .placeholder-text {
+    font-style: italic;
+    color: #666;
+  }
+  
+  .all-taken-notice {
+    padding: 16px;
+    background-color: #ffdce0;
+    color: #86181d;
+    border: 1px solid #fdaeb7;
+    border-radius: 4px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .time-slot-container {
+    margin-top: 20px;
+  }
+  
+  mat-grid-list {
+    margin-top: 10px;
+  }
+  
+  mat-grid-tile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  button.taken {
+    background-color: #ccc !important;
+    color: #666;
+    cursor: not-allowed;
+  }
+  

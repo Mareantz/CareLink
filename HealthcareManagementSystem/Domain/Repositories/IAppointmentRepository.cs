@@ -13,6 +13,7 @@ namespace Domain.Repositories
 		Task<IEnumerable<Appointment>> GetAppointmentsByStatusAsync(AppointmentStatus status);
 		Task<IEnumerable<Appointment>> GetAppointmentsByDoctorIdAsync(Guid doctorId);
 		Task<IEnumerable<Appointment>> GetAppointmentsByPatientIdAsync(Guid patientId);
+		Task<IEnumerable<Appointment>> GetAppointmentsByDoctorAndDateAsync(Guid doctorId, DateOnly date);
 		Task<Result> UpdateAppointment(Appointment appointment);
 	}
 }

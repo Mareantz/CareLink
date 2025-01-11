@@ -90,5 +90,18 @@ namespace HealthcareManagementSystem.Controllers
 
 			return BadRequest(result.ErrorMessage);
 		}
+
+		[HttpGet("doctor/{doctorId}/date/{date}")]
+		[Authorize]
+		public async Task<ActionResult<Result<List<AppointmentResponseDto>>>> GetAppointmentsByDoctorAndDate(Guid doctorId, DateOnly date)
+		{
+			var query = new GetAppointmentsByDoctorAndDateQuery { DoctorId = doctorId, Date = date };
+			var result = await mediator.Send(query);
+
+			if (result.IsSuccess)
+				return Ok(result);
+
+			return BadRequest(result.ErrorMessage);
+		}
 	}
 }

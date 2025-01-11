@@ -9,6 +9,7 @@ import { UserLoginComponent } from './components/user/user-login/user-login.comp
 import { PatientRiskPredictionComponent } from './components/patient/patient-risk-prediction/patient-risk-prediction.component';
 import { DoctorListComponent } from './components/doctor/doctor-list/doctor-list.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { AppointmentSchedulerComponent } from './components/appointment/appointment-scheduler/appointment-scheduler.component';
 
 
 export const appRoutes: Routes = [
@@ -22,6 +23,7 @@ export const appRoutes: Routes = [
   { path: 'login', component: UserLoginComponent },
   { path: 'patient-risk-prediction', component: PatientRiskPredictionComponent },
   { path: 'doctors', component: DoctorListComponent},
-  { path: 'dashboard', component: DashboardComponent}
+  { path: 'dashboard', component: DashboardComponent},
+  { path: 'appointments/scheduler/:userId', component: AppointmentSchedulerComponent}
 ];
   

@@ -56,6 +56,19 @@ export class AuthService {
     }
   }
 
+  public getUserId(): string | null {
+    const token = this.getToken();
+    if (!token) return null;
+
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload.user_id;
+    } catch (error) {
+      console.error('Error decoding JWT:', error);
+      return null;
+    }
+  }
+
   public logout(): void {
   this.clearToken();
   this.router.navigate(['/login']);

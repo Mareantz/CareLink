@@ -21,7 +21,11 @@ export class DoctorCardComponent {
 
   constructor(private router: Router) {}
 
-  makeAppointment() : void {
-    this.router.navigate(['/appointments/scheduler', this.doctorId]);
+  makeAppointment(): void {
+    if (this.doctorId) {
+      this.router.navigate(['/appointments/scheduler', this.doctorId]);
+    } else {
+      console.error('doctorId is undefined');
+    }
   }
 }

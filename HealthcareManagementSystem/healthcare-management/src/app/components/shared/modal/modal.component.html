@@ -1,16 +1,24 @@
-<div class="modal-overlay" *ngIf="isVisible">
+<ng-container *ngIf="isVisible">
+  <div class="modal-overlay">
     <div class="modal-content">
-      <div class="modal-header">
-        <h2>{{ title }}</h2>
-        <button class="close-button" (click)="close()">×</button>
-      </div>
+      <!-- Modal Header -->
+      <mat-toolbar color="primary">
+        <span>{{ title }}</span>
+        <span class="spacer"></span>
+        <button mat-icon-button (click)="close()" aria-label="Close Modal">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-toolbar>
+
+      <!-- Modal Body -->
       <div class="modal-body">
         <ng-content></ng-content>
       </div>
-      <!-- Optional Footer -->
+
+      <!-- Modal Footer -->
       <div class="modal-footer">
-        <button (click)="close()">Close</button>
+        <button mat-button (click)="close()">Close</button>
       </div>
     </div>
   </div>
-  
+</ng-container>

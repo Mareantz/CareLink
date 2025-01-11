@@ -63,6 +63,13 @@ namespace Infrastructure.Repositories
 				.ToListAsync();
 		}
 
+		public async Task<IEnumerable<Appointment>> GetAppointmentsByDoctorAndDateAsync(Guid doctorId, DateOnly date)
+		{
+			return await context.Appointments
+				.Where(a => a.DoctorId == doctorId && DateOnly.FromDateTime(a.AppointmentDate) == date)
+				.ToListAsync();
+		}
+
 		public async Task<IEnumerable<Appointment>> GetAppointments()
 		{
 			return await context.Appointments.ToListAsync();

@@ -38,8 +38,8 @@ namespace Application.UseCases.Commands
 		private bool BeWithinWorkingHours(DateTime appointmentDate)
 		{
 			// Working hours are from 08:00 to 17:50
-			var startTime = new TimeSpan(8, 0, 0);
-			var endTime = new TimeSpan(17, 50, 0);
+			var startTime = new TimeSpan(6, 0, 0);
+			var endTime = new TimeSpan(15, 30, 0);
 
 			var appointmentTime = appointmentDate.TimeOfDay;
 
