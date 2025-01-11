@@ -1,16 +1,37 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { DoctorService } from '../../services/doctor/doctor.service';
 import { PatientService } from '../../services/patient/patient.service';
 import { AuthService } from '../../services/auth.service';
 import { UserRole } from '../../UserRole';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+
+// Angular Material
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-profile',
-  imports: [ReactiveFormsModule, CommonModule],
+  standalone: true,
+  imports: [
+    // Angular
+    CommonModule,
+    ReactiveFormsModule,
+
+    // Angular Material
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule
+  ],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
@@ -28,6 +49,7 @@ export class ProfileComponent implements OnInit {
     private authService: AuthService,
     private router: Router
   ) {
+    // Inițializăm formularul cu validări de bază
     this.profileForm = this.fb.group({
       firstName: ['', [Validators.required, Validators.maxLength(50)]],
       lastName: ['', [Validators.required, Validators.maxLength(50)]],
@@ -74,12 +96,11 @@ export class ProfileComponent implements OnInit {
 
   private populateForm(data: any): void {
     const formValue = {
-      firstName: data.firstName,
-      lastName: data.lastName,
+      firstName: data.firstName || '',
+      lastName: data.lastName || '',
       specialization: data.specialization || '',
       bio: data.bio || ''
     };
-
     this.profileForm.patchValue(formValue);
   }
 
@@ -88,24 +109,26 @@ export class ProfileComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (!this.userId) {
-      console.error('User ID is missing. Cannot update.');
-      return;
-    }
-
     if (this.profileForm.valid) {
       const formData = {
         id: this.userId,
         ...this.profileForm.value
       };
 
-      if (this.userRole === UserRole.Doctor) {
-        this.updateDoctor(formData.id, formData);
-      } else if (this.userRole === UserRole.Patient) {
-        this.updatePatient(formData);
+      if (this.userId) {
+        // Actualizare pentru Doctor
+        if (this.userRole === UserRole.Doctor) {
+          this.updateDoctor(this.userId, formData);
+        }
+        // Actualizare pentru Pacient
+        else if (this.userRole === UserRole.Patient) {
+          this.updatePatient(formData);
+        }
+      } else {
+        console.error('User ID is null');
       }
     } else {
-      console.log('Form is invalid');
+      console.error('Form is invalid');
     }
   }
 
@@ -113,6 +136,7 @@ export class ProfileComponent implements OnInit {
     this.doctorService.updateDoctor(id, doctorData).subscribe({
       next: () => {
         console.log('Doctor updated successfully');
+        // Navigăm spre un alt ecran (ex. dashboard)
         this.router.navigate(['/dashboard']);
       },
       error: (err) => {

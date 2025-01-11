@@ -44,7 +44,7 @@ namespace HealthcareManagementSystem.Controllers
             return BadRequest(result.ErrorMessage);
         }
 
-        [HttpPut("id")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> Update(Guid id, UpdateDoctorCommand command)
         {
             if (id != command.Id)
