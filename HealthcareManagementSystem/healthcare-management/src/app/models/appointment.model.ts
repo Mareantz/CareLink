@@ -7,4 +7,7 @@ export interface Appointment {
     status: AppointmentStatus;
     doctorId: string;
     patientId: string;
+
+    doctorName?: string;
+    patientName?: string;
 }

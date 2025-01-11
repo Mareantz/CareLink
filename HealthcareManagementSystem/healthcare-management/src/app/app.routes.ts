@@ -10,6 +10,7 @@ import { PatientRiskPredictionComponent } from './components/patient/patient-ris
 import { DoctorListComponent } from './components/doctor/doctor-list/doctor-list.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { AppointmentSchedulerComponent } from './components/appointment/appointment-scheduler/appointment-scheduler.component';
+import { AppointmentListComponent } from './components/appointment/appointment-list/appointment-list.component';
 
 
 export const appRoutes: Routes = [
@@ -24,6 +25,7 @@ export const appRoutes: Routes = [
   { path: 'patient-risk-prediction', component: PatientRiskPredictionComponent },
   { path: 'doctors', component: DoctorListComponent},
   { path: 'dashboard', component: DashboardComponent},
-  { path: 'appointments/scheduler/:userId', component: AppointmentSchedulerComponent}
+  { path: 'appointments/scheduler/:userId', component: AppointmentSchedulerComponent},
+  { path: 'appointments', component: AppointmentListComponent}
 ];
   

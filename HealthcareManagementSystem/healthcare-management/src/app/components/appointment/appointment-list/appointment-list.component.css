@@ -1,0 +1,34 @@
+.appointment-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1rem;
+  }
+  
+  .appointment-card {
+    width: 100%;
+  }
+  
+  .doctor-actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  .no-appointments {
+    text-align: center;
+    color: gray;
+    font-style: italic;
+  }
+
+  .back-button {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    width:10%;
+  }
+  
+  .back-button mat-icon {
+    margin-right: 8px;
+    font-size: 20px; /* Adjust icon size if needed */
+  }
+  

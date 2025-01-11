@@ -1,0 +1,63 @@
+<div class="appointment-list-container">
+    
+    <button mat-button color="primary" (click)="backToDashboard()" class="back-button">
+        <mat-icon>arrow_back</mat-icon>
+        Back to Dashboard
+      </button>
+    <h2 *ngIf="userRole === UserRole.Patient">My Appointments</h2>
+    <h2 *ngIf="userRole === UserRole.Doctor">Appointments</h2>
+  
+    <!-- Appointment Cards -->
+    <mat-card *ngFor="let appt of appointments" class="appointment-card">
+      <mat-card-header>
+        <mat-card-title>
+          <!-- Display Patient Name for Doctors, Doctor Name for Patients -->
+          {{ userRole === UserRole.Doctor ? 'Patient: ' + appt.patientName : 'Doctor: ' + appt.doctorName }}
+        </mat-card-title>
+        <mat-card-subtitle>
+          <!-- Display Appointment Date and Time -->
+          {{ appt.appointmentDate | date:'fullDate' }} at {{ appt.appointmentDate | date:'shortTime' }}
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p><strong>Reason:</strong> {{ appt.reason }}</p>
+      </mat-card-content>
+      <mat-card-actions>
+        <!-- Patient Side: Cancel Appointment -->
+        <button
+          *ngIf="userRole === UserRole.Patient"
+          mat-raised-button
+          color="warn"
+          (click)="cancelAppointment(appt.id)"
+          aria-label="Cancel Appointment"
+        >
+          Cancel Appointment
+        </button>
+  
+        <!-- Doctor Side: Mark as Completed and Mark as Canceled -->
+        <div *ngIf="userRole === UserRole.Doctor" class="doctor-actions">
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="markAsCompleted(appt.id)"
+            aria-label="Mark as Completed"
+          >
+            Mark as Completed
+          </button>
+          <button
+            mat-raised-button
+            color="warn"
+            (click)="markAsCanceled(appt.id)"
+            aria-label="Mark as Canceled"
+          >
+            Mark as Canceled
+          </button>
+        </div>
+      </mat-card-actions>
+    </mat-card>
+  
+    <!-- Message When There Are No Appointments -->
+    <div *ngIf="appointments.length === 0" class="no-appointments">
+      <p>No appointments to display.</p>
+    </div>
+  </div>

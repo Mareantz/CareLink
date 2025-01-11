@@ -38,6 +38,30 @@ export class AppointmentService {
     );
   }
 
+  getAppointmentsByPatientId(patientId: string): Observable<Appointment[]> {
+    const url = `${this.apiURL}/patient/${patientId}`;
+
+    return this.http.get<any>(url, { headers: this.authService.getAuthHeaders() }).pipe(
+      map(response => response.data),
+      catchError(error => {
+        console.error('Error fetching appointments:', error);
+        return throwError(() => new Error('Failed to fetch appointments.'));
+      })
+    );
+  }
+
+  getAppointmentsByDoctorId(doctorId: string): Observable<Appointment[]> {
+    const url = `${this.apiURL}/doctor/${doctorId}`;
+
+    return this.http.get<any>(url, { headers: this.authService.getAuthHeaders() }).pipe(
+      map(response => response.data),
+      catchError(error => {
+        console.error('Error fetching appointments:', error);
+        return throwError(() => new Error('Failed to fetch appointments.'));
+      })
+    );
+  }
+
   createAppointment(appointment: AppointmentPost): Observable<Appointment> {
     return this.http.post<Appointment>(this.apiURL, appointment, { headers: this.authService.getAuthHeaders() }).pipe(
       catchError(error => {
