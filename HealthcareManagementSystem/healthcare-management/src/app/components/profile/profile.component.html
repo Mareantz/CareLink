@@ -1,0 +1,44 @@
+<div class="profile-container">
+    <h2>User Profile</h2>
+  
+    <form [formGroup]="profileForm">
+      <div *ngFor="let field of getFormFields()">
+        <label [for]="field">{{ field | titlecase }}</label>
+  
+        <ng-container *ngIf="field !== 'bio'; else textAreaField">
+          <input
+            [id]="field"
+            [formControlName]="field"
+            [readonly]="!isEditMode"
+          />
+        </ng-container>
+  
+        <ng-template #textAreaField>
+          <textarea
+            [id]="field"
+            [formControlName]="field"
+            [readonly]="!isEditMode"
+            maxlength="1000"
+            placeholder="Add your bio here (max 1000 characters)">
+          </textarea>
+        </ng-template>
+      </div>
+  
+      <div class="buttons">
+        <button
+          type="button"
+          (click)="toggleEditMode()"
+          *ngIf="!isEditMode">Edit</button>
+  
+        <button
+          type="submit"
+          (click)="onSubmit()"
+          *ngIf="isEditMode">Save</button>
+  
+        <button
+          type="button"
+          (click)="toggleEditMode()"
+          *ngIf="isEditMode">Cancel</button>
+      </div>
+    </form>
+  </div>

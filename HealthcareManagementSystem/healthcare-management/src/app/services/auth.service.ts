@@ -22,6 +22,7 @@ export class AuthService {
     localStorage.setItem('token', token);
   }
 
+  
   // Retrieve the token from localStorage
   getToken(): string | null {
     return localStorage.getItem('token');
@@ -55,6 +56,34 @@ export class AuthService {
       return UserRole.None;
     }
   }
+
+  public getUserDetails(): { id: string, role: UserRole } | null {
+    const token = this.getToken();
+    if (!token) {
+      return null; // Dacă nu există token
+    }
+    try {
+      // Decodificăm payload-ul din token
+      const payload = JSON.parse(atob(token.split('.')[1])); 
+      const id = payload.user_id; // Extragem `user_id` din payload
+      const role = this.convertRoleToEnum(payload.role); // Convertim rolul într-un enum UserRole
+      return { id, role };
+    } catch (error) {
+      console.error('Error decoding JWT', error);
+      return null;
+    }
+  }
+  
+  // Conversia rolului într-un enum UserRole
+  private convertRoleToEnum(role: string): UserRole {
+    switch (role) {
+      case 'Doctor': return UserRole.Doctor;
+      case 'Patient': return UserRole.Patient;
+      case 'Admin': return UserRole.Admin;
+      default: return UserRole.None;
+    }
+  }
+  
 
   public logout(): void {
   this.clearToken();

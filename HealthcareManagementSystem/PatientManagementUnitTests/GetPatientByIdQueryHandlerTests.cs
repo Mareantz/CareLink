@@ -44,7 +44,7 @@ namespace PatientManagementUnitTests
             {
                 FirstName = "John",
                 LastName = "Doe",
-                DateOfBirth = "21-02-1990",
+                DateOfBirth = new DateOnly(1990,2,21),
                 Gender = "Male",
                 Address = "123 Main St"
             };
@@ -61,7 +61,7 @@ namespace PatientManagementUnitTests
             Assert.NotNull(result);
             Assert.Equal("John", result.FirstName);
             Assert.Equal("Doe", result.LastName);
-            Assert.Equal("21-02-1990", result.DateOfBirth);  // Verificăm că are valoarea dorită, nu null
+            Assert.Equal(new DateOnly(1990, 2, 21), result.DateOfBirth);  // Verificăm că are valoarea dorită, nu null
 
             Assert.Equal("Male", result.Gender);
             Assert.Equal("123 Main St", result.Address);

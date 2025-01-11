@@ -72,13 +72,13 @@ namespace PatientManagementUnitTests
 
             Assert.Equal("John", result[0].FirstName);
             Assert.Equal("Doe", result[0].LastName);
-            Assert.Equal("21-02-1990", result[0].DateOfBirth);
+            Assert.Equal(new DateOnly(1990,2,21), result[0].DateOfBirth);
             Assert.Equal("Male", result[0].Gender);
             Assert.Equal("123 Main St", result[0].Address);
 
             Assert.Equal("Jane", result[1].FirstName);
             Assert.Equal("Smith", result[1].LastName);
-            Assert.Equal("15-05-1985", result[1].DateOfBirth);
+            Assert.Equal(new DateOnly(1985, 5, 15), result[1].DateOfBirth);
             Assert.Equal("Female", result[1].Gender);
             Assert.Equal("456 Oak Ave", result[1].Address);
         }

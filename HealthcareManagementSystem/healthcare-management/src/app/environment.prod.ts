@@ -1,6 +1,6 @@
 export const environment = {
   production: false,
-  apiUrl: 'https://localhost:7233'
+  apiUrl: 'http://localhost:5263'
 };
   
 export const deployed_environment = {

@@ -25,6 +25,7 @@ export class DoctorService {
       catchError(this.handleError)
     );
   }
+  
 
   public getDoctorById(id: string): Observable<Doctor> {
     return this.http.get<Doctor>(`${this.apiURL}/${id}`, { headers: this.authService.getAuthHeaders() }).pipe(
