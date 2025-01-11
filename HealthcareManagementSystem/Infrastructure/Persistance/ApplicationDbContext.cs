@@ -109,7 +109,9 @@ namespace PredictiveHealthcare.Infrastructure.Persistence
 				entity.HasKey(e => e.UserId);
 				entity.Property(e => e.FirstName).IsRequired().HasMaxLength(100);
 				entity.Property(e => e.LastName).IsRequired().HasMaxLength(100);
-				entity.HasMany(d => d.Patients)
+                entity.Property(e => e.Specialization).IsRequired().HasMaxLength(100);
+                entity.Property(e => e.Bio).HasMaxLength(1000);
+                entity.HasMany(d => d.Patients)
 					  .WithMany(p => p.Doctors);
 				entity.HasOne(d => d.User)
 					  .WithOne()

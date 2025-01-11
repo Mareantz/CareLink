@@ -20,11 +20,12 @@ export class DoctorService {
     );
   }
 
-  public updateDoctor(id: string, doctorData: any): Observable<any> {
+  updateDoctor(id: string, doctorData: any): Observable<any> {
     return this.http.put<Doctor>(`${this.apiURL}/${id}`, doctorData, { headers: this.authService.getAuthHeaders() }).pipe(
-      catchError(this.handleError)
-    );
+          catchError(this.handleError));
   }
+  
+  
 
   public getDoctorById(id: string): Observable<Doctor> {
     return this.http.get<Doctor>(`${this.apiURL}/${id}`, { headers: this.authService.getAuthHeaders() }).pipe(

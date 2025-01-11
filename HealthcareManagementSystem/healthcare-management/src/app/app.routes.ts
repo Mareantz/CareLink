@@ -11,7 +11,7 @@ import { DoctorListComponent } from './components/doctor/doctor-list/doctor-list
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { AppointmentSchedulerComponent } from './components/appointment/appointment-scheduler/appointment-scheduler.component';
 import { AppointmentListComponent } from './components/appointment/appointment-list/appointment-list.component';
-
+import { ProfileComponent } from './components/profile/profile.component';
 
 export const appRoutes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -26,6 +26,7 @@ export const appRoutes: Routes = [
   { path: 'doctors', component: DoctorListComponent},
   { path: 'dashboard', component: DashboardComponent},
   { path: 'appointments/scheduler/:userId', component: AppointmentSchedulerComponent},
-  { path: 'appointments', component: AppointmentListComponent}
+  { path: 'appointments', component: AppointmentListComponent},
+  { path: 'profile', component: ProfileComponent}
 ];
   

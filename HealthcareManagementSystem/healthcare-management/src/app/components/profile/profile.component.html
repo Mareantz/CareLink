@@ -1,0 +1,74 @@
+<mat-card class="profile-container">
+  <mat-card-title>User Profile</mat-card-title>
+  <mat-card-content>
+    <!-- Adăugăm (ngSubmit) pentru a trimite formularul când se apasă pe Save -->
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+      
+      <!-- Iterăm toate câmpurile din formular -->
+      <div *ngFor="let field of getFormFields()">
+        
+        <!-- Pentru câmpurile diferite de 'bio' -->
+        <ng-container *ngIf="field !== 'bio'">
+          <mat-form-field appearance="fill" style="width: 100%;">
+            <mat-label>{{ field | titlecase }}</mat-label>
+            <input
+              matInput
+              [id]="field"
+              [formControlName]="field"
+              [readonly]="!isEditMode"
+            />
+            <mat-error *ngIf="profileForm.get(field)?.hasError('required')">
+              {{ field | titlecase }} is required
+            </mat-error>
+          </mat-form-field>
+        </ng-container>
+
+        <!-- Pentru câmpul 'bio' -->        
+        <ng-container *ngIf="field === 'bio'">
+          <mat-form-field appearance="fill" style="width: 100%;">
+            <mat-label>Bio</mat-label>
+            <textarea
+              matInput
+              [id]="field"
+              [formControlName]="field"
+              [readonly]="!isEditMode"
+              maxlength="1000"
+              placeholder="Add your bio here (max 1000 characters)">
+            </textarea>
+            <mat-hint align="end">
+              {{ profileForm.get(field)?.value?.length || 0 }}/1000
+            </mat-hint>
+          </mat-form-field>
+        </ng-container>
+      </div>
+
+      <!-- Butoane -->
+      <mat-card-actions>
+        <button
+          mat-raised-button
+          color="primary"
+          type="button"
+          (click)="toggleEditMode()"
+          *ngIf="!isEditMode">
+          Edit
+        </button>
+
+        <button
+          mat-raised-button
+          color="accent"
+          type="submit"
+          *ngIf="isEditMode">
+          Save
+        </button>
+
+        <button
+          mat-button
+          type="button"
+          (click)="toggleEditMode()"
+          *ngIf="isEditMode">
+          Cancel
+        </button>
+      </mat-card-actions>
+    </form>
+  </mat-card-content>
+</mat-card>
