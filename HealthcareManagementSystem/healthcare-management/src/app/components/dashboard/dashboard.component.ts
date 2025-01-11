@@ -11,6 +11,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
+import { DoctorService } from '../../services/doctor/doctor.service';
+import { PatientService } from '../../services/patient/patient.service';
+import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
+import { of } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 
 interface NavItem {
@@ -30,15 +35,24 @@ interface NavItem {
     MatListModule,
     MatCardModule,
     RouterModule,
-    CommonModule],
+    CommonModule,
+  ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit {
-  userRole : UserRole = UserRole.None;
+  userRole: UserRole = UserRole.None;
   navItems: NavItem[] = [];
+  displayName: string = 'User';
+  isHandset$ = of(false); // Will be updated via BreakpointObserver
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private breakpointObserver: BreakpointObserver,
+    private doctorService: DoctorService,
+    private patientService: PatientService
+  ) {}
 
   ngOnInit(): void {
     const token = this.authService.getToken();
@@ -46,7 +60,17 @@ export class DashboardComponent implements OnInit {
       this.router.navigate(['/login']);
       return;
     }
+
     this.userRole = this.authService.getUserRole();
+
+    // Responsive check using BreakpointObserver (CDK)
+    this.isHandset$ = this.breakpointObserver.observe([Breakpoints.Handset]).pipe(
+      map(result => result.matches)
+    );
+
+    // Fetch user first/last name
+    this.fetchUserName();
+
     this.setNavItems();
   }
 
@@ -60,6 +84,36 @@ export class DashboardComponent implements OnInit {
         return 'patient';
       default:
         return 'none';
+    }
+  }
+
+  // Simple fetch for first/last name based on user role
+  private fetchUserName(): void {
+    const userId = this.authService.getUserId();
+    if (!userId) return;
+
+    if (this.userRole === UserRole.Patient) {
+      this.patientService.getPatientById(userId).subscribe({
+        next: (patient: any) => {
+          const firstName = patient?.firstName || 'Unknown';
+          const lastName = patient?.lastName || '';
+          this.displayName = `${firstName} ${lastName}`.trim();
+        },
+        error: (error) => {
+          console.error('Error fetching patient details:', error);
+        }
+      });
+    } else if (this.userRole === UserRole.Doctor) {
+      this.doctorService.getDoctorById(userId).subscribe({
+        next: (doctor: any) => {
+          const firstName = doctor?.firstName || 'Unknown';
+          const lastName = doctor?.lastName || '';
+          this.displayName = `${firstName} ${lastName}`.trim();
+        },
+        error: (error) => {
+          console.error('Error fetching doctor details:', error);
+        }
+      });
     }
   }
 
