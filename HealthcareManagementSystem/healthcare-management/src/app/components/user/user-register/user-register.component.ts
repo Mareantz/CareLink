@@ -78,12 +78,11 @@ export class UserRegisterComponent implements OnInit {
       this.authService.register(payload).subscribe({
         
         next: (response) => {
-          console.log('Registration successful:', response);
+          console.log('Registration successful:', response.data);
           alert('Registration successful! You can now log in.');
         },
         error: (error) => {
-          console.log(payload);
-          console.error('Registration failed:', error);
+          console.error('Registration failed:', error.error.errorMessage);
           alert('An error occurred. Please try again.');
         },
       });

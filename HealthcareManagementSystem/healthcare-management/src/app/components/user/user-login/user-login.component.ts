@@ -31,13 +31,13 @@ export class UserLoginComponent implements OnInit {
           console.log('Login successful:', response);
 
           // Save the JWT token to localStorage or sessionStorage
-          localStorage.setItem('token', response.token);
+          localStorage.setItem('token', response.data);
 
           // Redirect the user after login
           this.router.navigate(['/dashboard']); // Adjust the route as needed
         },
         error: (error) => {
-          console.error('Login failed:', error);
+          console.error('Login failed:', error.error.errorMessage);
           this.errorMessage = 'Invalid username or password.';
         },
       });

@@ -1,4 +1,5 @@
 ﻿using Application.UseCases.Authentification;
+using Domain.Common;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,16 +17,28 @@ namespace HealthcareManagementSystem.Controllers
 			this.mediator = mediator;
 		}
 		[HttpPost("register")]
-		public async Task<IActionResult> Register(RegisterUserCommand command)
+		public async Task<ActionResult<Result<Guid>>> Register(RegisterUserCommand command)
 		{
-			var userId = await mediator.Send(command);
-			return Ok(new { UserId = userId });
+			var result = await mediator.Send(command);
+
+			if (result.IsSuccess)
+			{
+				return StatusCode(201, result);
+			}
+
+			return BadRequest(result);
 		}
 		[HttpPost("login")]
-		public async Task<IActionResult> Login(LoginUserCommand command)
+		public async Task<ActionResult<Result<string>>> Login(LoginUserCommand command)
 		{
-			var token = await mediator.Send(command);
-			return Ok(new { Token = token });
+			var result = await mediator.Send(command);
+
+			if (result.IsSuccess)
+			{
+				return Ok(result);
+			}
+
+			return Unauthorized(result);
 		}
 	}
 }
