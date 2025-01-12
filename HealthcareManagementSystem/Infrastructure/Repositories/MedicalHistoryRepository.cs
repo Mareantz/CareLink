@@ -17,7 +17,7 @@ namespace Infrastructure.Repositories
         }
         public async Task<Result<Guid>> AddMedicalHistory(MedicalHistory medicalHistory)
         {
-           try
+            try
             {
                 await context.MedicalHistories.AddAsync(medicalHistory);
                 await context.SaveChangesAsync();
@@ -30,7 +30,7 @@ namespace Infrastructure.Repositories
             }
         }
 
-  
+
 
         public async Task<IEnumerable<MedicalHistory>> GetMedicalHistories()
         {
@@ -44,7 +44,7 @@ namespace Infrastructure.Repositories
 
         public async Task<PagedResult<MedicalHistory>> PagedResult(int page, int pageSize, Guid? patientId, string? Medication, string? Diagnosis)
         {
-           var query = context.MedicalHistories.AsQueryable();
+            var query = context.MedicalHistories.AsQueryable();
             if (patientId != null)
             {
                 query = query.Where(x => x.PatientId == patientId);
@@ -79,5 +79,6 @@ namespace Infrastructure.Repositories
                 var errorMessage = ex.InnerException != null ? ex.InnerException.ToString() : ex.ToString();
                 return Result.Failure(errorMessage);
             }
+        }
     }
 }
