@@ -9,8 +9,8 @@ using Domain.Repositories;
 using Infrastructure.Repositories;
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddEnvironmentVariables();
-//var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
-//builder.WebHost.UseUrls($"http://*:{port}");
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+builder.WebHost.UseUrls($"http://*:{port}");
 
 var AllowFrontend = "AllowFrontend";
 
@@ -29,10 +29,10 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddAuthorization();
 
-//builder.Configuration["ConnectionStrings:DefaultConnection"] = Environment.GetEnvironmentVariable("DefaultConnection");
-//builder.Configuration["ConnectionStrings:UserConnection"] = Environment.GetEnvironmentVariable("UserConnection");
-//builder.Configuration["Jwt:Key"] = Environment.GetEnvironmentVariable("Jwt__Key");
-//builder.Services.AddHealthChecks();
+builder.Configuration["ConnectionStrings:DefaultConnection"] = Environment.GetEnvironmentVariable("DefaultConnection");
+builder.Configuration["ConnectionStrings:UserConnection"] = Environment.GetEnvironmentVariable("UserConnection");
+builder.Configuration["Jwt:Key"] = Environment.GetEnvironmentVariable("Jwt__Key");
+builder.Services.AddHealthChecks();
 
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
@@ -73,7 +73,7 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 var app = builder.Build();
-//app.UseHealthChecks("/health");
+app.UseHealthChecks("/health");
 
 if (app.Environment.IsDevelopment())
 {
