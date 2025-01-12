@@ -24,7 +24,7 @@ export class AppointmentService {
   private formatDate(date: string | Date): string {
     const d = new Date(date);
     const year = d.getFullYear();
-    const month = (`0${d.getMonth() + 1}`).slice(-2); // Months are zero-based
+    const month = (`0${d.getMonth() + 1}`).slice(-2);
     const day = (`0${d.getDate()}`).slice(-2);
     return `${year}.${month}.${day}`;
   }
@@ -34,7 +34,7 @@ export class AppointmentService {
     const url = `${this.apiURL}/doctor/${doctorId}/date/${formattedDate}`;
 
     return this.http.get<any>(url, { headers: this.authService.getAuthHeaders() }).pipe(
-      map(response => response.data), // Extract the data property
+      map(response => response.data),
       catchError(error => {
         console.error('Error fetching appointments:', error);
         return throwError(() => new Error('Failed to fetch appointments.'));

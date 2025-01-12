@@ -6,5 +6,4 @@ export interface MedicalHistory {
     notes: string;
     dateRecorded: string;
     attachments: string[];
-    // Attachments are handled via FormData
   }

@@ -17,18 +17,15 @@ export class AuthService {
   login(userData: any): Observable<any>{
     return this.http.post(this.apiUrl + '/login', userData);
   }
-  // Store the token in localStorage
   saveToken(token: string): void {
     localStorage.setItem('token', token);
   }
 
   
-  // Retrieve the token from localStorage
   getToken(): string | null {
     return localStorage.getItem('token');
   }
 
-  // Clear the token (for logout)
   clearToken(): void {
     localStorage.removeItem('token');
   }
@@ -72,13 +69,12 @@ export class AuthService {
   public getUserDetails(): { id: string, role: UserRole } | null {
     const token = this.getToken();
     if (!token) {
-      return null; // Dacă nu există token
+      return null;
     }
     try {
-      // Decodificăm payload-ul din token
       const payload = JSON.parse(atob(token.split('.')[1])); 
-      const id = payload.user_id; // Extragem `user_id` din payload
-      const role = this.convertRoleToEnum(payload.role); // Convertim rolul într-un enum UserRole
+      const id = payload.user_id;
+      const role = this.convertRoleToEnum(payload.role);
       return { id, role };
     } catch (error) {
       console.error('Error decoding JWT', error);
@@ -86,7 +82,6 @@ export class AuthService {
     }
   }
   
-  // Conversia rolului într-un enum UserRole
   private convertRoleToEnum(role: string): UserRole {
     switch (role) {
       case 'Doctor': return UserRole.Doctor;

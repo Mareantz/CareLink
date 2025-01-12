@@ -1,32 +1,26 @@
-/* Container general */
 .profile-container {
-  /* Lăsăm card-ul să fie pe 100%, dar totodată limităm lățimea maximă pentru desktop */
   width: 100%;
   max-width: 600px;
   margin: 0 auto;
   padding: 20px;
 }
 
-/* Titlul card-ului */
 mat-card-title {
   font-size: 1.5rem;
   margin-bottom: 16px;
 }
 
-/* Acțiunile card-ului (butoanele) */
 mat-card-actions {
   display: flex;
   justify-content: space-between;
   margin-top: 16px;
 }
 
-/* Form fields */
 mat-form-field {
   margin-bottom: 16px;
   width: 100%;
 }
 
-/* Media query: pentru ecrane sub 600px reduc margin/padding */
 @media (max-width: 599px) {
   .profile-container {
     padding: 10px;

@@ -12,7 +12,6 @@ import { AuthService } from '../../services/auth.service';
 import { UserRole } from '../../UserRole';
 import { CommonModule } from '@angular/common';
 
-// Angular Material
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -22,11 +21,8 @@ import { MatButtonModule } from '@angular/material/button';
   selector: 'app-profile',
   standalone: true,
   imports: [
-    // Angular
     CommonModule,
     ReactiveFormsModule,
-
-    // Angular Material
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
@@ -49,7 +45,6 @@ export class ProfileComponent implements OnInit {
     private authService: AuthService,
     private router: Router
   ) {
-    // Inițializăm formularul cu validări de bază
     this.profileForm = this.fb.group({
       firstName: ['', [Validators.required, Validators.maxLength(50)]],
       lastName: ['', [Validators.required, Validators.maxLength(50)]],
@@ -116,11 +111,9 @@ export class ProfileComponent implements OnInit {
       };
 
       if (this.userId) {
-        // Actualizare pentru Doctor
         if (this.userRole === UserRole.Doctor) {
           this.updateDoctor(this.userId, formData);
         }
-        // Actualizare pentru Pacient
         else if (this.userRole === UserRole.Patient) {
           this.updatePatient(formData);
         }
@@ -136,7 +129,6 @@ export class ProfileComponent implements OnInit {
     this.doctorService.updateDoctor(id, doctorData).subscribe({
       next: () => {
         console.log('Doctor updated successfully');
-        // Navigăm spre un alt ecran (ex. dashboard)
         this.router.navigate(['/dashboard']);
       },
       error: (err) => {

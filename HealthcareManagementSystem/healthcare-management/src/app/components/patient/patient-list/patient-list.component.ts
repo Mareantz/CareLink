@@ -49,14 +49,12 @@ export class PatientListComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  // RxJS Subject for handling search input with debouncing
   private searchSubject: Subject<void> = new Subject<void>();
   private unsubscribe$: Subject<void> = new Subject<void>();
 
   constructor(private patientService: PatientService, private router: Router) {}
 
   ngOnInit(): void {
-    // Subscribe to searchSubject with debouncing
     this.searchSubject.pipe(
       debounceTime(300),
       takeUntil(this.unsubscribe$)
@@ -76,7 +74,7 @@ export class PatientListComponent implements OnInit, AfterViewInit, OnDestroy {
       .getFilteredPatients(page, this.pageSize, this.searchFirstName, this.searchLastName, this.searchGender)
       .subscribe(
         (res: any) => {
-          this.patients = res.data.data; // Adjust according to your API response
+          this.patients = res.data.data;
           this.totalPatients = res.data.totalCount;
         },
         error => {
@@ -87,16 +85,13 @@ export class PatientListComponent implements OnInit, AfterViewInit, OnDestroy {
       );
   }
 
-  /**
-   * Emit to searchSubject whenever search inputs change
-   */
   onSearchChange(): void {
     this.searchSubject.next();
   }
 
   applyFilter(): void {
     if (this.paginator) {
-      this.paginator.firstPage(); // Reset to first page when applying a new filter
+      this.paginator.firstPage();
     }
     this.fetchPatients();
   }
@@ -124,7 +119,6 @@ export class PatientListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    // Complete the subscription to prevent memory leaks
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
   }

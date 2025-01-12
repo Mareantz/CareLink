@@ -27,13 +27,9 @@ export class UserRegisterComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       phoneNumber: ['', [Validators.required]],
       role: ['', [Validators.required]],
-
-      // Patient-specific fields (will only be required if role = Patient)
       dateOfBirth: [''],
       gender: [''],
       address: [''],
-
-      // Doctor-specific fields (will only be required if role = Doctor)
       specialization: ['']
     });
   }
@@ -47,7 +43,7 @@ export class UserRegisterComponent implements OnInit {
       case UserRole.Patient:
         return 2;
       default:
-        return 0; // Represents 'None' or an undefined role
+        return 0;
     }
   }
 
@@ -64,12 +60,10 @@ export class UserRegisterComponent implements OnInit {
         firstName: this.userForm.value.firstName,
         lastName: this.userForm.value.lastName,
         
-        // Patient-specific
         dateOfBirth: this.userForm.value.role == UserRole.Patient ? this.userForm.value.dateOfBirth : null,
         gender: this.userForm.value.role == UserRole.Patient ? this.userForm.value.gender : null,
         address: this.userForm.value.role == UserRole.Patient ? this.userForm.value.address : null,
 
-        // Doctor-specific
         specialization: this.userForm.value.role == UserRole.Doctor ? this.userForm.value.specialization : null
       };
 

@@ -1,4 +1,3 @@
-// src/app/components/dashboard/dashboard.component.ts
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { UserRole } from '../../UserRole';
@@ -53,7 +52,7 @@ export class DashboardComponent implements OnInit {
   navItems: NavItem[] = [];
   displayName: string = 'User';
   medicalHistoryList: any[] = [];
-  isHandset$ = of(false); // Will be updated via BreakpointObserver
+  isHandset$ = of(false);
 
   private baseAttachmentUrl: string = 'https://localhost:7233/';
 
@@ -75,12 +74,10 @@ export class DashboardComponent implements OnInit {
 
     this.userRole = this.authService.getUserRole();
 
-    // Responsive check using BreakpointObserver (CDK)
     this.isHandset$ = this.breakpointObserver.observe([Breakpoints.Handset]).pipe(
       map(result => result.matches)
     );
 
-    // Fetch user first/last name
     this.fetchUserName();
 
     this.setNavItems();
@@ -131,7 +128,6 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  // Simple fetch for first/last name based on user role
   private fetchUserName(): void {
     const userId = this.authService.getUserId();
     if (!userId) return;
@@ -179,6 +175,5 @@ export class DashboardComponent implements OnInit {
 
   logout(): void {
     this.authService.logout();
-    // Redirect to login page or handle accordingly
   }
 }

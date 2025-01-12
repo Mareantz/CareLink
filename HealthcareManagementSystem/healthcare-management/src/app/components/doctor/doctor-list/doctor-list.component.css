@@ -1,13 +1,10 @@
-/* src/app/doctors/doctor-list/doctor-list.component.css */
 
-/* General Styles */
 .doctor-list-container {
     padding: 20px;
     max-width: 1200px;
     margin: 0 auto;
   }
   
-  /* Back Button Styles */
   .back-button {
     display: flex;
     align-items: center;
@@ -16,10 +13,9 @@
   
   .back-button mat-icon {
     margin-right: 8px;
-    font-size: 20px; /* Adjust icon size if needed */
+    font-size: 20px;
   }
   
-  /* Title */
   .doctor-list-container h2 {
     text-align: center;
     color: #272427;
@@ -27,7 +23,6 @@
     font-weight: bold;
   }
   
-  /* Responsive Grid List */
   mat-grid-list {
     width: 100%;
   }

@@ -30,11 +30,9 @@ export class UserLoginComponent implements OnInit {
         next: (response) => {
           console.log('Login successful:', response);
 
-          // Save the JWT token to localStorage or sessionStorage
           localStorage.setItem('token', response.data);
 
-          // Redirect the user after login
-          this.router.navigate(['/dashboard']); // Adjust the route as needed
+          this.router.navigate(['/dashboard']);
         },
         error: (error) => {
           console.error('Login failed:', error.error.errorMessage);
