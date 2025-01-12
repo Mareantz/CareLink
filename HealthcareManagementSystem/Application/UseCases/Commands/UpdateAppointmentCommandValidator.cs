@@ -1,6 +1,16 @@
-﻿namespace Application.UseCases.Commands
+﻿using FluentValidation;
+
+namespace Application.UseCases.Commands
 {
-	public class UpdateAppointmentCommandValidator
+	public class UpdateAppointmentCommandValidator : AbstractValidator<UpdateAppointmentCommand>
 	{
+		public UpdateAppointmentCommandValidator()
+		{
+			RuleFor(x => x.AppointmentId)
+				.NotEmpty().WithMessage("AppointmentId is required.");
+
+			RuleFor(x => x.NewStatus)
+				.IsInEnum().WithMessage("Invalid appointment status.");
+		}
 	}
 }

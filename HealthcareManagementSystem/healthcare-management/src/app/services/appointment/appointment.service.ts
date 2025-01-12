@@ -8,6 +8,12 @@ import { map, catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { AppointmentPost } from '../../models/appointmentPost.model';
 
+export interface UpdateStatusPayload {
+  appointmentId: string;
+  newStatus: number;
+}
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -69,6 +75,21 @@ export class AppointmentService {
         return throwError(() => new Error('Failed to book appointment.'));
       })
     );
+  }
+
+  updateAppointmentStatus(payload: UpdateStatusPayload): Observable<any> {
+    const url = `${this.apiURL}/update-status`;
+    return this.http.put<any>(url, payload, { headers: this.authService.getAuthHeaders() }).pipe(
+      catchError(error => {
+        console.error('Error updating appointment status:', error);
+        return throwError(() => new Error('Failed to update appointment status.'));
+      })
+    );
+  }
+
+  //PLACEHOLDER
+  submitMedicalHistory(formData: FormData): Observable<any> {
+    return this.http.post(`${this.apiURL}/medical-history/submit`, formData);
   }
 
 }

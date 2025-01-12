@@ -104,5 +104,28 @@ namespace HealthcareManagementSystem.Controllers
 
 			return BadRequest(result.ErrorMessage);
 		}
+
+		[HttpGet("{id}")]
+		[Authorize]
+		public async Task<ActionResult<Result<AppointmentResponseDto>>> GetAppointmentById(Guid id)
+		{
+			var query = new GetAppointmentByIdQuery { Id = id };
+			var result = await mediator.Send(query);
+			if (result.IsSuccess)
+				return Ok(result);
+			return BadRequest(result.ErrorMessage);
+		}
+
+		[HttpPut("update-status")]
+		[Authorize]
+		public async Task<ActionResult<Result>> UpdateAppointmentStatus(UpdateAppointmentCommand command)
+		{
+			var result = await mediator.Send(command);
+
+			if (result.IsSuccess)
+				return Ok(result);
+
+			return BadRequest(result.ErrorMessage);
+		}
 	}
 }

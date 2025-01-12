@@ -31,4 +31,72 @@
     margin-right: 8px;
     font-size: 20px; /* Adjust icon size if needed */
   }
+
+  .status-scheduled {
+    color: orange;
+  }
   
+  .status-completed {
+    color: green;
+  }
+  
+  .status-canceled {
+    color: red;
+  }
+
+  .status-scheduled, .status-completed, .status-canceled {
+    margin-left: 4px;
+  }
+  
+  .appointment-list-container {
+    padding: 16px;
+  }
+  
+  .appointment-card {
+    margin-bottom: 16px;
+  }
+  
+  .back-button {
+    margin-bottom: 16px;
+  }
+  
+  .doctor-actions button {
+    margin-right: 8px;
+  }
+  
+  .no-appointments {
+    text-align: center;
+    margin-top: 32px;
+    color: gray;
+  }
+  
+  .full-width {
+    width: 100%;
+  }
+  
+  .attachments-container {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .attachments-label {
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  
+  .selected-files {
+    margin-top: 10px;
+  }
+  
+  .modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+
+  .notes-textarea {
+    resize: vertical;
+    max-height: 200px; /* Adjust the max height as needed */
+    min-height: 50px; /* Set a minimum height to maintain consistency */
+  }

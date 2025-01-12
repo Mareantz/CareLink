@@ -75,9 +75,25 @@ namespace Infrastructure.Repositories
 			return await context.Appointments.ToListAsync();
 		}
 
-		public Task<Result> UpdateAppointment(Appointment appointment)
+		public async Task<Result> UpdateAppointment(Appointment appointment)
 		{
-			throw new NotImplementedException();
+			var existingAppointment = await context.Appointments.FirstOrDefaultAsync(a => a.Id == appointment.Id);
+			if (existingAppointment == null)
+			{
+				return Result.Failure("Appointment not found.");
+			}
+
+			existingAppointment.Status = appointment.Status;
+
+			try
+			{
+				await context.SaveChangesAsync();
+				return Result.Success();
+			}
+			catch (Exception ex)
+			{
+				return Result.Failure($"An error occurred while updating the appointment: {ex.Message}");
+			}
 		}
 	}
 }
