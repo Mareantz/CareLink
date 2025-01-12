@@ -56,7 +56,7 @@ namespace HealthcareManagementSystem.HealthcareIntegrationTests
             var client = factory.CreateClient();
             var command = new CreateMedicalHistoryCommand
             {
-                Date = DateTime.Now,
+                DateRecorded = DateTime.Now,
                 Diagnosis = "Flu",
                 Medication = "Tamiflu",
                 Notes = "Patient recovering well",
