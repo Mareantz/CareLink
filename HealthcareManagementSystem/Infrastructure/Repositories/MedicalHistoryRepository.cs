@@ -70,7 +70,7 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                context.MedicalHistories.Update(medicalHistory);
+                context.Entry(medicalHistory).State = EntityState.Modified;
                 await context.SaveChangesAsync();
                 return Result.Success();
             }
