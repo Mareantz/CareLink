@@ -3,11 +3,19 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../services/auth.service';
 import { UserRole } from '../../../UserRole';
-
+import { NgModule } from '@angular/core';
+import { Router } from '@angular/router';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatIcon } from '@angular/material/icon';
 @Component({
   selector: 'app-user-register',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, MatInputModule,MatIcon, MatFormFieldModule, MatSelectModule, MatButtonModule, MatDatepickerModule, MatNativeDateModule],
   templateUrl: './user-register.component.html',
   styleUrls: ['./user-register.component.css']
 })
@@ -15,7 +23,7 @@ export class UserRegisterComponent implements OnInit {
   userForm!: FormGroup;
   UserRole = UserRole;
 
-  constructor(private fb: FormBuilder, private authService: AuthService) {}
+  constructor(private fb: FormBuilder, private authService: AuthService,private router:Router) {}
 
   ngOnInit(): void {
     this.userForm = this.fb.group({
@@ -46,7 +54,9 @@ export class UserRegisterComponent implements OnInit {
         return 0;
     }
   }
-
+  backToHomepage(): void {
+    this.router.navigate(['/']);
+  }
   onSubmit(): void {
     if (this.userForm.valid) {
       const roleNumber = this.getRoleNumber(this.userForm.value.role);
@@ -66,13 +76,14 @@ export class UserRegisterComponent implements OnInit {
 
         specialization: this.userForm.value.role == UserRole.Doctor ? this.userForm.value.specialization : null
       };
-
+      
       console.log('Payload being sent:', payload);
 
       this.authService.register(payload).subscribe({
         
         next: (response) => {
-          console.log('Registration successful:', response.data);
+          this.router.navigate(['/login']);
+          console.log('Registration successful:', response);
           alert('Registration successful! You can now log in.');
         },
         error: (error) => {
