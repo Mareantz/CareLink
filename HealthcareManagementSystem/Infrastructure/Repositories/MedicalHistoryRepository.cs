@@ -68,7 +68,16 @@ namespace Infrastructure.Repositories
 
         public async Task<Result> UpdateMedicalHistory(MedicalHistory medicalHistory)
         {
-            return await Task.FromResult(Result.Success());
-        }
+            try
+            {
+                context.MedicalHistories.Update(medicalHistory);
+                await context.SaveChangesAsync();
+                return Result.Success();
+            }
+            catch (Exception ex)
+            {
+                var errorMessage = ex.InnerException != null ? ex.InnerException.ToString() : ex.ToString();
+                return Result.Failure(errorMessage);
+            }
     }
 }
