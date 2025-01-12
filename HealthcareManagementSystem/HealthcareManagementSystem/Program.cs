@@ -5,6 +5,8 @@ using Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Domain.Repositories;
+using Infrastructure.Repositories;
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddEnvironmentVariables();
 //var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
@@ -41,6 +43,8 @@ builder.Services.AddControllers()
 	});
 builder.Services.AddIdentity(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddTransient<IMedicalHistoryRepository, MedicalHistoryRepository>();
+
 builder.Services.AddSwaggerGen(c =>
 {
 	c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
