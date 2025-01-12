@@ -16,7 +16,11 @@ import { PatientService } from '../../services/patient/patient.service';
 import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
 import { of } from 'rxjs';
 import { map } from 'rxjs/operators';
-
+import { MedicalHistoryService } from '../../services/medical-history/medical-history.service';
+import { MedicalHistory } from '../../models/medical-history.model';
+import { MatAccordion } from '@angular/material/expansion';
+import { MatExpansionPanel } from '@angular/material/expansion';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 interface NavItem {
   label: string;
@@ -36,22 +40,30 @@ interface NavItem {
     MatCardModule,
     RouterModule,
     CommonModule,
+    MatAccordion,
+    MatExpansionPanel,
+    MatExpansionModule
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit {
   userRole: UserRole = UserRole.None;
+  UserRole = UserRole;
   navItems: NavItem[] = [];
   displayName: string = 'User';
+  medicalHistoryList: any[] = [];
   isHandset$ = of(false); // Will be updated via BreakpointObserver
+
+  private baseAttachmentUrl: string = 'https://localhost:7233/';
 
   constructor(
     private authService: AuthService,
     private router: Router,
     private breakpointObserver: BreakpointObserver,
     private doctorService: DoctorService,
-    private patientService: PatientService
+    private patientService: PatientService,
+    private medicalHistoryService: MedicalHistoryService
   ) {}
 
   ngOnInit(): void {
@@ -72,6 +84,10 @@ export class DashboardComponent implements OnInit {
     this.fetchUserName();
 
     this.setNavItems();
+
+    if (this.userRole === UserRole.Patient) {
+      this.loadPatientHistory();
+    }
   }
 
   get userRoleString(): string {
@@ -85,6 +101,34 @@ export class DashboardComponent implements OnInit {
       default:
         return 'none';
     }
+  }
+
+  getFileName(path: string): string {
+    if (!path) return 'Attachment';
+    const segments = path.split('/');
+    return segments[segments.length - 1];
+  }
+
+  getAttachmentUrl(path: string): string {
+    if (!path) return '#';
+    return `${this.baseAttachmentUrl}${path}`;
+  }
+
+  loadPatientHistory(): void {
+    const userId = this.authService.getUserId();
+    if (!userId) {
+      console.error('User ID not found.');
+      return;
+    }
+
+    this.medicalHistoryService.getMedicalHistoryByPatientId(userId).subscribe({
+      next: (data: MedicalHistory[]) => {
+        this.medicalHistoryList = data.sort((a, b) => 
+          new Date(b.dateRecorded).getTime() - new Date(a.dateRecorded).getTime()
+        );
+      },
+      error: (err) => console.error('Error loading medical history:', err)
+    });
   }
 
   // Simple fetch for first/last name based on user role

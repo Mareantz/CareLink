@@ -7,7 +7,7 @@
 		public string? Diagnosis { get; set; }
 		public string? Medication { get; set; }
 		public string? Notes { get; set; }
-		public ICollection<string> Attachments { get; } = []; // file paths
+		public ICollection<string> Attachments { get; set; } = new List<string>(); // file paths
 
 		public required Patient Patient { get; set; }
 		public Guid PatientId { get; set; }

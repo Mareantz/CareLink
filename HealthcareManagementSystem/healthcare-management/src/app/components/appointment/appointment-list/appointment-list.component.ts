@@ -19,6 +19,7 @@ import { ReactiveFormsModule, FormsModule, FormBuilder, FormGroup, Validators } 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MedicalHistory } from '../../../models/medical-history.model';
+import { MedicalHistoryService } from '../../../services/medical-history/medical-history.service';
 
 @Component({
   selector: 'app-appointment-list',
@@ -45,7 +46,6 @@ export class AppointmentListComponent implements OnInit {
   public AppointmentStatus = AppointmentStatus;
   selectedFiles: File[] = [];
 
-  // Modal related properties
   isCompleteModalVisible: boolean = false;
   selectedAppointment: Appointment | null = null;
   completeForm: FormGroup;
@@ -55,12 +55,13 @@ export class AppointmentListComponent implements OnInit {
     private authService: AuthService,
     private doctorService: DoctorService,
     private patientService: PatientService,
+    private medicalHistoryService: MedicalHistoryService,
     private router: Router,
     private snackBar: MatSnackBar,
     private fb: FormBuilder
   ) {
     this.completeForm = this.fb.group({
-      dateRecorded: [{ value: '', disabled: true }, Validators.required],
+      dateRecorded: ['', Validators.required],
       diagnosis: ['', Validators.required],
       medication: [''],
       notes: [''],
@@ -70,7 +71,6 @@ export class AppointmentListComponent implements OnInit {
 
   ngOnInit(): void {
     this.userRole = this.authService.getUserRole();
-    console.log('User Role:', this.userRole);
     this.fetchAppointments();
   }
 
@@ -97,7 +97,6 @@ export class AppointmentListComponent implements OnInit {
       fetchObservable.pipe(
         switchMap((appointments: Appointment[]) => {
           this.appointments = appointments;
-          console.log('Fetched Appointments:', this.appointments);
 
           const uniqueDoctorIds = [...new Set(appointments.map(appt => appt.doctorId))];
           const uniquePatientIds = [...new Set(appointments.map(appt => appt.patientId))];
@@ -134,8 +133,6 @@ export class AppointmentListComponent implements OnInit {
             }
           });
 
-          console.log('Doctor Map:', doctorMap);
-          console.log('Patient Map:', patientMap);
 
           this.appointments.forEach(appt => {
             if (this.userRole === UserRole.Patient) {
@@ -151,7 +148,6 @@ export class AppointmentListComponent implements OnInit {
       ).subscribe({
         next: (appointments) => {
           this.appointments = appointments;
-          console.log('Appointments with names:', this.appointments);
         },
         error: (error) => {
           console.error('Error fetching appointments:', error);
@@ -186,25 +182,19 @@ export class AppointmentListComponent implements OnInit {
     }
   }
 
-  /**
-   * Cancel an appointment.
-   * @param appointmentId - The ID of the appointment to cancel.
-   */
   cancelAppointment(appointmentId: string): void {
-    console.log(`Cancel Appointment: ${appointmentId}`);
     
     const payload: UpdateStatusPayload = {
       appointmentId: appointmentId,
-      newStatus: 2 // Assuming 2 represents 'Canceled'
+      newStatus: 2
     };
     
     this.appointmentService.updateAppointmentStatus(payload).subscribe({
       next: () => {
-        console.log('Appointment canceled successfully.');
         this.snackBar.open('Appointment canceled successfully.', 'Close', {
           duration: 3000,
         });
-        this.fetchAppointments(); // Refresh the appointment list
+        this.fetchAppointments();
       },
       error: (error) => {
         console.error('Error canceling appointment:', error);
@@ -215,21 +205,14 @@ export class AppointmentListComponent implements OnInit {
     });
   }
 
-  /**
-   * Open the Complete Appointment Modal.
-   * @param appointment - The appointment to mark as completed.
-   */
   markAsCompleted(appointment: Appointment): void {
-    console.log(`Mark as Completed: ${appointment.id}`);
     
-    // Calculate DateRecorded as appointmentDate + 30 minutes
     const appointmentDate = new Date(appointment.appointmentDate);
-    const dateRecorded = new Date(appointmentDate.getTime() + 30 * 60000); // Add 30 minutes
+    const dateRecorded = new Date(appointmentDate.getTime() + 30 * 60000);
 
     this.selectedAppointment = appointment;
     this.isCompleteModalVisible = true;
 
-    // Initialize the form with computed DateRecorded
     this.completeForm.setValue({
       dateRecorded: dateRecorded.toISOString(),
       diagnosis: '',
@@ -239,48 +222,41 @@ export class AppointmentListComponent implements OnInit {
     });
   }
 
-  /**
-   * Handle the form submission from the modal.
-   */
   onSubmitComplete(): void {
     if (this.completeForm.valid && this.selectedAppointment) {
       const statusPayload: UpdateStatusPayload = {
         appointmentId: this.selectedAppointment.id,
-        newStatus: 1 // Assuming 1 represents 'Completed'
+        newStatus: 1 
       };
-
-      const medicalHistoryPayload: MedicalHistory = {
-        appointmentId: this.selectedAppointment.id,
-        diagnosis: this.completeForm.get('diagnosis')?.value,
-        medication: this.completeForm.get('medication')?.value,
-        notes: this.completeForm.get('notes')?.value,
-      };
-
-      // First POST request: Update Appointment Status
+  
+      const diagnosis = this.completeForm.get('diagnosis')?.value;
+      const medication = this.completeForm.get('medication')?.value;
+      const notes = this.completeForm.get('notes')?.value;
+      const dateRecordedValue = this.completeForm.get('dateRecorded')?.value;
+  
+      if (!dateRecordedValue || isNaN(new Date(dateRecordedValue).getTime())) {
+        this.snackBar.open('Invalid Date Recorded value.', 'Close', {
+          duration: 3000,
+        });
+        return;
+      }
+  
       this.appointmentService.updateAppointmentStatus(statusPayload).pipe(
-        // After updating status, submit medical history
         switchMap(() => {
-          // Prepare FormData for medical history with attachments
           const formData = new FormData();
-          formData.append('appointmentId', medicalHistoryPayload.appointmentId);
-          formData.append('diagnosis', medicalHistoryPayload.diagnosis);
-          formData.append('medication', medicalHistoryPayload.medication);
-          formData.append('notes', medicalHistoryPayload.notes);
-
-          // Append each selected file
-          this.selectedFiles.forEach((file, index) => {
-            formData.append(`attachments`, file, file.name);
+  
+          formData.append('Diagnosis', diagnosis);
+          formData.append('Medication', medication);
+          formData.append('DateRecorded', dateRecordedValue);
+          formData.append('Notes', notes);
+          formData.append('PatientId', this.selectedAppointment?.patientId || '');
+          formData.append('AttachmentsPaths', '');
+  
+          this.selectedFiles.forEach((file) => {
+            formData.append('Attachments', file, file.name);
           });
-
-          return this.appointmentService.submitMedicalHistory(formData).pipe(
-            catchError(err => {
-              console.error('Error submitting medical history:', err);
-              this.snackBar.open('Failed to submit medical history.', 'Close', {
-                duration: 3000,
-              });
-              return of(null); // Continue the observable chain
-            })
-          );
+  
+          return this.medicalHistoryService.submitMedicalHistory(formData);
         })
       ).subscribe({
         next: () => {
@@ -289,9 +265,9 @@ export class AppointmentListComponent implements OnInit {
           });
           this.isCompleteModalVisible = false;
           this.selectedAppointment = null;
-          this.selectedFiles = []; // Reset selected files
-          this.completeForm.reset(); // Reset the form
-          this.fetchAppointments(); // Refresh the appointment list
+          this.selectedFiles = []; 
+          this.completeForm.reset(); 
+          this.fetchAppointments(); 
         },
         error: (error) => {
           console.error('Error completing appointment:', error);
@@ -307,9 +283,6 @@ export class AppointmentListComponent implements OnInit {
     }
   }
 
-  /**
-   * Close the Complete Appointment Modal without completing.
-   */
   closeCompleteModal(): void {
     this.isCompleteModalVisible = false;
     this.selectedAppointment = null;
@@ -329,12 +302,7 @@ export class AppointmentListComponent implements OnInit {
     }
   }
 
-  /**
-   * Mark an appointment as canceled.
-   * @param appointmentId - The ID of the appointment to cancel.
-   */
   markAsCanceled(appointmentId: string): void {
-    console.log(`Mark as Canceled: ${appointmentId}`);
     this.cancelAppointment(appointmentId);
   }
 

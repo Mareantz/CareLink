@@ -6,8 +6,9 @@ namespace Application.Commands
     {
         public required string? Diagnosis { get; set; }
         public required string? Medication { get; set; }
-        public required DateTime? Date { get; set; }
+        public required DateTime DateRecorded { get; set; }
         public required string? Notes { get; set; }
         public required Guid PatientId { get; set; }
+        public List<string> Attachments { get; set; } = new List<string>();
     }
 }

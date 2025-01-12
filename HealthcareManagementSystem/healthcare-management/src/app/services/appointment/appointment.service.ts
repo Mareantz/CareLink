@@ -13,8 +13,6 @@ export interface UpdateStatusPayload {
   newStatus: number;
 }
 
-
-
 @Injectable({
   providedIn: 'root'
 })
@@ -85,11 +83,6 @@ export class AppointmentService {
         return throwError(() => new Error('Failed to update appointment status.'));
       })
     );
-  }
-
-  //PLACEHOLDER
-  submitMedicalHistory(formData: FormData): Observable<any> {
-    return this.http.post(`${this.apiURL}/medical-history/submit`, formData);
   }
 
 }

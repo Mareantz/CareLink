@@ -15,5 +15,7 @@ namespace Domain.Repositories
             Guid? patientId,
             string? Medication,
             string? Diagnosis);
-    }
+
+		Task<Result<List<MedicalHistory>>> GetMedicalHistoryByPatientIdAsync(Guid patientId);
+	}
 }
