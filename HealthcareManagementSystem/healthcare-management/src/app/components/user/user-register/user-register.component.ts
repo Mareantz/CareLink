@@ -82,12 +82,13 @@ export class UserRegisterComponent implements OnInit {
         // Doctor-specific
         specialization: this.userForm.value.role == UserRole.Doctor ? this.userForm.value.specialization : null
       };
-
+      
       console.log('Payload being sent:', payload);
 
       this.authService.register(payload).subscribe({
         
         next: (response) => {
+          this.router.navigate(['/login']);
           console.log('Registration successful:', response);
           alert('Registration successful! You can now log in.');
         },

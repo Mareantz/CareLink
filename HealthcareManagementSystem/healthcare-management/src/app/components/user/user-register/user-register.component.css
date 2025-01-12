@@ -1,59 +1,194 @@
-/* Container general */
-.user-register {
-    width: 100%;
-    max-width: 500px;
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.form-label {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 0.5rem;
+}
+
+.custom-input {
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+  transition: border-color 0.3s;
+
+  &:focus {
+    border-color: #3f51b5; /* Albastru Material Design */
+  }
+}
+
+.error {
+  font-size: 0.875rem;
+  color: #f44336; /* Roșu pentru eroare */
+  margin-top: 0.25rem;
+}
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+  }
+  
+  .form-label {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 0.5rem;
+  }
+  
+  .custom-input {
+    padding: 0.75rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    transition: border-color 0.3s;
+  
+    &:focus {
+      border-color: #3f51b5; /* Albastru Material Design */
+    }
+  }
+  
+  .error {
+    font-size: 0.875rem;
+    color: #f44336; /* Roșu pentru eroare */
+    margin-top: 0.25rem;
+  }
+  .register-container {
+    max-width: 600px;
     margin: 0 auto;
-    padding: 25px;
-    background-color: #fefefe;
-    border-radius: 10px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    padding: 2rem;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
   
-  /* Titlul */
-  .user-register h1 {
-    text-align: center;
-    margin-bottom: 25px;
-    color: #6a11cb;
+  .form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
   }
   
-  /* Pentru a seta lățimea completă a elementelor Angular Material */
-  .full-width {
-    width: 100%;
+  .form-row {
+    display: flex;
+    gap: 1rem;
   }
   
-  /* Formularul */
-  form {
+  .form-group {
+    flex: 1;
     display: flex;
     flex-direction: column;
   }
   
-  /* Stiluri responsive pentru container (opțional) */
-  @media (max-width: 768px) {
-    .user-register {
-      padding: 20px;
-      width: 90%;
+  .custom-input {
+    padding: 0.75rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    transition: border-color 0.3s;
+  
+    &:focus {
+      border-color: #3f51b5;
     }
   }
   
-  @media (max-width: 480px) {
-    .user-register {
-      padding: 15px;
-      width: 95%;
+  .submit-button {
+    margin-top: 1rem;
+  }
+  
+  .error {
+    color: #f44336;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+  }
+  .register-container {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .form-row {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .form-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .custom-input {
+    padding: 0.75rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    transition: border-color 0.3s;
+  
+    &:focus {
+      border-color: #3f51b5;
     }
   }
-  .login-redirect {
-    margin-top: 10px;
-    text-align: center;
-    font-size: 14px;
+  
+  .error {
+    color: #f44336;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
   }
   
-  .login-redirect a {
-    margin-top: 10px;
-    text-align: center;
-    font-size: 14px;
+  .submit-button {
+    align-self: flex-start;
+    margin-top: 1rem;
+  }
+  /* Stil pentru rândurile formularului */
+.form-row {
+    display: flex;
+    gap: 1rem; /* Spațiere între câmpuri */
+    align-items: flex-start; /* Aliniere pe verticală */
   }
   
-  .login-redirect a:hover {
-    color: #1b63d8; /* culoare mai închisă la hover */
+  /* Stil pentru grupurile de câmpuri */
+  .form-group {
+    flex: 1; /* Asigură dimensiuni egale între câmpuri */
+    display: flex;
+    flex-direction: column;
   }
- 
+  
+  /* Stil pentru input de tip dată */
+  .custom-input {
+    padding: 0.75rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+  
+    &:focus {
+      border-color: #3f51b5; /* Albastru pentru focus */
+    }
+  }
+  
+  /* Stil pentru mesajele de eroare */
+  .error {
+    font-size: 0.875rem;
+    color: #f44336;
+    margin-top: 0.25rem;
+  }
+  
