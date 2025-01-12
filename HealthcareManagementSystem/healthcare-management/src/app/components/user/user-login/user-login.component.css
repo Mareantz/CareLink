@@ -7,17 +7,15 @@
 }
 
 .back-button {
-  position: absolute;
-  top: 16px;
-  left: 16px;
-  padding: 8px;
-  background: transparent;
-  border: none;
-  cursor: pointer;
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  width:10%;
 }
 
 .back-button mat-icon {
-  font-size: 24px;
+  margin-right: 8px;
+  font-size: 20px; /* Adjust icon size if needed */
 }
 
 .user-login {
