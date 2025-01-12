@@ -38,15 +38,29 @@ export class UserRegisterComponent implements OnInit {
     });
   }
 
+  private getRoleNumber(role: UserRole): number {
+    switch (role) {
+      case UserRole.Admin:
+        return 3;
+      case UserRole.Doctor:
+        return 1;
+      case UserRole.Patient:
+        return 2;
+      default:
+        return 0; // Represents 'None' or an undefined role
+    }
+  }
+
   onSubmit(): void {
     if (this.userForm.valid) {
+      const roleNumber = this.getRoleNumber(this.userForm.value.role);
       const payload = {
         username: this.userForm.value.username,
         password: this.userForm.value.password,
         confirmPassword: this.userForm.value.confirmPassword,
         email: this.userForm.value.email,
         phoneNumber: this.userForm.value.phoneNumber,
-        role: Number(this.userForm.value.role),
+        role: roleNumber,
         firstName: this.userForm.value.firstName,
         lastName: this.userForm.value.lastName,
         
@@ -62,11 +76,13 @@ export class UserRegisterComponent implements OnInit {
       console.log('Payload being sent:', payload);
 
       this.authService.register(payload).subscribe({
+        
         next: (response) => {
           console.log('Registration successful:', response);
           alert('Registration successful! You can now log in.');
         },
         error: (error) => {
+          console.log(payload);
           console.error('Registration failed:', error);
           alert('An error occurred. Please try again.');
         },
