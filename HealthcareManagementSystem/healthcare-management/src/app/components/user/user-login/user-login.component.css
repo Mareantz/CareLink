@@ -1,136 +1,25 @@
-/* General styles */
-body {
- background: linear-gradient(135deg, #f44336, #ff9800, #4caf50) !important;
-   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  margin: 0;
-  padding: 0;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-
-/* General container styles */
 .user-login {
-  width: 100%;
   max-width: 400px;
-  margin: 0 auto;
+  margin: 50px auto;
   padding: 20px;
-  background-color: #f0f8ff; /* Light blue background */
-  border-radius: 8px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  animation: fadeIn 1s ease-out; /* Animation on load */
 }
 
-/* Title */
-.user-login h1 {
+mat-card-title {
   text-align: center;
-  color: #333;
-  margin-bottom: 20px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #4caf50; /* Green color for the title */
-  animation: slideIn 0.8s ease-out; /* Slide-in animation */
+  font-size: 1.5rem;
+  margin-bottom: 16px;
 }
 
-/* Form styles */
-form {
-  display: flex;
-  flex-direction: column;
-}
-
-.form-group {
-  margin-bottom: 15px;
-  position: relative;
-}
-
-label {
-  font-size: 16px;
-  color: #007bff; /* Blue label */
-  margin-bottom: 5px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-weight: bold;
-}
-
-input {
+.full-width {
   width: 100%;
-  padding: 12px;
-  font-size: 16px;
-  border: 2px solid #ccc;
-  border-radius: 8px;
-  box-sizing: border-box;
-  margin-bottom: 5px;
-  transition: all 0.3s ease;
 }
 
-input:focus {
-  border-color: #ff9800; /* Orange focus color */
-  background-color: #fff3e0; /* Light orange background on focus */
-  box-shadow: 0 0 8px rgba(255, 152, 0, 0.5);
-  outline: none;
-}
-
-input::placeholder {
-  color: #888; /* Light gray placeholder text */
-}
-
-.error {
-  color: #f44336; /* Red error message */
-  font-size: 14px;
-  margin-top: 5px;
-}
-
-/* Button styles */
 button {
-  padding: 12px 20px;
-  background-color: #4caf50; /* Green button */
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 6px rgba(0, 128, 0, 0.2);
+  width: 100%;
+  margin-top: 16px;
 }
 
-button:hover {
-  background-color: #45a049; /* Darker green on hover */
-  transform: scale(1.05); /* Slight scaling animation */
-}
-
-button:active {
-  transform: scale(1.02);
-}
-
-button:focus {
-  outline: none;
-  box-shadow: 0 0 12px rgba(0, 255, 0, 0.5); /* Green glow on focus */
-}
-
-/* Add spacing between form elements */
-button {
-  margin-top: 20px;
-}
-
-/* Animations */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideIn {
-  from {
-    transform: translateX(-50px);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
+.register-link {
+  text-align: center;
+  margin-top: 16px;
 }
