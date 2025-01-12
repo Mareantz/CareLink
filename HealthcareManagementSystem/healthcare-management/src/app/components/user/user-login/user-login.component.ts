@@ -7,11 +7,11 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-
+import { MatIcon } from '@angular/material/icon';
 @Component({
   selector: 'app-user-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule],
+  imports: [CommonModule, ReactiveFormsModule, MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIcon],
   templateUrl: './user-login.component.html',
   styleUrls: ['./user-login.component.css']
 })
@@ -48,4 +48,8 @@ export class UserLoginComponent implements OnInit {
       });
     }
   }
+  backToHomepage(): void {
+    this.router.navigate(['/']);
+  }
+
 }
