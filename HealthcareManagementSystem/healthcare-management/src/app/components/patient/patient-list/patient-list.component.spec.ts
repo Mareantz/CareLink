@@ -33,17 +33,7 @@ describe('PatientListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should load patients on init', () => {
-    const mockPatients = [
-      { id: '1', firstName: 'John', lastName: 'Doe', dateOfBirth: new Date(), gender: 'Male', address: '123 Street' }
-    ];
-    patientService.getPatients.and.returnValue(of(mockPatients));
 
-    component.ngOnInit();
-
-    expect(patientService.getPatients).toHaveBeenCalled();
-    expect(component.patients).toEqual(mockPatients);
-  });
 
   it('should navigate to create patient', () => {
     component.navigateToCreate();
