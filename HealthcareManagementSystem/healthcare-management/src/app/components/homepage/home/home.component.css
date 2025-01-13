@@ -322,7 +322,6 @@
     justify-content: center;
     flex-direction: column;
     border: 3px solid #c1725c;
-    /**background-image: url("./assets/contact.svg");**/
     background-color: #e9ccc4;
     background-position: center;
     background-repeat: no-repeat;

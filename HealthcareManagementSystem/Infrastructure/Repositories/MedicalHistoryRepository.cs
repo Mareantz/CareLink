@@ -80,5 +80,21 @@ namespace Infrastructure.Repositories
                 return Result.Failure(errorMessage);
             }
         }
-    }
+
+		public async Task<Result<List<MedicalHistory>>> GetMedicalHistoryByPatientIdAsync(Guid patientId)
+		{
+            try
+            {
+                var medicalHistories = await context.MedicalHistories
+                    .Where(x => x.PatientId == patientId)
+                    .ToListAsync();
+                return Result<List<MedicalHistory>>.Success(medicalHistories);
+            }
+            catch (Exception ex)
+            {
+                var errorMessage = ex.InnerException != null ? ex.InnerException.ToString() : ex.ToString();
+                return Result<List<MedicalHistory>>.Failure(errorMessage);
+            }
+		}
+	}
 }

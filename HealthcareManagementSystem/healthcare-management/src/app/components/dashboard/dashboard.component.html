@@ -22,8 +22,13 @@
 
   <mat-sidenav-content>
     <mat-toolbar color="primary">
-      <!-- Hamburguer icon only shows if isHandset = true -->
-      <button type="button" mat-icon-button (click)="drawer.toggle()" *ngIf="(isHandset$ | async)">
+      <!-- Hamburger icon only shows if isHandset = true -->
+      <button
+        type="button"
+        mat-icon-button
+        (click)="drawer.toggle()"
+        *ngIf="(isHandset$ | async)"
+      >
         <mat-icon>menu</mat-icon>
       </button>
 
@@ -37,6 +42,40 @@
     <div class="content">
       <!-- Routed components will be displayed here -->
       <router-outlet></router-outlet>
+
+      <!-- Show medical history only for patients -->
+      <div
+        *ngIf="userRole === UserRole.Patient && medicalHistoryList?.length"
+        class="medical-history"
+      >
+        <h2>My Medical History</h2>
+        <mat-accordion>
+          <mat-expansion-panel *ngFor="let record of medicalHistoryList">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Date: {{ record.dateRecorded | date: 'medium' }}
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div class="record-details">
+              <p><strong>Diagnosis:</strong> {{ record.diagnosis }}</p>
+              <p><strong>Medication:</strong> {{ record.medication }}</p>
+              <p><strong>Notes:</strong> {{ record.notes }}</p>
+
+              <div *ngIf="record.attachments?.length">
+                <p><strong>Attachments:</strong></p>
+                <ul>
+                  <li *ngFor="let att of record.attachments">
+                    <a [href]="getAttachmentUrl(att)" target="_blank">
+                      {{ getFileName(att) }}
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

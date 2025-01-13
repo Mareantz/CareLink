@@ -8,7 +8,7 @@ namespace Domain.Repositories
         Task<Result<Guid>> AddUser(User user);
         Task<IEnumerable<User>> GetUsers();
         Task UpdateUser(User user);
-        Task<Guid> Register(User user, CancellationToken cancellationToken);
-        Task<string> Login(User user);
+        Task<Result<Guid>> Register(User user, CancellationToken cancellationToken);
+        Task<Result<string>> Login(string username, string password);
     }
 }

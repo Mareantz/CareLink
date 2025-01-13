@@ -23,7 +23,6 @@ namespace Application.CommandHandlers
             DateOnly dateOfBirth = ParseDateOfBirth(request.DateOfBirth);
 			var patient = mapper.Map<Patient>(request);
 			patient.DateOfBirth = dateOfBirth;
-            patient.UserId = new Guid("11111111-1111-1111-1111-111111111111");//very hardcoded for testing
             var result = await repository.AddPatient(patient);
             if(result.IsSuccess)
             {

@@ -10,7 +10,7 @@ namespace Application.Commands
             RuleFor(b => b.PatientId).NotEmpty();
             RuleFor(b => b.Diagnosis).NotEmpty().MaximumLength(100);
             RuleFor(b => b.Medication).NotEmpty().MaximumLength(100);
-            RuleFor(b => b.Date).NotEmpty().WithMessage("Date must be in the format dd-MM-yyyy.");
+            RuleFor(b => b.DateRecorded).NotEmpty().WithMessage("Date must be in the format dd-MM-yyyy.");
             RuleFor(b => b.Notes).NotEmpty();
         }
 

@@ -154,6 +154,12 @@ namespace PredictiveHealthcare.Infrastructure.Persistence
 				entity.Property(e => e.DateRecorded).IsRequired();
 				entity.Property(e => e.Diagnosis).HasMaxLength(200);
 				entity.Property(e => e.Notes).HasMaxLength(1000);
+				entity.Property(e => e.Attachments)
+					  .HasColumnType("text[]")
+					  .HasConversion(
+						  v => v.ToArray(),
+						  v => v.ToList()
+					  );
 				entity.HasOne(m => m.Patient)
 					  .WithMany(p => p.MedicalHistories)
 					  .HasForeignKey(m => m.PatientId)

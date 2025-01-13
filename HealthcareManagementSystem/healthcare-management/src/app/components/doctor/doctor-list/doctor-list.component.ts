@@ -21,9 +21,9 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class DoctorListComponent implements OnInit {
   @ViewChild(MatGridList) grid!: MatGridList;
-  doctors: Doctor[] = []; // Array to hold doctor data
+  doctors: Doctor[] = [];
   cols: number = 3;
-  readonly stock_photo = 'assets/stock_doctor.jpg'; // Default photo
+  readonly stock_photo = 'assets/stock_doctor.jpg';
 
   constructor(private breakpointObserver: BreakpointObserver ,private doctorService: DoctorService, private router: Router) {}
 

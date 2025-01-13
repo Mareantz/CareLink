@@ -1,4 +1,5 @@
 ﻿using Application.UseCases.Authentification;
+using Domain.Common;
 using Domain.Entities;
 using Domain.Enums;
 using Domain.Repositories;
@@ -7,7 +8,7 @@ using MediatR;
 
 namespace Application.UseCases.Authentification
 {
-	public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, Guid>
+	public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, Result<Guid>>
 	{
 		private readonly IUserRepository _userRepository;
 		private readonly IPatientRepository _patientRepository;
@@ -26,13 +27,14 @@ namespace Application.UseCases.Authentification
 			_validator = validator;
 		}
 
-		public async Task<Guid> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
+		public async Task<Result<Guid>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
 		{
 			var validationResult = await _validator.ValidateAsync(request, cancellationToken);
 
 			if (!validationResult.IsValid)
 			{
-				throw new ValidationException(validationResult.Errors);
+				var errors = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
+				return Result<Guid>.Failure(string.Join("; ", errors));
 			}
 			var user = new User
 			{
@@ -44,13 +46,17 @@ namespace Application.UseCases.Authentification
 				Role = request.Role
 			};
 
-			await _userRepository.Register(user, cancellationToken);
+			var registerResult = await _userRepository.Register(user, cancellationToken);
+			if (!registerResult.IsSuccess)
+			{
+				return Result<Guid>.Failure(registerResult.ErrorMessage);
+			}
 
 			if (request.Role == UserRole.Patient)
 			{
 				if (request.DateOfBirth == null || string.IsNullOrEmpty(request.Gender) || string.IsNullOrEmpty(request.Address))
 				{
-					throw new ArgumentException("Missing required fields for Patient.");
+					return Result<Guid>.Failure("Missing required fields for Patient.");
 				}
 
 				var patient = new Patient
@@ -63,7 +69,11 @@ namespace Application.UseCases.Authentification
 					Address = request.Address
 				};
 
-				await _patientRepository.AddPatient(patient);
+				var addPatientResult = await _patientRepository.AddPatient(patient);
+				if (!addPatientResult.IsSuccess)
+				{
+					return Result<Guid>.Failure("Failed to add patient details.");
+				}
 			}
 			else if (request.Role == UserRole.Doctor)
 			{
@@ -76,14 +86,18 @@ namespace Application.UseCases.Authentification
 					Bio = string.Empty
 				};
 
-				await _doctorRepository.AddDoctor(doctor);
+				var addDoctorResult = await _doctorRepository.AddDoctor(doctor);
+				if (!addDoctorResult.IsSuccess)
+				{
+					return Result<Guid>.Failure("Failed to add doctor details.");
+				}
 			}
 			else
 			{
-				throw new ArgumentException("Invalid role specified.");
+				return Result<Guid>.Failure("Invalid role specified.");
 			}
 
-			return user.Id;
+			return Result<Guid>.Success(user.Id);
 		}
 	}
 }

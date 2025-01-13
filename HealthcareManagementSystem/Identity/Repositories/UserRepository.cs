@@ -12,37 +12,38 @@ using PredictiveHealthcare.Infrastructure.Persistence;
 
 namespace Identity.Repositories
 {
-    public class UserRepository : IUserRepository
-    {
-        private readonly ApplicationDbContext usersDbContext;
-        private readonly IConfiguration configuration;
+	public class UserRepository : IUserRepository
+	{
+		private readonly ApplicationDbContext usersDbContext;
+		private readonly IConfiguration configuration;
 
-        public UserRepository(ApplicationDbContext usersDbContext, IConfiguration configuration)
-        {
-            this.usersDbContext = usersDbContext;
-            this.configuration = configuration;
-        }
+		public UserRepository(ApplicationDbContext usersDbContext, IConfiguration configuration)
+		{
+			this.usersDbContext = usersDbContext;
+			this.configuration = configuration;
+		}
 
-        public Task<Result<Guid>> AddUser(User user)
-        {
-            throw new NotImplementedException();
-        }
+		public Task<Result<Guid>> AddUser(User user)
+		{
+			throw new NotImplementedException();
+		}
 
 		public async Task<IEnumerable<User>> GetUsers()
 		{
 			return await usersDbContext.Users.ToListAsync();
 		}
 
-		public async Task<string> Login(User user)
+		public async Task<Result<string>> Login(string username, string password)
 		{
-			var existingUser = await usersDbContext.Users.FirstOrDefaultAsync(u => u.Username == user.Username);
+			var existingUser = await usersDbContext.Users.FirstOrDefaultAsync(u => u.Username == username);
 			if (existingUser == null)
 			{
-				throw new UnauthorizedAccessException("Invalid credentials");
+				return Result<string>.Failure("Invalid credentials.");
 			}
-			if (!BCrypt.Net.BCrypt.Verify(user.PasswordHash, existingUser.PasswordHash))
+			bool isPasswordValid = BCrypt.Net.BCrypt.Verify(password, existingUser.PasswordHash);
+			if (!isPasswordValid)
 			{
-				throw new UnauthorizedAccessException("Invalid credentials");
+				return Result<string>.Failure("Invalid credentials.");
 			}
 			var tokenHandler = new JwtSecurityTokenHandler();
 			var key = Encoding.ASCII.GetBytes(configuration["Jwt:Key"]!);
@@ -57,18 +58,26 @@ namespace Identity.Repositories
 				SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
 			};
 			var token = tokenHandler.CreateToken(tokenDescriptor);
-			return tokenHandler.WriteToken(token);
+			var tokenString = tokenHandler.WriteToken(token);
+			return Result<string>.Success(tokenString);
 		}
-		public async Task<Guid> Register(User user, CancellationToken cancellationToken)
-        {
-            usersDbContext.Users.Add(user);
-            await usersDbContext.SaveChangesAsync(cancellationToken);
-            return user.Id;
-        }
+		public async Task<Result<Guid>> Register(User user, CancellationToken cancellationToken)
+		{
+			try
+			{
+				usersDbContext.Users.Add(user);
+				await usersDbContext.SaveChangesAsync(cancellationToken);
+				return Result<Guid>.Success(user.Id);
+			}
+			catch (Exception ex)
+			{
+				return Result<Guid>.Failure($"Registration failed: {ex.Message}");
+			}
+		}
 
-        public Task UpdateUser(User user)
-        {
-            throw new NotImplementedException();
-        }
-    }
+		public Task UpdateUser(User user)
+		{
+			throw new NotImplementedException();
+		}
+	}
 }

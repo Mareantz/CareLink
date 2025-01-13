@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { PatientRiskPredictionService } from '../../../services/patient/patient-risk-prediction.service'; // Update the path as needed
+import { PatientRiskPredictionService } from '../../../services/patient/patient-risk-prediction.service';
 
 @Component({
   selector: 'app-patient-risk-prediction',

@@ -29,7 +29,7 @@
   
   .back-button mat-icon {
     margin-right: 8px;
-    font-size: 20px; /* Adjust icon size if needed */
+    font-size: 20px;
   }
 
   .status-scheduled {
@@ -97,6 +97,6 @@
 
   .notes-textarea {
     resize: vertical;
-    max-height: 200px; /* Adjust the max height as needed */
-    min-height: 50px; /* Set a minimum height to maintain consistency */
+    max-height: 200px;
+    min-height: 50px;
   }

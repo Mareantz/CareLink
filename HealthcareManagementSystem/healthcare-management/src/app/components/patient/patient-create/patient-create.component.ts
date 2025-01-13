@@ -42,7 +42,6 @@ export class PatientCreateComponent implements OnInit {
   onSubmit() {
     if (this.patientForm.valid) {
       const formData = { ...this.patientForm.value };
-      // Format the date to 'dd-MM-yyyy' before sending
       formData.dateOfBirth = format(new Date(formData.dateOfBirth), 'dd-MM-yyyy');
       this.patientService.createPatient(formData).subscribe(response => {
         console.log('Patient created successfully:', response);
