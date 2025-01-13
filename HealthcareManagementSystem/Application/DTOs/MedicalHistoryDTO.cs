@@ -10,5 +10,6 @@ namespace Application.DTOs
         public required string Medication { get; set; }
         public required string Notes { get; set; }
         public required DateTime DateRecorded { get; set; }
+        public List<string> Attachments { get; set; } = new List<string>();
     }
 }

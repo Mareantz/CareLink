@@ -19,9 +19,6 @@ export class ModalComponent {
 
   constructor() {}
 
-  /**
-   * Emits the close event to parent components.
-   */
   close() {
     this.closeModal.emit();
   }

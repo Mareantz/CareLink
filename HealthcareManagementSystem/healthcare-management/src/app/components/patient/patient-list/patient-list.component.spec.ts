@@ -1,60 +1,160 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { PatientListComponent } from './patient-list.component';
 import { PatientService } from '../../../services/patient/patient.service';
 import { Router } from '@angular/router';
-import { of } from 'rxjs';
+import { of, throwError, Subject } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { PageEvent, MatPaginator } from '@angular/material/paginator';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+
+// Simplificăm modelul Patient
+interface Patient {
+  id: string;
+  firstName: string;
+  lastName: string;
+}
+
+// MOCK pentru PatientService
+class MockPatientService {
+  getFilteredPatients(page: number, pageSize: number, firstName?: string, lastName?: string, gender?: string) {
+    // Pentru succes, returnăm un obiect cu datele și totalCount
+    const dummyPatients: Patient[] = [
+      { id: '1', firstName: 'Alice', lastName: 'Wonderland' },
+      { id: '2', firstName: 'Bob', lastName: 'Marley' }
+    ];
+    return of({ data: { data: dummyPatients, totalCount: 2 } });
+  }
+}
+
+// MOCK pentru Router
+class MockRouter {
+  navigate(commands: any[]) {
+    return commands;
+  }
+}
 
 describe('PatientListComponent', () => {
   let component: PatientListComponent;
   let fixture: ComponentFixture<PatientListComponent>;
-  let patientService: jasmine.SpyObj<PatientService>;
-  let router: jasmine.SpyObj<Router>;
+  let patientService: PatientService;
+  let router: Router;
 
   beforeEach(async () => {
-    const patientServiceSpy = jasmine.createSpyObj('PatientService', ['getPatients', 'deletePatientById']);
-    const routerSpy = jasmine.createSpyObj('Router', ['navigate']);
-
     await TestBed.configureTestingModule({
-      imports: [PatientListComponent, CommonModule],
+      imports: [PatientListComponent, CommonModule, FormsModule, NoopAnimationsModule],
       providers: [
-        { provide: PatientService, useValue: patientServiceSpy },
-        { provide: Router, useValue: routerSpy }
+        { provide: PatientService, useClass: MockPatientService },
+        { provide: Router, useClass: MockRouter }
       ]
     }).compileComponents();
-
-    fixture = TestBed.createComponent(PatientListComponent);
-    component = fixture.componentInstance;
-    patientService = TestBed.inject(PatientService) as jasmine.SpyObj<PatientService>;
-    router = TestBed.inject(Router) as jasmine.SpyObj<Router>;
   });
 
-  it('should create', () => {
+  beforeEach(() => {
+    fixture = TestBed.createComponent(PatientListComponent);
+    component = fixture.componentInstance;
+    patientService = TestBed.inject(PatientService);
+    router = TestBed.inject(Router);
+    fixture.detectChanges();
+  });
+
+  // Test de creare a componentei
+  it('ar trebui să creeze componenta', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should load patients on init', () => {
-    const mockPatients = [
-      { id: '1', firstName: 'John', lastName: 'Doe', dateOfBirth: new Date(), gender: 'Male', address: '123 Street' }
-    ];
-    patientService.getPatients.and.returnValue(of(mockPatients));
+  // Test pentru fetchPatients (succes)
+  describe('fetchPatients', () => {
+    
 
-    component.ngOnInit();
-
-    expect(patientService.getPatients).toHaveBeenCalled();
-    expect(component.patients).toEqual(mockPatients);
+    it('ar trebui să trateze eroarea la fetchPatients', fakeAsync(() => {
+      spyOn(patientService, 'getFilteredPatients').and.returnValue(
+        throwError(() => new Error('Fetch error'))
+      );
+      const consoleErrorSpy = spyOn(console, 'error');
+      component.fetchPatients(1);
+      tick();
+      expect(consoleErrorSpy).toHaveBeenCalledWith('Error fetching patients:', jasmine.any(Error));
+      expect(component.patients.length).toBe(0);
+      expect(component.totalPatients).toBe(0);
+    }));
   });
 
-  it('should navigate to create patient', () => {
-    component.navigateToCreate();
+  // Test pentru onSearchChange și applyFilter
+  describe('Search and filter', () => {
+    it('onSearchChange ar trebui să emite un eveniment prin searchSubject', fakeAsync(() => {
+      const searchSpy = spyOn(component['searchSubject'], 'next').and.callThrough();
+      component.onSearchChange();
+      tick(300); // debounceTime(300)
+      expect(searchSpy).toHaveBeenCalled();
+    }));
 
-    expect(router.navigate).toHaveBeenCalledWith(['/patients/create']);
+    it('applyFilter ar trebui să apeleze paginator.firstPage() și fetchPatients', fakeAsync(() => {
+      // Cream un fake paginator cu o metodă firstPage
+      const fakePaginator = { firstPage: jasmine.createSpy('firstPage') } as unknown as MatPaginator;
+      component.paginator = fakePaginator;
+      const fetchSpy = spyOn(component, 'fetchPatients').and.callThrough();
+
+      component.applyFilter();
+      tick();
+      expect(fakePaginator.firstPage).toHaveBeenCalled();
+      expect(fetchSpy).toHaveBeenCalled();
+    }));
   });
 
-  it('should navigate to find patient by ID', () => {
-    component.navigateToFind();
-
-    expect(router.navigate).toHaveBeenCalledWith(['/patients/find']);
+  // Test pentru onPageChange
+  describe('onPageChange', () => {
+    it('ar trebui să actualizeze pageSize și să apeleze fetchPatients cu pagina corectă', fakeAsync(() => {
+      const fetchSpy = spyOn(component, 'fetchPatients').and.callThrough();
+      // Simulăm un eveniment de paginare
+      const event: PageEvent = {
+        pageIndex: 1,
+        pageSize: 20,
+        length: 100
+      };
+      component.onPageChange(event);
+      tick();
+      expect(component.pageSize).toBe(20);
+      // Pagina index 1 înseamnă pagina 2 (1+1)
+      expect(fetchSpy).toHaveBeenCalledWith(2);
+    }));
   });
 
+  // Teste pentru navigații
+  describe('Navigation methods', () => {
+    it('backToDashboard ar trebui să navigheze la /dashboard', () => {
+      const routerSpy = spyOn(router, 'navigate').and.callThrough();
+      component.backToDashboard();
+      expect(routerSpy).toHaveBeenCalledWith(['/dashboard']);
+    });
+
+    it('navigateToCreate ar trebui să navigheze la /patients/create', () => {
+      const routerSpy = spyOn(router, 'navigate').and.callThrough();
+      component.navigateToCreate();
+      expect(routerSpy).toHaveBeenCalledWith(['/patients/create']);
+    });
+
+    it('navigateToFind ar trebui să navigheze la /patients/find', () => {
+      const routerSpy = spyOn(router, 'navigate').and.callThrough();
+      component.navigateToFind();
+      expect(routerSpy).toHaveBeenCalledWith(['/patients/find']);
+    });
+
+    it('navigateToRiskPrediction ar trebui să navigheze la /patients/risk-prediction', () => {
+      const routerSpy = spyOn(router, 'navigate').and.callThrough();
+      component.navigateToRiskPrediction();
+      expect(routerSpy).toHaveBeenCalledWith(['/patients/risk-prediction']);
+    });
+  });
+
+  // Test pentru unsubscribe in ngOnDestroy
+  describe('ngOnDestroy', () => {
+    it('ar trebui să completeze unsubscribe$', () => {
+      const nextSpy = spyOn(component['unsubscribe$'], 'next').and.callThrough();
+      const completeSpy = spyOn(component['unsubscribe$'], 'complete').and.callThrough();
+      component.ngOnDestroy();
+      expect(nextSpy).toHaveBeenCalled();
+      expect(completeSpy).toHaveBeenCalled();
+    });
+  });
 });

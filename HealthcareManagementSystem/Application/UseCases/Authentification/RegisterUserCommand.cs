@@ -1,9 +1,10 @@
-﻿using Domain.Enums;
+﻿using Domain.Common;
+using Domain.Enums;
 using MediatR;
 
 namespace Application.UseCases.Authentification
 {
-	public class RegisterUserCommand : IRequest<Guid>
+	public class RegisterUserCommand : IRequest<Result<Guid>>
 	{
 		public required string Username { get; set; }
 		public required string Password { get; set; }

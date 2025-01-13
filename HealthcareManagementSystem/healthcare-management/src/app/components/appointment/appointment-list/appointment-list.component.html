@@ -73,6 +73,15 @@
   >
     <form [formGroup]="completeForm" (ngSubmit)="onSubmitComplete()">
 
+      <div class="form-group">
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Date Recorded</mat-label>
+          <input matInput formControlName="dateRecorded" readonly /> <!-- Made readonly -->
+          <mat-error *ngIf="completeForm.get('dateRecorded')?.hasError('required')">
+            Date Recorded is required
+          </mat-error>
+        </mat-form-field>
+      </div>
       <!-- Diagnosis Field -->
       <div class="form-group">
         <mat-form-field appearance="fill" class="full-width">

@@ -3,10 +3,15 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
 import { Router } from '@angular/router';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
 @Component({
   selector: 'app-user-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIcon],
   templateUrl: './user-login.component.html',
   styleUrls: ['./user-login.component.css']
 })
@@ -30,17 +35,19 @@ export class UserLoginComponent implements OnInit {
         next: (response) => {
           console.log('Login successful:', response);
 
-          // Save the JWT token to localStorage or sessionStorage
-          localStorage.setItem('token', response.token);
+          localStorage.setItem('token', response.data);
 
-          // Redirect the user after login
-          this.router.navigate(['/dashboard']); // Adjust the route as needed
+          this.router.navigate(['/dashboard']);
         },
         error: (error) => {
-          console.error('Login failed:', error);
+          console.error('Login failed:', error.error.errorMessage);
           this.errorMessage = 'Invalid username or password.';
         },
       });
     }
   }
+  backToHomepage(): void {
+    this.router.navigate(['/']);
+  }
+
 }

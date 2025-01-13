@@ -1,6 +1,5 @@
-/* General styles */
 body {
-    background: linear-gradient(135deg, #f093fb, #f5576c, #4facfe); /* Gradient with pink, red, and blue */
+    background: linear-gradient(135deg, #f093fb, #f5576c, #4facfe);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 0;
@@ -10,29 +9,26 @@ body {
     align-items: center;
   }
   
-  /* General container styles */
   .patient-create {
     width: 100%;
     max-width: 550px;
     margin: 0 auto;
     padding: 30px;
-    background-color: #ffffff; /* White background for the form */
+    background-color: #ffffff;
     border-radius: 12px;
     box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
     animation: fadeIn 1.2s ease-out;
   }
   
-  /* Title */
   .patient-create h1 {
     text-align: center;
-    color: #f5576c; /* Pinkish-red title */
+    color: #f5576c;
     margin-bottom: 30px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-weight: bold;
     animation: slideIn 1s ease-out;
   }
   
-  /* Form styles */
   form {
     display: flex;
     flex-direction: column;
@@ -45,7 +41,7 @@ body {
   
   label {
     font-size: 16px;
-    color: #444; /* Neutral gray for labels */
+    color: #444;
     margin-bottom: 8px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-weight: bold;
@@ -63,8 +59,8 @@ body {
   }
   
   input:focus, select:focus {
-    border-color: #4facfe; /* Blue border on focus */
-    background-color: #e3f2fd; /* Light blue background on focus */
+    border-color: #4facfe;
+    background-color: #e3f2fd;
     box-shadow: 0 0 8px rgba(79, 172, 254, 0.5);
     outline: none;
   }
@@ -74,15 +70,14 @@ body {
   }
   
   .error {
-    color: #e74c3c; /* Bright red for error messages */
+    color: #e74c3c;
     font-size: 14px;
     margin-top: 5px;
   }
   
-  /* Button styles */
   button {
     padding: 12px 20px;
-    background-color: #f093fb; /* Pink gradient button */
+    background-color: #f093fb;
     color: white;
     border: none;
     border-radius: 8px;
@@ -93,7 +88,7 @@ body {
   }
   
   button:hover {
-    background-color: #ee82ee; /* Slightly darker pink on hover */
+    background-color: #ee82ee;
     transform: scale(1.05);
   }
   
@@ -110,15 +105,13 @@ body {
   
   button:focus {
     outline: none;
-    box-shadow: 0 0 12px rgba(240, 147, 251, 0.5); /* Pink glow on focus */
+    box-shadow: 0 0 12px rgba(240, 147, 251, 0.5);
   }
   
-  /* Add spacing between form elements */
   button {
     margin-top: 25px;
   }
   
-  /* Animations */
   @keyframes fadeIn {
     from {
       opacity: 0;
@@ -141,15 +134,14 @@ body {
     }
   }
   
-  /* Responsive Design for smaller screens */
   @media (max-width: 768px) {
     .patient-create {
       padding: 20px;
-      width: 90%; /* Reduce width for smaller screens */
+      width: 90%;
     }
   
     .patient-create h1 {
-      font-size: 24px; /* Reduce the font size of the title */
+      font-size: 24px;
     }
   
     .form-group {
@@ -157,46 +149,46 @@ body {
     }
   
     label {
-      font-size: 14px; /* Smaller font size for labels */
+      font-size: 14px;
     }
   
     input, select {
-      font-size: 14px; /* Smaller input font size */
-      padding: 10px; /* Less padding */
+      font-size: 14px;
+      padding: 10px;
     }
   
     button {
-      padding: 10px 15px; /* Adjust button size */
-      font-size: 14px; /* Smaller font size */
+      padding: 10px 15px;
+      font-size: 14px;
     }
   }
   
   @media (max-width: 480px) {
     .patient-create {
       padding: 15px;
-      width: 95%; /* Further reduce width for very small screens */
+      width: 95%;
     }
   
     .patient-create h1 {
-      font-size: 20px; /* Even smaller title for mobile */
+      font-size: 20px;
     }
   
     .form-group {
-      margin-bottom: 10px; /* Reduce margin between form groups */
+      margin-bottom: 10px;
     }
   
     label {
-      font-size: 12px; /* Even smaller label font size */
+      font-size: 12px;
     }
   
     input, select {
-      font-size: 12px; /* Further reduce input font size */
-      padding: 8px; /* Less padding for small screens */
+      font-size: 12px;
+      padding: 8px;
     }
   
     button {
-      padding: 8px 12px; /* Smaller button on mobile */
-      font-size: 12px; /* Reduce font size */
+      padding: 8px 12px;
+      font-size: 12px;
     }
   }
   

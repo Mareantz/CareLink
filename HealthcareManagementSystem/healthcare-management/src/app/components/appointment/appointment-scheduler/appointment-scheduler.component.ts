@@ -105,9 +105,8 @@ export class AppointmentSchedulerComponent implements OnInit, OnDestroy {
       return;
     }
   
-    // Format the date in local timezone as 'YYYY-MM-DD'
     const year = date.getFullYear();
-    const month = ('0' + (date.getMonth() + 1)).slice(-2); // Months are zero-based
+    const month = ('0' + (date.getMonth() + 1)).slice(-2);
     const day = ('0' + date.getDate()).slice(-2);
     const formattedDate = `${year}-${month}-${day}`;
     
@@ -188,15 +187,12 @@ export class AppointmentSchedulerComponent implements OnInit, OnDestroy {
   
     const day = d.getDay();
   
-    // Get today's date with time set to 00:00:00 for accurate comparison
     const today = new Date();
     today.setHours(0, 0, 0, 0);
   
-    // Create a new date instance for the date being checked, also set to 00:00:00
     const dateToCheck = new Date(d);
     dateToCheck.setHours(0, 0, 0, 0);
   
-    // Disable the date if it's before today or if it's a weekend
     return dateToCheck >= today && day !== 0 && day !== 6;
   }
 

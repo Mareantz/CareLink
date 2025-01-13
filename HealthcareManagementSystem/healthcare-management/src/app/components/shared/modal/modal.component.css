@@ -1,18 +1,16 @@
-/* Modal Overlay */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  background-color: rgba(0, 0, 0, 0.5); 
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000; /* Ensure it overlays other elements */
+  z-index: 1000;
 }
 
-/* Modal Content */
 .modal-content {
   background-color: #fff;
   border-radius: 8px;
@@ -24,24 +22,20 @@
   flex-direction: column;
 }
 
-/* Modal Body */
 .modal-body {
   padding: 16px;
 }
 
-/* Modal Footer */
 .modal-footer {
   padding: 16px;
   border-top: 1px solid #ddd;
   text-align: right;
 }
 
-/* Spacer to push the close button to the right */
 .spacer {
   flex: 1 1 auto;
 }
 
-/* Keyframes for fadeIn animation */
 @keyframes fadeIn {
   from {
     opacity: 0;

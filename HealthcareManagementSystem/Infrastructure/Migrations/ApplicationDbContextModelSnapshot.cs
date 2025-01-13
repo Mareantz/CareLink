@@ -138,6 +138,10 @@ namespace Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasDefaultValueSql("uuid_generate_v4()");
 
+                    b.Property<string[]>("Attachments")
+                        .IsRequired()
+                        .HasColumnType("text[]");
+
                     b.Property<DateTime>("DateRecorded")
                         .HasColumnType("timestamp with time zone");
 

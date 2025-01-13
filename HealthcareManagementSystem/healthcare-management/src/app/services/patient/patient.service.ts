@@ -55,7 +55,6 @@ export class PatientService {
       .set('page', page.toString())
       .set('pageSize', pageSize.toString());
 
-    // Only set the parameter if the filter is a non-empty string after trimming
     if (firstName && firstName.trim().length > 0) {
       params = params.set('firstName', firstName.trim());
     }
@@ -79,10 +78,8 @@ export class PatientService {
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'Unknown error!';
     if (error.error instanceof ErrorEvent) {
-      // Client-side errors
       errorMessage = `Error: ${error.error.message}`;
     } else {
-      // Server-side errors
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
     console.error(errorMessage);

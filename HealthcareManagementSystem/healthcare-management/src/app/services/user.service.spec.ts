@@ -1,16 +1,20 @@
-import { TestBed } from '@angular/core/testing';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
-import { UserService } from './user.service';
+@Injectable({
+  providedIn: 'root'
+})
+export class UserService {
+  private baseUrl = 'http://localhost:3000/api'; // URL-ul backendului
 
-describe('UserService', () => {
-  let service: UserService;
+  constructor(private http: HttpClient) {}
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(UserService);
-  });
+  getPatientById(id: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/patients/${id}`);
+  }
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
-});
+  getDoctorById(id: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/doctors/${id}`);
+  }
+}
