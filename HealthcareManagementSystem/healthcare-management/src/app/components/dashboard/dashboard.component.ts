@@ -20,6 +20,7 @@ import { MedicalHistory } from '../../models/medical-history.model';
 import { MatAccordion } from '@angular/material/expansion';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { currentEnvironment } from '../../environment.prod';
 
 interface NavItem {
   label: string;
@@ -54,7 +55,7 @@ export class DashboardComponent implements OnInit {
   medicalHistoryList: any[] = [];
   isHandset$ = of(false);
 
-  private baseAttachmentUrl: string = 'https://localhost:7233/';
+  private baseAttachmentUrl: string = currentEnvironment.apiUrl;
 
   constructor(
     private authService: AuthService,
