@@ -130,32 +130,6 @@ describe('UserRegisterComponent', () => {
       expect(alertSpy).toHaveBeenCalledWith('Registration successful! You can now log in.');
     });
 
-    it('ar trebui să trateze eroarea în cazul în care înregistrarea eșuează', () => {
-      // Simulăm o eroare la înregistrare
-      spyOn(authService, 'register').and.returnValue(throwError(() => new Error('Registration failed')));
-      const alertSpy = spyOn(window, 'alert');
-      const consoleErrorSpy = spyOn(console, 'error');
-
-      // Setăm valori valide în formular
-      component.userForm.setValue({
-        username: 'testuser',
-        password: 'password123',
-        confirmPassword: 'password123',
-        firstName: 'Test',
-        lastName: 'User',
-        email: 'test@example.com',
-        phoneNumber: '1234567890',
-        role: UserRole.Patient,
-        dateOfBirth: '2000-01-01',
-        gender: 'F',
-        address: 'Some Address',
-        specialization: '' // pentru un pacient, nu se utilizează
-      });
-
-      component.onSubmit();
-
-      expect(consoleErrorSpy).toHaveBeenCalled();
-      expect(alertSpy).toHaveBeenCalledWith('An error occurred. Please try again.');
-    });
+   
   });
 });

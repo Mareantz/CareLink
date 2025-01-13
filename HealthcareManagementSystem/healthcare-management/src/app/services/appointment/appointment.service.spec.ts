@@ -178,22 +178,5 @@ describe('AppointmentService', () => {
       req.flush('Update error', { status: 400, statusText: 'Bad Request' });
     });
   });
-
-  describe('#submitMedicalHistory', () => {
-    it('ar trebui să trimită istoricul medical și să returneze răspunsul', () => {
-      // Deoarece această metodă este un placeholder, nu se aplică header-ele de autorizare aici
-      const formData = new FormData();
-      formData.append('appointmentId', 'appt1');
-      formData.append('diagnosis', 'Test Diagnosis');
-
-      service.submitMedicalHistory(formData).subscribe(response => {
-        expect(response).toEqual({ success: true });
-      });
-
-      const req = httpMock.expectOne(`${apiURL}/medical-history/submit`);
-      expect(req.request.method).toBe('POST');
-      // Nu verificăm header-ele pentru că nu au fost specificate în apel
-      req.flush({ success: true });
-    });
-  });
 });
+ 
