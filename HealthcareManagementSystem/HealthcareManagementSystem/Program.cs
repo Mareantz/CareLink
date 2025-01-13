@@ -7,6 +7,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Domain.Repositories;
 using Infrastructure.Repositories;
+using PredictiveHealthcare.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddEnvironmentVariables();
 var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
@@ -73,6 +75,27 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+	var services = scope.ServiceProvider;
+
+	try
+	{
+		var context = services.GetRequiredService<ApplicationDbContext>();
+		context.Database.Migrate();
+		// Optionally, you can seed the database here if needed
+		// DbSeeder.Seed(context);
+	}
+	catch (Exception ex)
+	{
+		// Log the error or handle it as per your requirements
+		var logger = services.GetRequiredService<ILogger<Program>>();
+		logger.LogError(ex, "An error occurred while migrating or initializing the database.");
+		// Optionally, rethrow or handle the exception
+		throw;
+	}
+}
 app.UseHealthChecks("/health");
 
 if (app.Environment.IsDevelopment())
