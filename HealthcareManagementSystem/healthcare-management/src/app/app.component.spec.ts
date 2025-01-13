@@ -17,7 +17,7 @@ describe('AppComponent', () => {
   it(`should have the 'healthcare-management' title`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('healthcare-management');
+    expect(app.title).toEqual('CareLink');
   });
 
 

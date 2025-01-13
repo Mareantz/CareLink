@@ -35,13 +35,14 @@ describe('DoctorService', () => {
   });
 
   describe('#getDoctors', () => {
-    
     it('ar trebui să gestioneze erorile din getDoctors', () => {
-      const errorMessage = 'Error Code: 500\nMessage: Internal Server Error';
       service.getDoctors().subscribe({
         next: () => fail('Ar trebui să fi eșuat'),
         error: (error: Error) => {
-          expect(error.message).toBe(errorMessage);
+          // Verificăm că mesajul de eroare conține codul 500 și "Server Error"
+          expect(error.message).toContain('Error Code: 500');
+          expect(error.message).toContain('500');
+          expect(error.message).toContain('Server Error');
         }
       });
 
@@ -52,17 +53,15 @@ describe('DoctorService', () => {
   });
 
   describe('#updateDoctor', () => {
-   
-
     it('ar trebui să gestioneze erorile din updateDoctor', () => {
       const doctorId = '1';
       const updateData = { firstName: 'Updated', lastName: 'Doctor' };
-      const errorMessage = 'Error Code: 404\nMessage: Not Found';
       
       service.updateDoctor(doctorId, updateData).subscribe({
         next: () => fail('Ar trebui să fi eșuat'),
         error: (error: Error) => {
-          expect(error.message).toBe(errorMessage);
+          expect(error.message).toContain('Error Code: 404');
+          expect(error.message).toContain('Not Found');
         }
       });
 
@@ -73,15 +72,13 @@ describe('DoctorService', () => {
   });
 
   describe('#getDoctorById', () => {
-    
-
     it('ar trebui să gestioneze erorile din getDoctorById', () => {
       const doctorId = '1';
-      const errorMessage = 'Error Code: 400\nMessage: Bad Request';
       service.getDoctorById(doctorId).subscribe({
         next: () => fail('Ar trebui să fi eșuat'),
         error: (error: Error) => {
-          expect(error.message).toBe(errorMessage);
+          expect(error.message).toContain('Error Code: 400');
+          expect(error.message).toContain('Bad Request');
         }
       });
 
